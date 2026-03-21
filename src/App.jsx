@@ -2,16 +2,69 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useCursor } from './useCursor'
 import Terminal from './Terminal'
+import Mascot from './Mascot'
+import Chatbot from './Chatbot'
+import CVSection from './CVSection'
 import './App.css'
+
+const PROJECTS = [
+  {
+    id: 'exercube',
+    title: 'ExerCube',
+    short: 'Gruppenprojekt (Note 1,0) - Serious Games, TU Darmstadt.',
+    image:
+      'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80',
+    details: {
+      role: 'Teammitglied im Gruppenprojekt',
+      context: 'Serious Games Darmstadt',
+      impact: 'Abschluss mit Note 1,0',
+      tech: 'Interaktive Spielmechanik, UX, Entwicklungsworkflow',
+      link: 'https://github.com/serious-games-darmstadt/SS25-P21-ExerCube',
+    },
+  },
+  {
+    id: 'arcadesuite',
+    title: 'ArcadeSuite',
+    short: 'Eigenes Bachelor-Projekt mit Agenten auf Atari-Spielen.',
+    image:
+      'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80',
+    details: {
+      role: 'Eigenersteller und Entwickler',
+      context: 'Bachelor-Projekt',
+      impact: 'PvP, PvE, EvE und visualisierte Agentenentscheidungen',
+      tech: 'Python, OC_Atari, HackAtari, ScoBots',
+      link: 'https://github.com/DjamilB/ArcadeSuite',
+    },
+  },
+  {
+    id: 'portfolio',
+    title: 'Portfolio',
+    short: 'Apple-Style Portfolio mit Dark Mode und Custom Cursor.',
+    image:
+      'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1600&q=80',
+    details: {
+      role: 'Konzept, Design, Umsetzung',
+      context: 'Persoenliche Web-Praesenz',
+      impact: 'Interaktives Auftreten fuer Recruiter & Projekte',
+      tech: 'React, Vite, Framer Motion, Custom UI',
+      link: '#',
+    },
+  },
+]
 
 function App() {
   const [navScrolled, setNavScrolled] = useState(false)
   const [scrollY, setScrollY] = useState(0)
+  const [activeProject, setActiveProject] = useState(null)
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light'
-    return localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    return (
+      localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    )
   })
-  const { mouse, smoothMouse, isHovering, isVisible, handleHover, handleLeave } = useCursor()
+  const { mouse, smoothMouse, isHovering, isVisible, handleHover, handleLeave } =
+    useCursor()
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -30,6 +83,14 @@ function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const onEsc = (e) => {
+      if (e.key === 'Escape') setActiveProject(null)
+    }
+    window.addEventListener('keydown', onEsc)
+    return () => window.removeEventListener('keydown', onEsc)
+  }, [])
+
   const [hasPointer, setHasPointer] = useState(false)
   useEffect(() => {
     const check = () => {
@@ -43,25 +104,53 @@ function App() {
 
   return (
     <>
-      {/* Custom Cursor - nur auf Geräten mit Maus */}
+      <div className="bg-motion" aria-hidden>
+        <span className="bg-orb bg-orb-1" />
+        <span className="bg-orb bg-orb-2" />
+      </div>
+
       {hasPointer && (
         <div className="cursor-wrapper" aria-hidden>
           <motion.div
             className={`cursor-glow ${isHovering ? 'cursor-glow--hover' : ''}`}
-            style={{
-              left: smoothMouse.x,
-              top: smoothMouse.y,
-              opacity: isVisible ? 1 : 0,
-            }}
+            style={{ left: smoothMouse.x, top: smoothMouse.y, opacity: isVisible ? 1 : 0 }}
           />
           <motion.div
             className={`cursor-dot ${isHovering ? 'cursor-dot--hover' : ''}`}
-            style={{
-              left: mouse.x,
-              top: mouse.y,
-              opacity: isVisible ? 1 : 0,
-            }}
+            style={{ left: mouse.x, top: mouse.y, opacity: isVisible ? 1 : 0 }}
           />
+        </div>
+      )}
+
+      {activeProject && (
+        <div className="modal-backdrop" onClick={() => setActiveProject(null)}>
+          <motion.div
+            className="project-modal"
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button className="modal-close" onClick={() => setActiveProject(null)}>
+              ×
+            </button>
+            <img src={activeProject.image} alt={activeProject.title} className="modal-image" />
+            <h3>{activeProject.title}</h3>
+            <p>{activeProject.short}</p>
+            <ul className="modal-facts">
+              <li><strong>Rolle:</strong> {activeProject.details.role}</li>
+              <li><strong>Kontext:</strong> {activeProject.details.context}</li>
+              <li><strong>Impact:</strong> {activeProject.details.impact}</li>
+              <li><strong>Tech:</strong> {activeProject.details.tech}</li>
+            </ul>
+            <a
+              href={activeProject.details.link}
+              className="link"
+              target={activeProject.details.link.startsWith('http') ? '_blank' : undefined}
+              rel={activeProject.details.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+            >
+              Projekt ansehen
+            </a>
+          </motion.div>
         </div>
       )}
 
@@ -71,6 +160,7 @@ function App() {
           <li><a href="#about" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Über mich</a></li>
           <li><a href="#skills" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Skills</a></li>
           <li><a href="#projects" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Projekte</a></li>
+          <li><a href="#cv" onMouseEnter={handleHover} onMouseLeave={handleLeave}>CV</a></li>
           <li><a href="#contact" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Kontakt</a></li>
           <li>
             <button
@@ -89,7 +179,6 @@ function App() {
 
       <main>
         <section id="hero" className="hero">
-          {/* Eigenkreation: Cursor-reaktiver Akzent */}
           <div
             className="hero-spotlight"
             style={{
@@ -97,74 +186,33 @@ function App() {
               opacity: Math.max(0, 1 - scrollY / 400),
             }}
           />
-          <motion.p
-            className="hero-eyebrow"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <motion.p className="hero-eyebrow" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             Informatik-Student
           </motion.p>
-          <motion.h1
-            className="hero-title"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
+          <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             Hallo, ich bin<br />
             <span className="hero-title-name">Artjom Becker.</span>
           </motion.h1>
-          <motion.p
-            className="hero-tagline"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
+          <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}>
             Ich entwickle Software, löse Probleme und erkunde die Welt der Technologie.
           </motion.p>
-          <motion.div
-            className="hero-cta"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <a href="#projects" className="link link--primary" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-              Projekte ansehen
-            </a>
-            <a href="#contact" className="link" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-              Kontakt
-            </a>
-          </motion.div>
+          <div className="hero-mascot">
+            <Mascot />
+          </div>
         </section>
 
         <section id="about" className="section">
-          <motion.div
-            className="section-inner"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
+          <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
             <h2 className="section-title">Über mich</h2>
             <Terminal onMouseEnter={handleHover} onMouseLeave={handleLeave} />
             <p className="section-text section-text--mt">
-              Ich studiere Informatik und bin fasziniert von der Verbindung zwischen 
-              Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte 
-              mit Bestnote – ich liebe es, komplexe Probleme zu zerlegen und elegante 
-              Lösungen zu bauen.
+              Ich studiere Informatik und bin fasziniert von der Verbindung zwischen Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte mit Bestnote - ich liebe es, komplexe Probleme zu zerlegen und elegante Lösungen zu bauen.
             </p>
-            <a href="#contact" className="link" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-              Lass uns connecten
-            </a>
           </motion.div>
         </section>
 
         <section id="skills" className="section section--alt">
-          <motion.div
-            className="section-inner"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
+          <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
             <h2 className="section-title">Skills</h2>
             <div className="skills-grid">
               {[
@@ -173,12 +221,7 @@ function App() {
                 { label: 'Backend & Tools', list: 'Node.js, Git, SQL, Linux' },
                 { label: 'Konzepte', list: 'Algorithmen, Datenstrukturen, OOP, Clean Code' },
               ].map((skill) => (
-                <div
-                  key={skill.label}
-                  className="skill-group"
-                  onMouseEnter={handleHover}
-                  onMouseLeave={handleLeave}
-                >
+                <div key={skill.label} className="skill-group" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                   <h3 className="skill-label">{skill.label}</h3>
                   <p className="skill-list">{skill.list}</p>
                 </div>
@@ -188,84 +231,55 @@ function App() {
         </section>
 
         <section id="projects" className="section">
-          <motion.div
-            className="section-inner"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
+          <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
             <h2 className="section-title">Ausgewählte Projekte</h2>
             <div className="projects-list">
-              {[
-                { title: 'ExerCube', desc: 'Gruppenprojekt (Note 1,0) – Serious Games, TU Darmstadt.', url: 'https://github.com/serious-games-darmstadt/SS25-P21-ExerCube' },
-                { title: 'ArcadeSuite', desc: 'Eigenes Bachelor-Projekt – Agents spielen HackAtari Atari-Games mit PvP, PvE, EvE Moden und ScoBots-Visualisierung.', url: 'https://github.com/DjamilB/ArcadeSuite' },
-                { title: 'Cyber Quest', desc: 'The Ethical Hacker\'s Odyssey – Lernplattform für Ethical Hacking und Cybersecurity.', url: 'https://github.com/Or4cl3AI/CyberQuest' },
-                { title: 'Portfolio', desc: 'Diese Seite – React, Vite, Framer Motion. Apple-Style mit Dark Mode und Custom Cursor.', url: '#' },
-              ].map((project) => (
-                <article
-                  key={project.title}
-                  className="project"
-                  onMouseEnter={handleHover}
-                  onMouseLeave={handleLeave}
-                >
+              {PROJECTS.map((project) => (
+                <article key={project.id} className="project" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                   <div className="project-content">
                     <h3 className="project-title">{project.title}</h3>
-                    <p className="project-desc">{project.desc}</p>
-                    <a href={project.url} className="link" target={project.url.startsWith('http') ? '_blank' : undefined} rel={project.url.startsWith('http') ? 'noopener noreferrer' : undefined} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                      Mehr erfahren
-                    </a>
+                    <p className="project-desc">{project.short}</p>
+                    <div className="project-actions">
+                      <button className="link link-button" onClick={() => setActiveProject(project)}>
+                        Details öffnen
+                      </button>
+                      {project.details.link.startsWith('http') && (
+                        <a href={project.details.link} target="_blank" rel="noopener noreferrer" className="link project-direct">Repo ↗</a>
+                      )}
+                    </div>
                   </div>
                 </article>
               ))}
             </div>
-            <a
-              href="https://github.com/DjamilB?tab=repositories"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="link link--center"
-              onMouseEnter={handleHover}
-              onMouseLeave={handleLeave}
-            >
+            <a href="https://github.com/DjamilB?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
               Alle Projekte auf GitHub
             </a>
           </motion.div>
         </section>
 
         <section id="contact" className="section section--alt section--contact">
-          <motion.div
-            className="contact-inner"
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
+          <motion.div className="contact-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="contact-title">Lass uns connecten.</h2>
-            <p className="contact-text">
-              Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch – 
-              ich freue mich über jede Nachricht.
-            </p>
-            <a
-              href="mailto:artjom@example.com"
-              className="btn"
-              onMouseEnter={handleHover}
-              onMouseLeave={handleLeave}
-            >
-              E-Mail schreiben
-            </a>
+            <p className="contact-text">Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch - ich freue mich über jede Nachricht.</p>
+            <a href="mailto:artjomarturbecker@icloud.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>E-Mail schreiben</a>
+            <p className="contact-mail">artjomarturbecker@icloud.com</p>
             <div className="contact-links">
-              <a href="https://github.com/DjamilB" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                <GitHubIcon />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                <LinkedInIcon />
-              </a>
+              <a href="https://github.com/DjamilB" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
+              <a href="https://wa.me/4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="WhatsApp" onMouseEnter={handleHover} onMouseLeave={handleLeave}><WhatsAppIcon /></a>
+              <a href="https://t.me/+4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Telegram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><TelegramIcon /></a>
             </div>
           </motion.div>
         </section>
+
+        <CVSection />
       </main>
 
       <footer className="footer">
         <p>© {new Date().getFullYear()} Artjom Becker. Designed & gebaut mit Liebe zum Detail.</p>
       </footer>
+
+      <Chatbot />
     </>
   )
 }
@@ -282,6 +296,22 @@ function LinkedInIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+    </svg>
+  )
+}
+
+function WhatsAppIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M20.52 3.48A11.8 11.8 0 0 0 12.08 0C5.53 0 .2 5.33.2 11.88c0 2.09.55 4.14 1.59 5.95L0 24l6.35-1.67a11.83 11.83 0 0 0 5.72 1.46h.01c6.55 0 11.88-5.33 11.88-11.88 0-3.17-1.23-6.14-3.44-8.43Zm-8.44 18.3h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.77.99 1.01-3.67-.24-.38a9.86 9.86 0 0 1-1.52-5.25c0-5.45 4.44-9.89 9.9-9.89 2.64 0 5.12 1.03 6.99 2.91a9.82 9.82 0 0 1 2.9 6.99c0 5.45-4.44 9.89-9.86 9.89Zm5.43-7.42c-.3-.15-1.78-.88-2.05-.98-.28-.1-.47-.15-.67.15-.2.3-.77.98-.95 1.18-.17.2-.35.22-.65.07-.3-.15-1.27-.47-2.42-1.49a9.13 9.13 0 0 1-1.67-2.07c-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.48-.5-.67-.5h-.57c-.2 0-.52.08-.79.37-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.22 3.1.15.2 2.13 3.25 5.16 4.56.72.31 1.28.5 1.71.64.72.23 1.37.2 1.89.12.58-.09 1.78-.73 2.03-1.43.25-.7.25-1.3.17-1.43-.07-.13-.27-.2-.57-.35Z"/>
+    </svg>
+  )
+}
+
+function TelegramIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0Zm5.9 8.2-1.97 9.29c-.15.66-.54.83-1.1.52l-3.05-2.25-1.47 1.41c-.16.16-.3.3-.62.3l.22-3.11 5.66-5.11c.25-.22-.05-.35-.38-.13L8.2 13.5l-2.98-.93c-.65-.2-.66-.65.14-.96l11.66-4.5c.54-.2 1.01.13.88 1.09Z"/>
     </svg>
   )
 }
