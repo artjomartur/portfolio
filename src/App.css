@@ -54,7 +54,7 @@
   right: 0;
   z-index: 100;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   padding: 0 22px;
   height: 44px;
@@ -71,6 +71,8 @@
 }
 
 .nav-logo {
+  position: static;
+  margin-right: auto;
   font-size: 21px;
   font-weight: 600;
   color: var(--text);
@@ -80,10 +82,17 @@
 
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 40px;
+  flex-wrap: nowrap;
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.nav-links li {
+  display: flex;
+  align-items: center;
 }
 
 .nav-links a {
@@ -168,9 +177,27 @@
 .hero-title-name {
   display: block;
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+  background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: nameGradientFlow 6s ease-in-out infinite;
+  will-change: background-position, filter;
+}
+
+@keyframes nameGradientFlow {
+  0% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 0 color-mix(in srgb, var(--accent) 0%, transparent));
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 28%, transparent));
+  }
+  100% {
+    background-position: 0% 50%;
+    filter: drop-shadow(0 0 0 color-mix(in srgb, var(--accent) 0%, transparent));
+  }
 }
 
 .hero-tagline {
@@ -447,6 +474,17 @@
   background: var(--accent-hover);
 }
 
+.btn-secondary {
+  margin-left: 10px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: color-mix(in srgb, var(--text) 8%, transparent);
+}
+
 .contact-links {
   display: flex;
   justify-content: center;
@@ -596,6 +634,144 @@
   font-size: 15px;
 }
 
+.project-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.project-tag {
+  font-size: 12px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 9px;
+}
+
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.filter-chip {
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 999px;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.filter-chip--active {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.section-subtitle {
+  font-size: 22px;
+  margin: 36px 0 14px;
+  text-align: center;
+}
+
+.stack-radar {
+  margin-top: 16px;
+}
+
+.stack-group {
+  margin-bottom: 20px;
+}
+
+.stack-group-title {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.stack-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.stack-bar {
+  height: 8px;
+  background: color-mix(in srgb, var(--text) 10%, transparent);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.stack-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+}
+
+.timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.timeline-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: color-mix(in srgb, var(--bg-section) 90%, transparent);
+}
+
+.timeline-year {
+  margin: 0 0 4px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.timeline-text {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.testimonials-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.testimonial {
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  background: color-mix(in srgb, var(--bg) 70%, var(--bg-section));
+}
+
+.testimonial p {
+  margin: 0 0 8px;
+  color: var(--text);
+}
+
+.testimonial footer {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.case-study {
+  margin: 0 0 14px;
+}
+
+.case-study h4 {
+  margin: 0 0 8px;
+}
+
+.case-study p {
+  margin: 0 0 6px;
+  color: var(--text-secondary);
+}
+
 .contact-mail {
   margin: 12px 0 0;
   color: var(--text-secondary);
@@ -669,6 +845,16 @@
 @media (max-width: 734px) {
   .contact-links {
     gap: 10px;
+  }
+
+  .btn-secondary {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+
+  .stack-row {
+    grid-template-columns: 1fr;
+    gap: 6px;
   }
 }
 
@@ -791,6 +977,12 @@
 .chatbot-send:disabled {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+.chatbot-thinking {
+  padding: 0 12px 12px;
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 @media (max-width: 734px) {

@@ -18,7 +18,12 @@ const PROJECTS = [
       context: 'Serious Games Darmstadt',
       impact: 'Abschluss mit Note 1,0',
       tech: 'Interaktive Spielmechanik, UX, Entwicklungsworkflow',
+      challenge: 'Ein spielerisches Trainingserlebnis entwickeln, das Motivation und Bewegung verbindet.',
+      solution: 'Konzeption eines klaren UX-Flows mit iterativen Tests und enger Teamabstimmung.',
+      result: 'Stabiler Prototyp mit sehr gutem Feedback und Abschlussnote 1,0.',
+      tags: ['Game Dev', 'Team', 'UX'],
       link: 'https://github.com/serious-games-darmstadt/SS25-P21-ExerCube',
+      trailer: 'https://youtu.be/oTpbnMsudgs',
     },
   },
   {
@@ -28,10 +33,14 @@ const PROJECTS = [
     image:
       'https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1600&q=80',
     details: {
-      role: 'Eigenersteller und Entwickler',
+      role: 'Teamprojekt und UX/UI Mitgestaltung',
       context: 'Bachelor-Projekt',
       impact: 'PvP, PvE, EvE und visualisierte Agentenentscheidungen',
       tech: 'Python, OC_Atari, HackAtari, ScoBots',
+      challenge: 'Mehrere KI-Agenten in unterschiedlichen Atari-Szenarien vergleichbar machen.',
+      solution: 'Modulare Agenten-Architektur mit reproduzierbaren Evaluations-Setups und Visualisierung.',
+      result: 'Saubere Benchmark-Basis fuer Experimente und Demonstrationen.',
+      tags: ['AI', 'Game Dev', 'Research', 'Team', 'UX', 'UI/UX'],
       link: 'https://github.com/DjamilB/ArcadeSuite',
     },
   },
@@ -46,9 +55,45 @@ const PROJECTS = [
       context: 'Persönliche Web-Präsenz',
       impact: 'Interaktives Auftreten fuer Recruiter & Projekte',
       tech: 'React, Vite, Framer Motion, Custom UI',
+      challenge: 'Eine moderne Seite bauen, die persoenlich wirkt und trotzdem professionell bleibt.',
+      solution: 'Apple-inspirierte UI mit klarer Struktur, Interaktion und zweisprachigem Content.',
+      result: 'Recruiter-fokussiertes Portfolio mit hoher Lesbarkeit und starker Conversion.',
+      tags: ['Web', 'UI/UX', 'Branding'],
       link: '#',
     },
   },
+]
+
+const PROJECT_FILTERS = ['All', 'AI', 'Game Dev', 'Web', 'Team', 'UX', 'Research', 'UI/UX', 'Branding']
+
+const TIMELINE = [
+  { year: '2026', de: 'Bereit fuer den naechsten Impact - gerne mit Ihrem Unternehmen.', en: 'Ready for the next impact - ideally with your company.' },
+  { year: '2025', de: 'Teamleitung fuer drei Teams im Bachelor-Praktikum', en: 'Led three teams in a bachelor internship' },
+  { year: '2025', de: 'ExerCube Gruppenprojekt mit Note 1,0', en: 'ExerCube group project graded 1.0' },
+  { year: '2023', de: 'Start Informatik-Studium an der TU Darmstadt', en: 'Started computer science studies at TU Darmstadt' },
+]
+
+const TESTIMONIALS = [
+  {
+    quoteDe: 'Artjom bringt Struktur in komplexe Aufgaben und bleibt auch unter Zeitdruck loesungsorientiert.',
+    quoteEn: 'Artjom brings structure to complex tasks and stays solution-focused under pressure.',
+    name: 'Projektkollege',
+    roleDe: 'ExerCube Team',
+    roleEn: 'ExerCube Team',
+  },
+  {
+    quoteDe: 'Sehr starke Mischung aus technischem Verstaendnis, Teamarbeit und klarer Kommunikation.',
+    quoteEn: 'A strong combination of technical understanding, teamwork, and clear communication.',
+    name: 'Praktikumskontext',
+    roleDe: 'Bachelor-Praktikum',
+    roleEn: 'Bachelor internship',
+  },
+]
+
+const STACK = [
+  { groupDe: 'Frontend', groupEn: 'Frontend', items: [{ label: 'React', level: 92 }, { label: 'TypeScript', level: 82 }, { label: 'CSS', level: 88 }] },
+  { groupDe: 'Backend & Data', groupEn: 'Backend & Data', items: [{ label: 'Node.js', level: 78 }, { label: 'SQL', level: 72 }, { label: 'Python', level: 90 }] },
+  { groupDe: 'CS Foundations', groupEn: 'CS Foundations', items: [{ label: 'Algorithmen', level: 84 }, { label: 'Datenstrukturen', level: 83 }, { label: 'OOP', level: 86 }] },
 ]
 
 function App() {
@@ -65,6 +110,11 @@ function App() {
       (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
     )
   })
+  const [lang, setLang] = useState(() => {
+    if (typeof window === 'undefined') return 'de'
+    return localStorage.getItem('lang') || 'de'
+  })
+  const [projectFilter, setProjectFilter] = useState('All')
   const { mouse, smoothMouse, isHovering, isVisible, handleHover, handleLeave } =
     useCursor()
 
@@ -73,7 +123,51 @@ function App() {
     localStorage.setItem('theme', theme)
   }, [theme])
 
+  useEffect(() => {
+    localStorage.setItem('lang', lang)
+  }, [lang])
+
+  useEffect(() => {
+    document.documentElement.lang = lang
+    const title =
+      lang === 'de'
+        ? 'Artjom Becker | Informatik-Portfolio'
+        : 'Artjom Becker | Computer Science Portfolio'
+    const description =
+      lang === 'de'
+        ? 'Informatik-Portfolio von Artjom Becker: Projekte, Case Studies, Teamleitung und Kontakt.'
+        : 'Computer science portfolio by Artjom Becker: projects, case studies, team leadership, and contact.'
+
+    document.title = title
+    const metaDescription = document.querySelector('meta[name="description"]')
+    if (metaDescription) metaDescription.setAttribute('content', description)
+
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    const ogDescription = document.querySelector('meta[property="og:description"]')
+    if (ogTitle) ogTitle.setAttribute('content', title)
+    if (ogDescription) ogDescription.setAttribute('content', description)
+  }, [lang])
+
+  useEffect(() => {
+    const key = `portfolio-view-count-${new Date().toISOString().slice(0, 10)}`
+    const views = Number(localStorage.getItem(key) || '0') + 1
+    localStorage.setItem(key, String(views))
+  }, [])
+
+  const trackEvent = (name, payload = {}) => {
+    const item = { name, payload, ts: Date.now() }
+    const events = JSON.parse(localStorage.getItem('portfolio-events') || '[]')
+    events.push(item)
+    localStorage.setItem('portfolio-events', JSON.stringify(events.slice(-60)))
+  }
+
+  const filteredProjects =
+    projectFilter === 'All'
+      ? PROJECTS
+      : PROJECTS.filter((project) => project.details.tags?.includes(projectFilter))
+
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
+  const toggleLang = () => setLang((l) => (l === 'de' ? 'en' : 'de'))
 
   useEffect(() => {
     const onScroll = () => {
@@ -141,19 +235,36 @@ function App() {
             <h3>{activeProject.title}</h3>
             <p>{activeProject.short}</p>
             <ul className="modal-facts">
-              <li><strong>Rolle:</strong> {activeProject.details.role}</li>
-              <li><strong>Kontext:</strong> {activeProject.details.context}</li>
+              <li><strong>{lang === 'de' ? 'Rolle' : 'Role'}:</strong> {activeProject.details.role}</li>
+              <li><strong>{lang === 'de' ? 'Kontext' : 'Context'}:</strong> {activeProject.details.context}</li>
               <li><strong>Impact:</strong> {activeProject.details.impact}</li>
               <li><strong>Tech:</strong> {activeProject.details.tech}</li>
             </ul>
+            <div className="case-study">
+              <h4>{lang === 'de' ? 'Case Study' : 'Case Study'}</h4>
+              <p><strong>{lang === 'de' ? 'Challenge' : 'Challenge'}:</strong> {activeProject.details.challenge}</p>
+              <p><strong>{lang === 'de' ? 'Loesung' : 'Solution'}:</strong> {activeProject.details.solution}</p>
+              <p><strong>{lang === 'de' ? 'Ergebnis' : 'Result'}:</strong> {activeProject.details.result}</p>
+            </div>
             <a
               href={activeProject.details.link}
               className="link"
               target={activeProject.details.link.startsWith('http') ? '_blank' : undefined}
               rel={activeProject.details.link.startsWith('http') ? 'noopener noreferrer' : undefined}
             >
-              Projekt ansehen
+              {lang === 'de' ? 'Projekt ansehen' : 'View project'}
             </a>
+            {activeProject.details.trailer && (
+              <a
+                href={activeProject.details.trailer}
+                className="link"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'inline-block', marginLeft: '14px' }}
+              >
+                {lang === 'de' ? 'Trailer ansehen' : 'Watch trailer'}
+              </a>
+            )}
           </motion.div>
         </div>
       )}
@@ -161,11 +272,23 @@ function App() {
       <nav className={`nav ${navScrolled ? 'nav--scrolled' : ''}`}>
         <a href="#hero" className="nav-logo">Portfolio</a>
         <ul className="nav-links">
-          <li><a href="#about" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Über mich</a></li>
+          <li><a href="#about" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Über mich' : 'About'}</a></li>
           <li><a href="#skills" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Skills</a></li>
-          <li><a href="#projects" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Projekte</a></li>
+          <li><a href="#projects" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Projekte' : 'Projects'}</a></li>
           <li><a href="#cv" onMouseEnter={handleHover} onMouseLeave={handleLeave}>CV</a></li>
-          <li><a href="#contact" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Kontakt</a></li>
+          <li><a href="#contact" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Kontakt' : 'Contact'}</a></li>
+          <li>
+            <button
+              type="button"
+              className="theme-toggle"
+              onClick={toggleLang}
+              onMouseEnter={handleHover}
+              onMouseLeave={handleLeave}
+              aria-label="Sprache wechseln"
+            >
+              {lang === 'de' ? 'EN' : 'DE'}
+            </button>
+          </li>
           <li>
             <button
               type="button"
@@ -183,7 +306,7 @@ function App() {
 
       <main className={isCvView ? 'main-cv-only' : ''}>
         {isCvView ? (
-          <CVSection />
+          <CVSection lang={lang} />
         ) : (
           <>
         <section id="hero" className="hero">
@@ -195,23 +318,27 @@ function App() {
             }}
           />
           <motion.p className="hero-eyebrow" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            Informatik-Student
+            {lang === 'de' ? 'Informatik-Student' : 'Computer Science Student'}
           </motion.p>
           <motion.h1 className="hero-title" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }}>
             Hallo, ich bin<br />
             <span className="hero-title-name">Artjom Becker.</span>
           </motion.h1>
           <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}>
-            Ich entwickle Software, löse Probleme und erkunde die Welt der Technologie.
+            {lang === 'de'
+              ? 'Ich entwickle Software, löse Probleme und erkunde die Welt der Technologie.'
+              : 'I build software, solve problems, and explore the world of technology.'}
           </motion.p>
         </section>
 
         <section id="about" className="section">
           <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
-            <h2 className="section-title">Über mich</h2>
-            <Terminal onMouseEnter={handleHover} onMouseLeave={handleLeave} />
+            <h2 className="section-title">{lang === 'de' ? 'Über mich' : 'About me'}</h2>
+            <Terminal lang={lang} onMouseEnter={handleHover} onMouseLeave={handleLeave} />
             <p className="section-text section-text--mt">
-              Ich studiere Informatik und bin fasziniert von der Verbindung zwischen Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte mit Bestnote - ich liebe es, komplexe Probleme zu zerlegen und elegante Lösungen zu entwickeln.
+              {lang === 'de'
+                ? 'Ich studiere Informatik und bin fasziniert von der Verbindung zwischen Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte mit Bestnote - ich liebe es, komplexe Probleme zu zerlegen und elegante Lösungen zu entwickeln.'
+                : 'I study computer science and I am fascinated by connecting theory and practice. I led teams in a bachelor internship and enjoy breaking down complex problems into elegant solutions.'}
             </p>
           </motion.div>
         </section>
@@ -232,41 +359,119 @@ function App() {
                 </div>
               ))}
             </div>
+            <div className="stack-radar">
+              <h3 className="section-subtitle">{lang === 'de' ? 'TechStack Radar' : 'Tech Stack Radar'}</h3>
+              {STACK.map((group) => (
+                <div key={group.groupDe} className="stack-group">
+                  <p className="stack-group-title">{lang === 'de' ? group.groupDe : group.groupEn}</p>
+                  {group.items.map((item) => (
+                    <div key={item.label} className="stack-row">
+                      <span>{item.label}</span>
+                      <div className="stack-bar">
+                        <div className="stack-fill" style={{ width: `${item.level}%` }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </section>
+
+        <section id="timeline" className="section">
+          <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
+            <h2 className="section-title">{lang === 'de' ? 'Timeline' : 'Timeline'}</h2>
+            <div className="timeline">
+              {TIMELINE.map((entry) => (
+                <article key={`${entry.year}-${entry.de}`} className="timeline-item">
+                  <p className="timeline-year">{entry.year}</p>
+                  <p className="timeline-text">{lang === 'de' ? entry.de : entry.en}</p>
+                </article>
+              ))}
+            </div>
           </motion.div>
         </section>
 
         <section id="projects" className="section">
           <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
-            <h2 className="section-title">Ausgewählte Projekte</h2>
+            <h2 className="section-title">{lang === 'de' ? 'Ausgewählte Projekte' : 'Selected Projects'}</h2>
+            <div className="project-filters">
+              {PROJECT_FILTERS.map((filter) => (
+                <button
+                  key={filter}
+                  type="button"
+                  className={`filter-chip ${projectFilter === filter ? 'filter-chip--active' : ''}`}
+                  onClick={() => {
+                    setProjectFilter(filter)
+                    trackEvent('project_filter', { filter })
+                  }}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
             <div className="projects-list">
-              {PROJECTS.map((project) => (
+              {filteredProjects.map((project) => (
                 <article key={project.id} className="project" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                   <div className="project-content">
                     <h3 className="project-title">{project.title}</h3>
                     <p className="project-desc">{project.short}</p>
                     <div className="project-actions">
                       <button className="link link-button" onClick={() => setActiveProject(project)}>
-                        Details öffnen
+                        {lang === 'de' ? 'Details öffnen' : 'Open details'}
                       </button>
                       {project.details.link.startsWith('http') && (
                         <a href={project.details.link} target="_blank" rel="noopener noreferrer" className="link project-direct">Repo ↗</a>
                       )}
+                      {project.details.trailer && (
+                        <a href={project.details.trailer} target="_blank" rel="noopener noreferrer" className="link project-direct">
+                          Trailer ↗
+                        </a>
+                      )}
+                    </div>
+                    <div className="project-tags">
+                      {project.details.tags?.map((tag) => (
+                        <span key={`${project.id}-${tag}`} className="project-tag">{tag}</span>
+                      ))}
                     </div>
                   </div>
                 </article>
               ))}
             </div>
             <a href="https://github.com/DjamilB?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-              Alle Projekte auf GitHub
+              {lang === 'de' ? 'Alle Projekte auf GitHub' : 'All projects on GitHub'}
             </a>
+          </motion.div>
+        </section>
+
+        <section id="testimonials" className="section section--alt">
+          <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
+            <h2 className="section-title">{lang === 'de' ? 'Testimonials' : 'Testimonials'}</h2>
+            <div className="testimonials-grid">
+              {TESTIMONIALS.map((item) => (
+                <blockquote key={item.name} className="testimonial">
+                  <p>{lang === 'de' ? item.quoteDe : item.quoteEn}</p>
+                  <footer>
+                    <strong>{item.name}</strong> - {lang === 'de' ? item.roleDe : item.roleEn}
+                  </footer>
+                </blockquote>
+              ))}
+            </div>
           </motion.div>
         </section>
 
         <section id="contact" className="section section--alt section--contact">
           <motion.div className="contact-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="contact-title">Lass uns vernetzen.</h2>
-            <p className="contact-text">Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch - ich freue mich über jede Nachricht.</p>
-            <a href="mailto:artjomarturbecker@icloud.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>E-Mail schreiben</a>
+            <h2 className="contact-title">{lang === 'de' ? 'Lass uns vernetzen.' : 'Let us connect.'}</h2>
+            <p className="contact-text">{lang === 'de' ? 'Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch - ich freue mich über jede Nachricht.' : 'For collaboration, project questions, or just a quick exchange - I am happy to hear from you.'}</p>
+            <a href="mailto:artjomarturbecker@icloud.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'E-Mail schreiben' : 'Send email'}</a>
+            <a
+              href="mailto:artjomarturbecker@icloud.com?subject=Kennenlerngespraech%20(15%20Minuten)"
+              className="btn btn-secondary"
+              onClick={() => trackEvent('contact_conversion', { type: 'intro_call' })}
+            >
+              {lang === 'de' ? '15-Minuten Kennenlerngespraech' : '15-minute intro call'}
+            </a>
             <p className="contact-mail">artjomarturbecker@icloud.com</p>
             <div className="contact-links">
               <a href="https://github.com/DjamilB" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
@@ -284,7 +489,7 @@ function App() {
         <p>© {new Date().getFullYear()} Artjom Becker. Designed & gebaut mit Liebe zum Detail.</p>
       </footer>
 
-      {!isCvView && <Chatbot />}
+      {!isCvView && <Chatbot lang={lang} />}
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 
-const LINES = [
+const LINES_DE = [
   { prefix: 'artjom@portfolio ~ % ', content: 'whoami', isCmd: true },
   { prefix: '', content: 'Artjom Becker · Informatik-Student', isCmd: false },
   { prefix: '', content: '', isCmd: false },
@@ -14,7 +14,20 @@ const LINES = [
   { prefix: '', content: '', isCmd: false },
 ]
 
-function Terminal({ onMouseEnter, onMouseLeave }) {
+const LINES_EN = [
+  { prefix: 'artjom@portfolio ~ % ', content: 'whoami', isCmd: true },
+  { prefix: '', content: 'Artjom Becker · Computer Science Student', isCmd: false },
+  { prefix: '', content: '', isCmd: false },
+  { prefix: 'artjom@portfolio ~ % ', content: 'cat highlights.txt', isCmd: true },
+  { prefix: '', content: '', isCmd: false },
+  { prefix: '', content: '★ ExerCube – Group project (grade 1.0)', isCmd: false },
+  { prefix: '', content: '★ ArcadeSuite – My own bachelor project', isCmd: false },
+  { prefix: '', content: '★ Team lead for 3 teams (bachelor internship)', isCmd: false },
+  { prefix: '', content: '', isCmd: false },
+]
+
+function Terminal({ lang = 'de', onMouseEnter, onMouseLeave }) {
+  const LINES = lang === 'de' ? LINES_DE : LINES_EN
   const [lineIndex, setLineIndex] = useState(0)
   const [charIndex, setCharIndex] = useState(0)
   const [renderedLines, setRenderedLines] = useState([])
