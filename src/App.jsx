@@ -15,9 +15,9 @@ const PROJECTS = [
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80',
     details: {
       role: 'Fullstack Developer',
-      context: 'HiWi Beschäfzigung',
+      context: 'HiWi Beschäftigung',
       impact: 'Effizientere Arbeit für Studenten und Organisation',
-      tech: 'Type Script',
+      tech: 'Moodle 2.0',
       languages: ['Type Script', 'JavaScript', 'HTML', 'CSS'],
       challenge: '',
       solution: 'Entwicklung einer Webanwendung mit Fokus auf UX und Effizienz.',
