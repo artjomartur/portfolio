@@ -70,7 +70,7 @@ function Chatbot({ lang = 'de' }) {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   const [isThinking, setIsThinking] = useState(false)
-  const quickOnlyMode = true
+  const quickOnlyMode = false
   const messagesEndRef = useRef(null)
   const [messages, setMessages] = useState([
     {
@@ -83,7 +83,6 @@ function Chatbot({ lang = 'de' }) {
   ])
 
   const canSend = useMemo(() => input.trim().length > 0, [input])
-  const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
 
   useEffect(() => {
     if (!isOpen) return
@@ -112,14 +111,12 @@ function Chatbot({ lang = 'de' }) {
   }
 
   const askLLM = async (userText) => {
-    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+    const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'openai/gpt-4o-mini',
         messages: [
           { role: 'system', content: personaPrompt },
           ...messages.map((m) => ({
@@ -128,13 +125,12 @@ function Chatbot({ lang = 'de' }) {
           })),
           { role: 'user', content: userText },
         ],
-        temperature: 0.7,
-        max_tokens: 220,
       }),
     })
 
     if (!response.ok) throw new Error('LLM request failed')
     const data = await response.json()
+    // OpenRouter / OpenAI structure
     return data?.choices?.[0]?.message?.content?.trim()
   }
 
@@ -145,17 +141,13 @@ function Chatbot({ lang = 'de' }) {
     setInput('')
     setIsThinking(true)
 
-    try {
-      let reply
-      if (apiKey) {
-        reply = await askLLM(value)
-      } else {
-        reply = localStyledAnswer(value)
-      }
-      setMessages((prev) => [...prev, { role: 'bot', text: reply || localStyledAnswer(value) }])
-    } catch {
-      setMessages((prev) => [...prev, { role: 'bot', text: localStyledAnswer(value) }])
-    } finally {
+      try {
+        const reply = await askLLM(value)
+        setMessages((prev) => [...prev, { role: 'bot', text: reply || localStyledAnswer(value) }])
+      } catch (err) {
+        // Fallback on error (e.g., API key missing or offline)
+        setMessages((prev) => [...prev, { role: 'bot', text: localStyledAnswer(value) }])
+      } finally {
       setIsThinking(false)
     }
   }
