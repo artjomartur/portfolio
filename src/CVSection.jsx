@@ -13,54 +13,57 @@ const experience = [
     company: 'KINOPOLIS Management Multiplex GmbH, Darmstadt',
     period: 'April 2025 - Heute',
     points: [
-      'Einlasskontrollen und Gästebetreuung im Saalbetrieb.',
-      'Kassiertätigkeiten an Ticket- und Warenkasse inkl. Beratung.',
-      'Service im gastronomischen Bereich sowie Ordnung und Sauberkeit.',
-      'Unterstützung von Marketingaktionen und Promotions.',
-      'Teamorientierte Zusammenarbeit in dynamischem Umfeld.',
+      'Einlasskontrollen und Gästebetreuung im Saalbetrieb',
+      'Kassiertätigkeiten an Ticket- und Warenkasse inkl. Beratung',
+      'Service im gastronomischen Bereich sowie Ordnung und Sauberkeit',
+      'Unterstützung von Marketingaktionen und Promotions',
+      'Teamorientierte Zusammenarbeit in dynamischem Umfeld',
     ],
-  },
-  {
-    role: 'Ehrenamtlicher Mitarbeiter',
-    company: 'TGS Bornheim, Frankfurt am Main',
-    period: 'November 2024 - März 2025',
-    points: ['Trainer für Grundschulkinder in Parcours/Turnen.'],
   },
   {
     role: 'Werkstudent',
     company: 'exinpa, Frankfurt am Main',
     period: 'August 2024 - Februar 2025',
-    points: ['Recherche wissenschaftlicher Studien.', 'Erarbeitung von PPT-Präsentationen.'],
+    points: ['Recherche wissenschaftlicher Studien', 'Erarbeitung von PowerPoint-Präsentationen'],
   },
   {
     role: 'Aushilfe im Einzelhandel',
     company: 'dm-drogerie markt, Frankfurt am Main',
     period: 'Oktober 2023 - Juli 2024',
-    points: ['Warenverräumung und Warenpflege.'],
+    points: ['Warenverräumung und Warenpflege'],
   },
   {
     role: 'Aushilfe im Einzelhandel',
     company: 'REWE, Frankfurt am Main',
     period: 'Dezember 2022 - Mai 2023',
-    points: ['Kassieren.', 'Warenverräumung und Warenpflege.', 'Warenannahme.'],
+    points: ['Kassieren', 'Warenverräumung und Warenpflege', 'Warenannahme'],
   },
   {
     role: 'Wahlhelfer an der Universität',
     company: 'Asta Frankfurt, Frankfurt am Main',
     period: 'Juni 2022 - August 2022',
-    points: ['Sicherung der korrekten Urnenwahl.', 'Auswertung der Brief- und Urnenwahl.'],
+    points: ['Sicherung der korrekten Urnenwahl', 'Auswertung der Brief- und Urnenwahl'],
   },
   {
     role: 'Aushilfe im Einzelhandel',
     company: 'REWE, Frankfurt am Main',
     period: 'August 2021 - Oktober 2021',
-    points: ['Kassieren.', 'Warenverräumung und Warenpflege.', 'Warenannahme.'],
+    points: ['Kassieren', 'Warenverräumung und Warenpflege', 'Warenannahme'],
   },
   {
     role: 'Aushilfe in der Gastronomie',
     company: 'Aramark Restaurations GmbH, Frankfurt am Main',
     period: 'Dezember 2018 - Juni 2021',
-    points: ['Kassierer.'],
+    points: ['Kassierer'],
+  },
+]
+
+const volunteer = [
+  {
+    role: 'Ehrenamtlicher Mitarbeiter',
+    company: 'TGS Bornheim, Frankfurt am Main',
+    period: 'November 2024 - März 2025',
+    points: ['Trainer für Grundschulkinder in Parcours/Turnen'],
   },
 ]
 
@@ -147,7 +150,7 @@ function CVSection() {
   return (
     <section id="cv" className="section">
       <div className="section-inner">
-        <h2 className="section-title">CV</h2>
+        <h2 className="section-title">CV ✨</h2>
         <div className="cv-head">
           <h3>{personal.name}</h3>
           <p>{personal.location}</p>
@@ -155,7 +158,7 @@ function CVSection() {
             <a href={`mailto:${personal.email}`} className="link">
               {personal.email}
             </a>{' '}
-            · {personal.phone}
+            | {personal.phone}
           </p>
           <button type="button" className="btn cv-download-btn" onClick={downloadPdf}>
             CV als PDF herunterladen
@@ -164,7 +167,7 @@ function CVSection() {
 
         <div className="cv-grid">
           <article className="cv-card">
-            <h4>Berufserfahrung</h4>
+            <h4>💼 Berufserfahrung</h4>
             {experience.map((item) => (
               <div key={`${item.role}-${item.period}`} className="cv-item">
                 <p className="cv-item-title">
@@ -181,7 +184,7 @@ function CVSection() {
           </article>
 
           <article className="cv-card">
-            <h4>Bildungsweg</h4>
+            <h4>🎓 Bildungsweg</h4>
             {education.map((item) => (
               <div key={`${item.title}-${item.period}`} className="cv-item">
                 <p className="cv-item-title">{item.title}</p>
@@ -190,7 +193,22 @@ function CVSection() {
               </div>
             ))}
 
-            <h4>Sprachen</h4>
+            <h4>🤝 Ehrenamt</h4>
+            {volunteer.map((item) => (
+              <div key={`${item.role}-${item.period}`} className="cv-item">
+                <p className="cv-item-title">
+                  {item.role} · {item.company}
+                </p>
+                <p className="cv-item-period">{item.period}</p>
+                <ul>
+                  {item.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            <h4>🌍 Sprachen</h4>
             <ul className="cv-languages">
               {languages.map((lang) => (
                 <li key={lang}>{lang}</li>

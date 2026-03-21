@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useCursor } from './useCursor'
 import Terminal from './Terminal'
-import Mascot from './Mascot'
 import Chatbot from './Chatbot'
 import CVSection from './CVSection'
 import './App.css'
@@ -44,7 +43,7 @@ const PROJECTS = [
       'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1600&q=80',
     details: {
       role: 'Konzept, Design, Umsetzung',
-      context: 'Persoenliche Web-Praesenz',
+      context: 'Persönliche Web-Präsenz',
       impact: 'Interaktives Auftreten fuer Recruiter & Projekte',
       tech: 'React, Vite, Framer Motion, Custom UI',
       link: '#',
@@ -56,6 +55,9 @@ function App() {
   const [navScrolled, setNavScrolled] = useState(false)
   const [scrollY, setScrollY] = useState(0)
   const [activeProject, setActiveProject] = useState(null)
+  const [isCvView, setIsCvView] = useState(
+    typeof window !== 'undefined' && window.location.hash === '#cv'
+  )
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light'
     return (
@@ -91,6 +93,13 @@ function App() {
     return () => window.removeEventListener('keydown', onEsc)
   }, [])
 
+  useEffect(() => {
+    const onHashChange = () => setIsCvView(window.location.hash === '#cv')
+    window.addEventListener('hashchange', onHashChange)
+    onHashChange()
+    return () => window.removeEventListener('hashchange', onHashChange)
+  }, [])
+
   const [hasPointer, setHasPointer] = useState(false)
   useEffect(() => {
     const check = () => {
@@ -104,11 +113,6 @@ function App() {
 
   return (
     <>
-      <div className="bg-motion" aria-hidden>
-        <span className="bg-orb bg-orb-1" />
-        <span className="bg-orb bg-orb-2" />
-      </div>
-
       {hasPointer && (
         <div className="cursor-wrapper" aria-hidden>
           <motion.div
@@ -177,7 +181,11 @@ function App() {
         </ul>
       </nav>
 
-      <main>
+      <main className={isCvView ? 'main-cv-only' : ''}>
+        {isCvView ? (
+          <CVSection />
+        ) : (
+          <>
         <section id="hero" className="hero">
           <div
             className="hero-spotlight"
@@ -196,9 +204,6 @@ function App() {
           <motion.p className="hero-tagline" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.3 }}>
             Ich entwickle Software, löse Probleme und erkunde die Welt der Technologie.
           </motion.p>
-          <div className="hero-mascot">
-            <Mascot />
-          </div>
         </section>
 
         <section id="about" className="section">
@@ -206,7 +211,7 @@ function App() {
             <h2 className="section-title">Über mich</h2>
             <Terminal onMouseEnter={handleHover} onMouseLeave={handleLeave} />
             <p className="section-text section-text--mt">
-              Ich studiere Informatik und bin fasziniert von der Verbindung zwischen Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte mit Bestnote - ich liebe es, komplexe Probleme zu zerlegen und elegante Lösungen zu bauen.
+              Ich studiere Informatik und bin fasziniert von der Verbindung zwischen Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte mit Bestnote - ich liebe es, komplexe Probleme zu zerlegen und elegante Lösungen zu entwickeln.
             </p>
           </motion.div>
         </section>
@@ -259,7 +264,7 @@ function App() {
 
         <section id="contact" className="section section--alt section--contact">
           <motion.div className="contact-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="contact-title">Lass uns connecten.</h2>
+            <h2 className="contact-title">Lass uns vernetzen.</h2>
             <p className="contact-text">Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch - ich freue mich über jede Nachricht.</p>
             <a href="mailto:artjomarturbecker@icloud.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>E-Mail schreiben</a>
             <p className="contact-mail">artjomarturbecker@icloud.com</p>
@@ -271,15 +276,15 @@ function App() {
             </div>
           </motion.div>
         </section>
-
-        <CVSection />
+          </>
+        )}
       </main>
 
       <footer className="footer">
         <p>© {new Date().getFullYear()} Artjom Becker. Designed & gebaut mit Liebe zum Detail.</p>
       </footer>
 
-      <Chatbot />
+      {!isCvView && <Chatbot />}
     </>
   )
 }
