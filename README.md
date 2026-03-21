@@ -1,16 +1,80 @@
-# React + Vite
+# Artjom Becker - Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern portfolio website built with React + Vite.
 
-Currently, two official plugins are available:
+## Highlights
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Apple-inspired, clean UI with light/dark mode
+- DE/EN language toggle
+- Custom cursor interactions
+- Project cards with modal details and case-study content
+- Tech stack section with animated progress bars
+- Dedicated CV view with PDF export
+- Contact section with GitHub, LinkedIn, WhatsApp, Telegram
+- Character-style chatbot with OpenRouter support + local fallback
+- Mobile-friendly navigation and responsive layout
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React
+- Vite
+- Framer Motion
+- jsPDF
+- CSS (custom properties + responsive layout)
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx` - Main page sections, navigation, projects, filters, timeline, contact
+- `src/App.css` - Component and section styling
+- `src/index.css` - Global theme variables and base styles
+- `src/Chatbot.jsx` - Chatbot UI + OpenRouter integration
+- `src/CVSection.jsx` - CV page + PDF download
+- `src/Terminal.jsx` - Animated terminal component
+- `src/useCursor.js` - Cursor tracking and hover behavior
+- `wrangler.jsonc` - Cloudflare Workers assets configuration
+
+## Local Setup
+
+```bash
+npm install
+npm run dev
+```
+
+## Scripts
+
+```bash
+npm run dev        # start dev server
+npm run build      # production build
+npm run preview    # preview built app
+npm run lint       # run eslint
+npm run deploy:cf  # build + deploy to Cloudflare via Wrangler
+```
+
+## Chatbot Environment Variable
+
+Create a `.env` file in the project root:
+
+```bash
+VITE_OPENROUTER_API_KEY=your_api_key_here
+```
+
+If no key is provided, the chatbot uses a local fallback response mode.
+
+## Deployment (Cloudflare)
+
+This project is configured for static asset deployment via Wrangler:
+
+- Build output: `dist`
+- Config file: `wrangler.jsonc`
+- SPA fallback enabled (`not_found_handling: single-page-application`)
+
+Deploy:
+
+```bash
+npm run deploy:cf
+```
+
+## Contact
+
+- Email: `hi@artjombecker.com`
+- GitHub: [github.com/DjamilB](https://github.com/DjamilB)
