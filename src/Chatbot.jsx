@@ -21,7 +21,7 @@ const BASE_INFO_DE = {
   projects:
     'Wichtige Projekte: ExerCube (Gruppenprojekt, Note 1,0), ArcadeSuite (eigenes Bachelor-Projekt) und dieses Portfolio.',
   contact:
-    'Kontakt: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/DjamilB.',
+    'Kontakt: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur',
   skills:
     'Skills: JavaScript/TypeScript, Python, Java, React, Vite, Node.js, SQL, Git, Linux, Algorithmen und Datenstrukturen.',
   leadership:
@@ -34,7 +34,7 @@ const BASE_INFO_EN = {
   projects:
     'Key projects: ExerCube (group project, grade 1.0), ArcadeSuite (own bachelor project), and this portfolio.',
   contact:
-    'Contact: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/DjamilB.',
+    'Contact: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur.',
   skills:
     'Skills: JavaScript/TypeScript, Python, Java, React, Vite, Node.js, SQL, Git, Linux, algorithms and data structures.',
   leadership:
