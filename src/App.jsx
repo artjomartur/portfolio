@@ -18,6 +18,7 @@ const PROJECTS = [
       context: 'Serious Games Darmstadt',
       impact: 'Abschluss mit Note 1,0',
       tech: 'Interaktive Spielmechanik, UX, Entwicklungsworkflow',
+      languages: ['C#', 'Unity Script'],
       challenge: 'Ein spielerisches Trainingserlebnis entwickeln, das Motivation und Bewegung verbindet.',
       solution: 'Konzeption eines klaren UX-Flows mit iterativen Tests und enger Teamabstimmung.',
       result: 'Stabiler Prototyp mit sehr gutem Feedback und Abschlussnote 1,0.',
@@ -37,6 +38,7 @@ const PROJECTS = [
       context: 'Bachelor-Projekt',
       impact: 'PvP, PvE, EvE und visualisierte Agentenentscheidungen',
       tech: 'Python, OC_Atari, HackAtari, ScoBots',
+      languages: ['Python'],
       challenge: 'Mehrere KI-Agenten in unterschiedlichen Atari-Szenarien vergleichbar machen.',
       solution: 'Modulare Agenten-Architektur mit reproduzierbaren Evaluations-Setups und Visualisierung.',
       result: 'Saubere Benchmark-Basis fuer Experimente und Demonstrationen.',
@@ -55,6 +57,7 @@ const PROJECTS = [
       context: 'Persönliche Web-Präsenz',
       impact: 'Interaktives Auftreten fuer Recruiter & Projekte',
       tech: 'React, Vite, Framer Motion, Custom UI',
+      languages: ['JavaScript', 'CSS'],
       challenge: 'Eine moderne Seite bauen, die persoenlich wirkt und trotzdem professionell bleibt.',
       solution: 'Apple-inspirierte UI mit klarer Struktur, Interaktion und zweisprachigem Content.',
       result: 'Recruiter-fokussiertes Portfolio mit hoher Lesbarkeit und starker Conversion.',
@@ -73,27 +76,43 @@ const TIMELINE = [
   { year: '2023', de: 'Start Informatik-Studium an der TU Darmstadt', en: 'Started computer science studies at TU Darmstadt' },
 ]
 
-const TESTIMONIALS = [
+const STACK = [
   {
-    quoteDe: 'Artjom bringt Struktur in komplexe Aufgaben und bleibt auch unter Zeitdruck loesungsorientiert.',
-    quoteEn: 'Artjom brings structure to complex tasks and stays solution-focused under pressure.',
-    name: 'Projektkollege',
-    roleDe: 'ExerCube Team',
-    roleEn: 'ExerCube Team',
+    groupDe: 'Frontend',
+    groupEn: 'Frontend',
+    items: [
+      { label: 'React', level: 92, contextDe: 'Produktive UI-Entwicklung', contextEn: 'Production UI development' },
+      { label: 'TypeScript', level: 82, contextDe: 'Typsichere Komponenten', contextEn: 'Type-safe components' },
+      { label: 'CSS', level: 88, contextDe: 'Responsive, sauberes Design', contextEn: 'Responsive, clean design' },
+    ],
   },
   {
-    quoteDe: 'Sehr starke Mischung aus technischem Verstaendnis, Teamarbeit und klarer Kommunikation.',
-    quoteEn: 'A strong combination of technical understanding, teamwork, and clear communication.',
-    name: 'Praktikumskontext',
-    roleDe: 'Bachelor-Praktikum',
-    roleEn: 'Bachelor internship',
+    groupDe: 'Backend & Daten',
+    groupEn: 'Backend & Data',
+    items: [
+      { label: 'Node.js', level: 78, contextDe: 'APIs und Tooling', contextEn: 'APIs and tooling' },
+      { label: 'SQL', level: 72, contextDe: 'Abfragen und Datenmodelle', contextEn: 'Queries and data models' },
+      { label: 'Python', level: 90, contextDe: 'Skripting und KI-Prototyping', contextEn: 'Scripting and AI prototyping' },
+    ],
+  },
+  {
+    groupDe: 'Informatik-Grundlagen',
+    groupEn: 'CS Foundations',
+    items: [
+      { label: 'Algorithmen', level: 84, contextDe: 'Effizienz und Problemloesung', contextEn: 'Efficiency and problem solving' },
+      { label: 'Datenstrukturen', level: 83, contextDe: 'Robuste Modellierung', contextEn: 'Robust modeling' },
+      { label: 'OOP', level: 86, contextDe: 'Wartbare Architektur', contextEn: 'Maintainable architecture' },
+    ],
   },
 ]
 
-const STACK = [
-  { groupDe: 'Frontend', groupEn: 'Frontend', items: [{ label: 'React', level: 92 }, { label: 'TypeScript', level: 82 }, { label: 'CSS', level: 88 }] },
-  { groupDe: 'Backend & Data', groupEn: 'Backend & Data', items: [{ label: 'Node.js', level: 78 }, { label: 'SQL', level: 72 }, { label: 'Python', level: 90 }] },
-  { groupDe: 'CS Foundations', groupEn: 'CS Foundations', items: [{ label: 'Algorithmen', level: 84 }, { label: 'Datenstrukturen', level: 83 }, { label: 'OOP', level: 86 }] },
+const NAV_ITEMS = [
+  { id: 'about', labelDe: 'Über mich', labelEn: 'About' },
+  { id: 'skills', labelDe: 'Skills', labelEn: 'Skills' },
+  { id: 'timeline', labelDe: 'Timeline', labelEn: 'Timeline' },
+  { id: 'projects', labelDe: 'Projekte', labelEn: 'Projects' },
+  { id: 'cv', labelDe: 'CV', labelEn: 'CV' },
+  { id: 'contact', labelDe: 'Kontakt', labelEn: 'Contact' },
 ]
 
 function App() {
@@ -116,6 +135,7 @@ function App() {
   })
   const [projectFilter, setProjectFilter] = useState('All')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('hero')
   const { mouse, smoothMouse, isHovering, isVisible, handleHover, handleLeave } =
     useCursor()
 
@@ -167,6 +187,12 @@ function App() {
       ? PROJECTS
       : PROJECTS.filter((project) => project.details.tags?.includes(projectFilter))
 
+  const levelLabel = (value) => {
+    if (value >= 88) return lang === 'de' ? 'Sehr stark' : 'Advanced'
+    if (value >= 78) return lang === 'de' ? 'Sehr gut' : 'Strong'
+    return lang === 'de' ? 'Solide' : 'Solid'
+  }
+
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
   const toggleLang = () => setLang((l) => (l === 'de' ? 'en' : 'de'))
 
@@ -194,6 +220,28 @@ function App() {
     onHashChange()
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
+
+  useEffect(() => {
+    const sectionIds = ['hero', 'about', 'skills', 'timeline', 'projects', 'contact']
+    const sections = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean)
+
+    if (!sections.length) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+        if (visible[0]?.target?.id) setActiveSection(visible[0].target.id)
+      },
+      { threshold: [0.2, 0.45, 0.7], rootMargin: '-20% 0px -55% 0px' }
+    )
+
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [isCvView])
 
   useEffect(() => {
     const onResize = () => {
@@ -248,6 +296,10 @@ function App() {
               <li><strong>{lang === 'de' ? 'Kontext' : 'Context'}:</strong> {activeProject.details.context}</li>
               <li><strong>Impact:</strong> {activeProject.details.impact}</li>
               <li><strong>Tech:</strong> {activeProject.details.tech}</li>
+              <li>
+                <strong>{lang === 'de' ? 'Sprache(n)' : 'Language(s)'}:</strong>{' '}
+                {activeProject.details.languages?.join(', ')}
+              </li>
             </ul>
             <div className="case-study">
               <h4>{lang === 'de' ? 'Case Study' : 'Case Study'}</h4>
@@ -279,7 +331,10 @@ function App() {
       )}
 
       <nav className={`nav ${navScrolled ? 'nav--scrolled' : ''}`}>
-        <a href="#hero" className="nav-logo">Portfolio</a>
+        <a href="#hero" className="nav-logo" onClick={() => setActiveSection('hero')}>
+          <span className="nav-logo-title">Artjom Becker</span>
+          <span className="nav-logo-subtitle">{lang === 'de' ? 'Informatik' : 'Computer Science'}</span>
+        </a>
         <button
           type="button"
           className="mobile-menu-toggle"
@@ -290,13 +345,22 @@ function App() {
           ☰
         </button>
         <ul className={`nav-links ${mobileMenuOpen ? 'nav-links--open' : ''}`}>
-          <li><a href="#about" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Über mich' : 'About'}</a></li>
-          <li><a href="#skills" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>Skills</a></li>
-          <li><a href="#timeline" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>Timeline</a></li>
-          <li><a href="#projects" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Projekte' : 'Projects'}</a></li>
-          <li><a href="#testimonials" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>Testimonials</a></li>
-          <li><a href="#cv" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>CV</a></li>
-          <li><a href="#contact" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Kontakt' : 'Contact'}</a></li>
+          {NAV_ITEMS.map((item) => (
+            <li key={item.id}>
+              <a
+                href={`#${item.id}`}
+                className={activeSection === item.id ? 'nav-link-active' : ''}
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  setActiveSection(item.id)
+                }}
+                onMouseEnter={handleHover}
+                onMouseLeave={handleLeave}
+              >
+                {lang === 'de' ? item.labelDe : item.labelEn}
+              </a>
+            </li>
+          ))}
           <li>
             <button
               type="button"
@@ -380,26 +444,30 @@ function App() {
               ))}
             </div>
             <div className="stack-radar">
-              <h3 className="section-subtitle">{lang === 'de' ? 'TechStack Radar' : 'Tech Stack Radar'}</h3>
+              <h3 className="section-subtitle">{lang === 'de' ? 'Tech Stack im Einsatz' : 'Tech Stack in Practice'}</h3>
               {STACK.map((group, groupIndex) => (
                 <div key={group.groupDe} className="stack-group">
                   <p className="stack-group-title">{lang === 'de' ? group.groupDe : group.groupEn}</p>
                   {group.items.map((item, itemIndex) => (
                     <div key={item.label} className="stack-row">
-                      <span>{item.label}</span>
+                      <div className="stack-row-head">
+                        <span>{item.label}</span>
+                        <span className="stack-level">{levelLabel(item.level)}</span>
+                      </div>
                       <div className="stack-bar">
                         <motion.div
                           className="stack-fill"
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${item.level}%` }}
+                          initial={{ width: 0, opacity: 0.35 }}
+                          whileInView={{ width: `${item.level}%`, opacity: 1 }}
                           viewport={{ once: true, amount: 0.5 }}
                           transition={{
-                            duration: 0.8,
+                            duration: 0.9,
                             delay: groupIndex * 0.08 + itemIndex * 0.08,
                             ease: [0.2, 0.65, 0.3, 1],
                           }}
                         />
                       </div>
+                      <p className="stack-context">{lang === 'de' ? item.contextDe : item.contextEn}</p>
                     </div>
                   ))}
                 </div>
@@ -460,6 +528,11 @@ function App() {
                       )}
                     </div>
                     <div className="project-tags">
+                      {project.details.languages?.map((language) => (
+                        <span key={`${project.id}-${language}`} className="project-tag project-tag--language">
+                          {lang === 'de' ? `Sprache: ${language}` : `Language: ${language}`}
+                        </span>
+                      ))}
                       {project.details.tags?.map((tag) => (
                         <span key={`${project.id}-${tag}`} className="project-tag">{tag}</span>
                       ))}
@@ -471,22 +544,6 @@ function App() {
             <a href="https://github.com/DjamilB?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
               {lang === 'de' ? 'Alle Projekte auf GitHub' : 'All projects on GitHub'}
             </a>
-          </motion.div>
-        </section>
-
-        <section id="testimonials" className="section section--alt">
-          <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
-            <h2 className="section-title">{lang === 'de' ? 'Testimonials' : 'Testimonials'}</h2>
-            <div className="testimonials-grid">
-              {TESTIMONIALS.map((item) => (
-                <blockquote key={item.name} className="testimonial">
-                  <p>{lang === 'de' ? item.quoteDe : item.quoteEn}</p>
-                  <footer>
-                    <strong>{item.name}</strong> - {lang === 'de' ? item.roleDe : item.roleEn}
-                  </footer>
-                </blockquote>
-              ))}
-            </div>
           </motion.div>
         </section>
 
