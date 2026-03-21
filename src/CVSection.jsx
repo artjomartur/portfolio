@@ -97,7 +97,7 @@ const languages = [
   'Englisch - Fließend',
 ]
 
-function CVSection() {
+function CVSection({ lang = 'de' }) {
   const downloadPdf = () => {
     const doc = new jsPDF({ unit: 'pt', format: 'a4' })
     const pageHeight = doc.internal.pageSize.getHeight()
@@ -126,7 +126,7 @@ function CVSection() {
     addWrapped(`${personal.location} | ${personal.email} | ${personal.phone}`, 11, 'normal')
     y += 8
 
-    addWrapped('Berufserfahrung', 14, 'bold')
+    addWrapped(lang === 'de' ? 'Berufserfahrung' : 'Work Experience', 14, 'bold')
     experience.forEach((item) => {
       addWrapped(`${item.role} - ${item.company}`, 12, 'bold')
       addWrapped(item.period, 10, 'normal')
@@ -134,23 +134,23 @@ function CVSection() {
       y += 6
     })
 
-    addWrapped('Bildungsweg', 14, 'bold')
+    addWrapped(lang === 'de' ? 'Bildungsweg' : 'Education', 14, 'bold')
     education.forEach((item) => {
       addWrapped(`${item.title} - ${item.place}`, 11, 'bold')
       addWrapped(item.period, 10, 'normal')
     })
     y += 6
 
-    addWrapped('Sprachen', 14, 'bold')
+    addWrapped(lang === 'de' ? 'Sprachen' : 'Languages', 14, 'bold')
     languages.forEach((lang) => addWrapped(`• ${lang}`, 10, 'normal'))
 
-    doc.save('Artjom_Becker_CV.pdf')
+    doc.save(lang === 'de' ? 'Artjom_Becker_CV.pdf' : 'Artjom_Becker_Resume.pdf')
   }
 
   return (
     <section id="cv" className="section">
       <div className="section-inner">
-        <h2 className="section-title">CV ✨</h2>
+        <h2 className="section-title">{lang === 'de' ? 'CV ✨' : 'Resume ✨'}</h2>
         <div className="cv-head">
           <h3>{personal.name}</h3>
           <p>{personal.location}</p>
@@ -161,13 +161,13 @@ function CVSection() {
             | {personal.phone}
           </p>
           <button type="button" className="btn cv-download-btn" onClick={downloadPdf}>
-            CV als PDF herunterladen
+            {lang === 'de' ? 'CV als PDF herunterladen' : 'Download resume as PDF'}
           </button>
         </div>
 
         <div className="cv-grid">
           <article className="cv-card">
-            <h4>💼 Berufserfahrung</h4>
+            <h4>{lang === 'de' ? '💼 Berufserfahrung' : '💼 Work experience'}</h4>
             {experience.map((item) => (
               <div key={`${item.role}-${item.period}`} className="cv-item">
                 <p className="cv-item-title">
@@ -184,7 +184,7 @@ function CVSection() {
           </article>
 
           <article className="cv-card">
-            <h4>🎓 Bildungsweg</h4>
+            <h4>{lang === 'de' ? '🎓 Bildungsweg' : '🎓 Education'}</h4>
             {education.map((item) => (
               <div key={`${item.title}-${item.period}`} className="cv-item">
                 <p className="cv-item-title">{item.title}</p>
@@ -193,7 +193,7 @@ function CVSection() {
               </div>
             ))}
 
-            <h4>🤝 Ehrenamt</h4>
+            <h4>{lang === 'de' ? '🤝 Ehrenamt' : '🤝 Volunteering'}</h4>
             {volunteer.map((item) => (
               <div key={`${item.role}-${item.period}`} className="cv-item">
                 <p className="cv-item-title">
@@ -208,7 +208,7 @@ function CVSection() {
               </div>
             ))}
 
-            <h4>🌍 Sprachen</h4>
+            <h4>{lang === 'de' ? '🌍 Sprachen' : '🌍 Languages'}</h4>
             <ul className="cv-languages">
               {languages.map((lang) => (
                 <li key={lang}>{lang}</li>
