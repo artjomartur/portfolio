@@ -858,7 +858,8 @@
 
 .stack-bar {
   height: 8px;
-  background: color-mix(in srgb, var(--text) 12%, var(--bg-section));
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, var(--border));
   border-radius: 999px;
   overflow: hidden;
 }
@@ -1004,7 +1005,7 @@
 .chatbot {
   position: fixed;
   right: 22px;
-  bottom: 190px;
+  bottom: 22px;
   z-index: 240;
 }
 
@@ -1122,6 +1123,15 @@
   cursor: not-allowed;
 }
 
+.chatbot-form--locked .chatbot-send {
+  display: none;
+}
+
+.chatbot-form--locked .chatbot-input {
+  cursor: not-allowed;
+  opacity: 0.75;
+}
+
 .chatbot-thinking {
   padding: 0 12px 12px;
   font-size: 12px;
@@ -1131,7 +1141,7 @@
 @media (max-width: 734px) {
   .chatbot {
     right: 10px;
-    bottom: 160px;
+    bottom: 10px;
   }
 }
 
