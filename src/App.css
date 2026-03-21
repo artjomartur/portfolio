@@ -49,41 +49,60 @@
 /* Navigation - Apple style */
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1120px, calc(100% - 24px));
   z-index: 100;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding: 0 22px;
-  height: 44px;
-  max-height: 44px;
+  padding: 0 14px 0 16px;
+  min-height: 56px;
   background: var(--nav-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  transition: background 0.3s;
+  transition: background 0.3s, box-shadow 0.3s, border-color 0.3s;
 }
 
 .nav--scrolled {
   background: var(--nav-bg-scrolled);
-  border-bottom: 1px solid var(--border);
+  border-color: color-mix(in srgb, var(--accent) 24%, var(--border));
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
 }
 
 .nav-logo {
-  position: static;
-  margin-right: auto;
-  font-size: 21px;
-  font-weight: 600;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 2px;
   color: var(--text);
   text-decoration: none;
+  letter-spacing: 0;
+}
+
+.nav-logo-title {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.1;
   letter-spacing: -0.02em;
+}
+
+.nav-logo-subtitle {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  line-height: 1.1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 8px;
   flex-wrap: nowrap;
   list-style: none;
   margin: 0;
@@ -112,12 +131,20 @@
   color: var(--text-secondary);
   text-decoration: none;
   font-size: 12px;
-  font-weight: 400;
-  transition: color 0.2s;
+  font-weight: 500;
+  transition: color 0.2s, background 0.2s;
+  border-radius: 999px;
+  padding: 7px 11px;
+}
+
+.nav-links a.nav-link-active {
+  color: var(--text);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
 }
 
 .nav-links a:hover {
   color: var(--text);
+  background: color-mix(in srgb, var(--text) 8%, transparent);
 }
 
 .theme-toggle {
@@ -189,12 +216,18 @@
 
 .hero-title-name {
   display: block;
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
-  background-size: 200% 200%;
+  background: linear-gradient(
+    120deg,
+    var(--name-grad-1) 0%,
+    var(--name-grad-2) 38%,
+    var(--name-grad-3) 68%,
+    var(--name-grad-1) 100%
+  );
+  background-size: 300% 300%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: nameGradientFlow 6s ease-in-out infinite;
+  animation: nameGradientFlow 10s linear infinite;
   will-change: background-position, filter;
 }
 
@@ -203,9 +236,13 @@
     background-position: 0% 50%;
     filter: drop-shadow(0 0 0 color-mix(in srgb, var(--accent) 0%, transparent));
   }
-  50% {
-    background-position: 100% 50%;
+  35% {
+    background-position: 50% 70%;
     filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 28%, transparent));
+  }
+  70% {
+    background-position: 100% 30%;
+    filter: drop-shadow(0 0 9px color-mix(in srgb, var(--accent-warm) 24%, transparent));
   }
   100% {
     background-position: 0% 50%;
@@ -495,7 +532,8 @@
 }
 
 .btn-secondary:hover {
-  background: color-mix(in srgb, var(--text) 8%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
 }
 
 .contact-links {
@@ -531,11 +569,25 @@
 /* Responsive */
 @media (max-width: 734px) {
   .nav {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    box-shadow: none;
+    min-height: 48px;
+    padding: 0 12px;
     justify-content: space-between;
   }
 
   .nav-logo {
-    margin-right: 0;
+    gap: 0;
+  }
+
+  .nav-logo-subtitle {
+    display: none;
   }
 
   .mobile-menu-toggle {
@@ -546,7 +598,7 @@
 
   .nav-links {
     position: fixed;
-    top: 52px;
+    top: 58px;
     right: 10px;
     left: 10px;
     z-index: 130;
@@ -580,6 +632,11 @@
     border: 1px solid var(--border);
     border-radius: 9px;
     background: color-mix(in srgb, var(--bg) 70%, var(--bg-section));
+  }
+
+  .nav-links a.nav-link-active {
+    background: color-mix(in srgb, var(--accent) 18%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 42%, var(--border));
   }
 
   .hero {
@@ -717,10 +774,16 @@
 
 .project-tag {
   font-size: 12px;
-  color: var(--text-secondary);
+  color: color-mix(in srgb, var(--text) 78%, var(--text-secondary));
   border: 1px solid var(--border);
   border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
   padding: 4px 9px;
+}
+
+.project-tag--language {
+  background: color-mix(in srgb, var(--accent) 13%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
 }
 
 .project-filters {
@@ -743,14 +806,15 @@
 
 .filter-chip--active {
   color: #fff;
-  background: var(--accent);
-  border-color: var(--accent);
+  background: linear-gradient(135deg, var(--accent), var(--accent-warm));
+  border-color: transparent;
 }
 
 .section-subtitle {
   font-size: 22px;
   margin: 36px 0 14px;
   text-align: center;
+  color: var(--text);
 }
 
 .stack-radar {
@@ -765,26 +829,53 @@
   margin: 0 0 8px;
   color: var(--text);
   font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 .stack-row {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.stack-row-head {
+  display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--text);
+}
+
+.stack-level {
+  font-size: 12px;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-section) 90%, transparent);
+  padding: 2px 8px;
 }
 
 .stack-bar {
   height: 8px;
-  background: color-mix(in srgb, var(--text) 10%, transparent);
+  background: color-mix(in srgb, var(--text) 12%, var(--bg-section));
   border-radius: 999px;
   overflow: hidden;
 }
 
 .stack-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 88%, #ffffff),
+    color-mix(in srgb, var(--accent-hover) 82%, #ffffff)
+  );
+}
+
+.stack-context {
+  margin: 0;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--text-secondary) 88%, var(--text));
 }
 
 .timeline {
@@ -796,7 +887,7 @@
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 12px;
-  background: color-mix(in srgb, var(--bg-section) 90%, transparent);
+  background: color-mix(in srgb, var(--accent) 5%, var(--bg-section));
 }
 
 .timeline-year {
@@ -810,28 +901,6 @@
   color: var(--text-secondary);
 }
 
-.testimonials-grid {
-  display: grid;
-  gap: 12px;
-}
-
-.testimonial {
-  margin: 0;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 14px;
-  background: color-mix(in srgb, var(--bg) 70%, var(--bg-section));
-}
-
-.testimonial p {
-  margin: 0 0 8px;
-  color: var(--text);
-}
-
-.testimonial footer {
-  color: var(--text-secondary);
-  font-size: 14px;
-}
 
 .case-study {
   margin: 0 0 14px;
@@ -926,10 +995,10 @@
     margin-top: 10px;
   }
 
-  .stack-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
+  .stack-row-head {
+    font-size: 14px;
   }
+
 }
 
 .chatbot {
