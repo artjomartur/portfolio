@@ -381,14 +381,24 @@ function App() {
             </div>
             <div className="stack-radar">
               <h3 className="section-subtitle">{lang === 'de' ? 'TechStack Radar' : 'Tech Stack Radar'}</h3>
-              {STACK.map((group) => (
+              {STACK.map((group, groupIndex) => (
                 <div key={group.groupDe} className="stack-group">
                   <p className="stack-group-title">{lang === 'de' ? group.groupDe : group.groupEn}</p>
-                  {group.items.map((item) => (
+                  {group.items.map((item, itemIndex) => (
                     <div key={item.label} className="stack-row">
                       <span>{item.label}</span>
                       <div className="stack-bar">
-                        <div className="stack-fill" style={{ width: `${item.level}%` }} />
+                        <motion.div
+                          className="stack-fill"
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${item.level}%` }}
+                          viewport={{ once: true, amount: 0.5 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: groupIndex * 0.08 + itemIndex * 0.08,
+                            ease: [0.2, 0.65, 0.3, 1],
+                          }}
+                        />
                       </div>
                     </div>
                   ))}
