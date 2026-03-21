@@ -3,7 +3,7 @@ import { jsPDF } from 'jspdf'
 const personal = {
   name: 'Artjom Becker',
   location: 'Darmstadt, Hessen 64285',
-  email: 'artjomarturbecker@icloud.com',
+  email: 'hi@artjombecker.com',
   phone: '+49 1520 3322770',
 }
 

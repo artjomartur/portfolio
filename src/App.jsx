@@ -494,15 +494,15 @@ function App() {
           <motion.div className="contact-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="contact-title">{lang === 'de' ? 'Lass uns vernetzen.' : 'Let us connect.'}</h2>
             <p className="contact-text">{lang === 'de' ? 'Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch - ich freue mich über jede Nachricht.' : 'For collaboration, project questions, or just a quick exchange - I am happy to hear from you.'}</p>
-            <a href="mailto:artjomarturbecker@icloud.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'E-Mail schreiben' : 'Send email'}</a>
+            <a href="mailto:hi@artjombecker.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'E-Mail schreiben' : 'Send email'}</a>
             <a
-              href="mailto:artjomarturbecker@icloud.com?subject=Kennenlerngespraech%20(15%20Minuten)"
+              href="mailto:hi@artjombecker.com?subject=Kennenlerngespraech%20(15%20Minuten)"
               className="btn btn-secondary"
               onClick={() => trackEvent('contact_conversion', { type: 'intro_call' })}
             >
               {lang === 'de' ? '15-Minuten Kennenlerngespraech' : '15-minute intro call'}
             </a>
-            <p className="contact-mail">artjomarturbecker@icloud.com</p>
+            <p className="contact-mail">hi@artjombecker.com</p>
             <div className="contact-links">
               <a href="https://github.com/DjamilB" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
               <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
