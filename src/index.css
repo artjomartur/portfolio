@@ -1,0 +1,62 @@
+:root {
+  --bg: #fbfbfd;
+  --bg-section: #ffffff;
+  --text: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-warm: #e85d4c;
+  --border: rgba(0, 0, 0, 0.08);
+  --nav-bg: rgba(251, 251, 253, 0.72);
+  --nav-bg-scrolled: rgba(251, 251, 253, 0.9);
+  --spotlight: rgba(0, 113, 227, 0.06);
+  --font: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', sans-serif;
+}
+
+[data-theme="dark"] {
+  --bg: #0d0d0f;
+  --bg-section: #161618;
+  --text: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --accent: #0a84ff;
+  --accent-hover: #409cff;
+  --accent-warm: #ff6b6b;
+  --border: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(13, 13, 15, 0.72);
+  --nav-bg-scrolled: rgba(13, 13, 15, 0.95);
+  --spotlight: rgba(10, 132, 255, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 17px;
+  line-height: 1.47059;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Custom Cursor - hide default auf Desktop */
+body.custom-cursor {
+  cursor: none;
+}
+
+body.custom-cursor a,
+body.custom-cursor button {
+  cursor: none;
+}
