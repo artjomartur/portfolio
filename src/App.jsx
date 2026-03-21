@@ -115,6 +115,7 @@ function App() {
     return localStorage.getItem('lang') || 'de'
   })
   const [projectFilter, setProjectFilter] = useState('All')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { mouse, smoothMouse, isHovering, isVisible, handleHover, handleLeave } =
     useCursor()
 
@@ -194,6 +195,14 @@ function App() {
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 900) setMobileMenuOpen(false)
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   const [hasPointer, setHasPointer] = useState(false)
   useEffect(() => {
     const check = () => {
@@ -271,12 +280,23 @@ function App() {
 
       <nav className={`nav ${navScrolled ? 'nav--scrolled' : ''}`}>
         <a href="#hero" className="nav-logo">Portfolio</a>
-        <ul className="nav-links">
-          <li><a href="#about" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Über mich' : 'About'}</a></li>
-          <li><a href="#skills" onMouseEnter={handleHover} onMouseLeave={handleLeave}>Skills</a></li>
-          <li><a href="#projects" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Projekte' : 'Projects'}</a></li>
-          <li><a href="#cv" onMouseEnter={handleHover} onMouseLeave={handleLeave}>CV</a></li>
-          <li><a href="#contact" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Kontakt' : 'Contact'}</a></li>
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          onClick={() => setMobileMenuOpen((open) => !open)}
+          aria-label={lang === 'de' ? 'Menü öffnen' : 'Open menu'}
+          aria-expanded={mobileMenuOpen}
+        >
+          ☰
+        </button>
+        <ul className={`nav-links ${mobileMenuOpen ? 'nav-links--open' : ''}`}>
+          <li><a href="#about" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Über mich' : 'About'}</a></li>
+          <li><a href="#skills" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>Skills</a></li>
+          <li><a href="#timeline" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>Timeline</a></li>
+          <li><a href="#projects" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Projekte' : 'Projects'}</a></li>
+          <li><a href="#testimonials" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>Testimonials</a></li>
+          <li><a href="#cv" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>CV</a></li>
+          <li><a href="#contact" onClick={() => setMobileMenuOpen(false)} onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'Kontakt' : 'Contact'}</a></li>
           <li>
             <button
               type="button"
