@@ -1,0 +1,11 @@
+<svg width="1200" height="700" viewBox="0 0 1200 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="700" fill="#111827"/>
+  <circle cx="260" cy="170" r="220" fill="#A855F7" fill-opacity="0.25"/>
+  <circle cx="930" cy="560" r="260" fill="#22D3EE" fill-opacity="0.2"/>
+  <rect x="180" y="120" width="840" height="460" rx="24" fill="#1F2937" stroke="#93C5FD" stroke-opacity="0.4"/>
+  <rect x="250" y="190" width="220" height="300" rx="12" fill="#0F172A" stroke="#38BDF8"/>
+  <rect x="490" y="190" width="220" height="300" rx="12" fill="#0F172A" stroke="#A78BFA"/>
+  <rect x="730" y="190" width="220" height="300" rx="12" fill="#0F172A" stroke="#22D3EE"/>
+  <text x="120" y="640" fill="#E5E7EB" font-family="Inter, Arial" font-size="54" font-weight="700">ArcadeSuite</text>
+  <text x="120" y="678" fill="#C7D2FE" font-family="Inter, Arial" font-size="26">Bachelorprojekt • AI Agents • Atari</text>
+</svg>
