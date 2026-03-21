@@ -1,18 +1,18 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const QUICK_ACTIONS_DE = [
-  'Wer bist du?',
-  'Welche Projekte gibt es?',
-  'Wie kann ich dich kontaktieren?',
-  'Welche Skills hast du?',
+  '👋 Wer bist du?',
+  '🚀 Welche Projekte gibt es?',
+  '📬 Wie kann ich dich kontaktieren?',
+  '🧠 Welche Skills hast du?',
 ]
 
 const QUICK_ACTIONS_EN = [
-  'Who are you?',
-  'What projects do you have?',
-  'How can I contact you?',
-  'What skills do you have?',
+  '👋 Who are you?',
+  '🚀 What projects do you have?',
+  '📬 How can I contact you?',
+  '🧠 What skills do you have?',
 ]
 
 const BASE_INFO_DE = {
@@ -70,18 +70,25 @@ function Chatbot({ lang = 'de' }) {
   const [isOpen, setIsOpen] = useState(false)
   const [input, setInput] = useState('')
   const [isThinking, setIsThinking] = useState(false)
+  const quickOnlyMode = true
+  const messagesEndRef = useRef(null)
   const [messages, setMessages] = useState([
     {
       role: 'bot',
       text:
         lang === 'de'
-          ? 'Hi! Ich bin der Portfolio-Bot. Frag mich etwas über Artjom, Projekte oder Kontakt.'
-          : 'Hi! I am the portfolio bot. Ask me something about Artjom, projects, or contact.',
+          ? 'Hi! 👋 Ich bin der Portfolio-Bot. Frag mich etwas über Artjom, Projekte oder Kontakt.'
+          : 'Hi! 👋 I am the portfolio bot. Ask me something about Artjom, projects, or contact.',
     },
   ])
 
   const canSend = useMemo(() => input.trim().length > 0, [input])
   const apiKey = import.meta.env.VITE_OPENROUTER_API_KEY
+
+  useEffect(() => {
+    if (!isOpen) return
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
+  }, [messages, isThinking, isOpen])
 
   const personaPrompt =
     lang === 'de'
@@ -186,6 +193,7 @@ function Chatbot({ lang = 'de' }) {
                   {m.text}
                 </div>
               ))}
+              <div ref={messagesEndRef} />
             </div>
 
             <div className="chatbot-quick">
@@ -202,9 +210,10 @@ function Chatbot({ lang = 'de' }) {
             </div>
 
             <form
-              className="chatbot-form"
+              className={`chatbot-form ${quickOnlyMode ? 'chatbot-form--locked' : ''}`}
               onSubmit={(e) => {
                 e.preventDefault()
+                if (quickOnlyMode) return
                 void sendMessage(input)
               }}
             >
@@ -212,15 +221,16 @@ function Chatbot({ lang = 'de' }) {
                 className="chatbot-input"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={lang === 'de' ? 'Frag etwas über Artjom...' : 'Ask something about Artjom...'}
+                placeholder={lang === 'de' ? 'Bitte nutze die Buttons oben' : 'Please use the buttons above'}
+                disabled={quickOnlyMode}
               />
-              <button type="submit" className="chatbot-send" disabled={!canSend}>
+              <button type="submit" className="chatbot-send" disabled={quickOnlyMode || !canSend}>
                 {lang === 'de' ? 'Senden' : 'Send'}
               </button>
             </form>
             {isThinking && (
               <div className="chatbot-thinking">
-                {lang === 'de' ? 'Artjom Bot denkt nach ...' : 'Artjom Bot is thinking ...'}
+                {lang === 'de' ? '🤖 Artjom Bot denkt nach ...' : '🤖 Artjom Bot is thinking ...'}
               </div>
             )}
           </motion.div>
