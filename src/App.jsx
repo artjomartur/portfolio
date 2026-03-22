@@ -560,7 +560,7 @@ function App() {
                     </article>
                   ))}
                 </div>
-                <a href="https://github.com/DjamilB?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+                <a href="https://github.com/artjomartur?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                   {lang === 'de' ? 'Alle Projekte auf GitHub' : 'All projects on GitHub'}
                 </a>
               </motion.div>
@@ -580,8 +580,8 @@ function App() {
                 </a>
                 <p className="contact-mail">hi@artjombecker.com</p>
                 <div className="contact-links">
-                  <a href="https://github.com/DjamilB" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
-                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
+                  <a href="https://github.com/artjomartur" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
+                  <a href="https://www.linkedin.com/in/artjom-becker-aba5413a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
                   <a href="https://wa.me/4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="WhatsApp" onMouseEnter={handleHover} onMouseLeave={handleLeave}><WhatsAppIcon /></a>
                   <a href="https://t.me/+4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Telegram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><TelegramIcon /></a>
                 </div>
