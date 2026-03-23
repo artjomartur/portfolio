@@ -8,22 +8,41 @@ import './App.css'
 
 const PROJECTS = [
   {
+    id: 'kinopolis-automation',
+    title: 'Kinopolis Automation',
+    short: 'Modernes Dashboard für Echtzeit-Monitoring und operative Automatisierung im Kinobetrieb.',
+    image:
+      'https://trailer.kinopolis.de/media/img/logos/kinopolis.png',
+    details: {
+      role: 'Fullstack Developer & Automation',
+      context: 'Operative Unterstützung Kinopolis',
+      impact: 'Effizientere Plakatwechsel und Echtzeit-Auslastungsübersicht',
+      tech: 'Vanilla JS, Node.js, Cheerio, Vite',
+      languages: ['JavaScript', 'HTML', 'CSS'],
+      challenge: 'Echtzeit-Scraping von komplexen Sitzplänen und intuitive Aufbereitung für das Personal.',
+      solution: 'Entwicklung eines reaktionsschnellen Dashboards mit automatisierten Alerts und Standort-Management.',
+      result: 'Live im Einsatz zur Unterstützung der täglichen Abläufe.',
+      tags: ['Web', 'UI/UX', 'Automation'],
+      link: 'https://kinopolis.artjombecker.com',
+    },
+  },
+  {
     id: 'tpse-orga',
-    title: 'TPSE Orga Projekt',
-    short: 'Organisationsseite für das TPSE an der TU Darmstadt.',
+    title: 'TPSE Orga-Plattform',
+    short: 'Full-Stack Plattform zur Teamverwaltung und Abgabenmanagement am Fachbereich Informatik der TU Darmstadt.',
     image:
       'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80',
     details: {
       role: 'Fullstack Developer',
-      context: 'HiWi Beschäfzigung',
-      impact: 'Effizientere Arbeit für Studenten und Organisation',
-      tech: 'Type Script',
-      languages: ['Type Script', 'JavaScript', 'HTML', 'CSS'],
-      challenge: '',
-      solution: 'Entwicklung einer Webanwendung mit Fokus auf UX und Effizienz.',
-      result: 'In Arbeit',
-      tags: ['Team', 'Web'],
-      link: 'tpse.artjombecker.com',
+      context: 'Uni-Projekt Support',
+      impact: 'Zentralisierung von Team-Kommunikation, Abgaben und Bewertungen für hunderte Studierende.',
+      tech: 'Next.js, Prisma, Tailwind CSS, SQLite',
+      languages: ['TypeScript', 'JavaScript', 'HTML', 'CSS'],
+      challenge: 'Sichere Verwaltung von Abgaben und Teamstrukturen in einem dynamischen universitären Umfeld.',
+      solution: 'Entwicklung einer modernen Web-App mit Rollen-Management (Admin/Student) und Dateiverarbeitung.',
+      result: 'Erfolgreicher Einsatz im Modul-Betrieb.',
+      tags: ['Team', 'Web', 'Full-Stack'],
+      link: 'https://tpse.artjombecker.com',
     },
   },
   {
@@ -86,7 +105,7 @@ const PROJECTS = [
   },
 ]
 
-const PROJECT_FILTERS = ['All', 'AI', 'Game Dev', 'Web', 'Team', 'UX', 'Research', 'UI/UX', 'Branding']
+const PROJECT_FILTERS = ['All', 'AI', 'Game Dev', 'Web', 'Team', 'UX', 'Research', 'UI/UX', 'Branding', 'Automation', 'Full-Stack']
 
 const TIMELINE = [
   { year: '2026', de: 'Bereit fuer den naechsten Impact - gerne mit Ihrem Unternehmen.', en: 'Ready for the next impact - ideally with your company.' },
