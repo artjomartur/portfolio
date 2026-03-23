@@ -557,7 +557,9 @@ function App() {
                             {lang === 'de' ? 'Details öffnen' : 'Open details'}
                           </button>
                           {project.details.link.startsWith('http') && (
-                            <a href={project.details.link} target="_blank" rel="noopener noreferrer" className="link project-direct">Repo ↗</a>
+                            <a href={project.details.link} target="_blank" rel="noopener noreferrer" className="link project-direct">
+                              {project.details.link.includes('github.com') ? 'Repo ↗' : 'Live ↗'}
+                            </a>
                           )}
                           {project.details.trailer && (
                             <a href={project.details.trailer} target="_blank" rel="noopener noreferrer" className="link project-direct">
