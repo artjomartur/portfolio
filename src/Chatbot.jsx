@@ -131,7 +131,8 @@ function Chatbot({ lang = 'de' }) {
     if (!response.ok) throw new Error('LLM request failed')
     const data = await response.json()
     // OpenRouter / OpenAI structure
-    return data?.choices?.[0]?.message?.content?.trim()
+    const msg = data?.choices?.[0]?.message
+    return msg?.content?.trim() || msg?.reasoning?.trim()
   }
 
   const sendMessage = async (text) => {

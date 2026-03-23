@@ -15,9 +15,11 @@ export async function onRequestPost({ request, env }) {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
+        'HTTP-Referer': 'https://artjombecker.com',
+        'X-Title': 'Artjom Portfolio',
       },
       body: JSON.stringify({
-        model: 'meta-llama/llama-3.1-8b-instruct:free',
+        model: 'nvidia/nemotron-nano-9b-v2:free',
         messages: body.messages,
         temperature: 0.7,
         max_tokens: 220,
