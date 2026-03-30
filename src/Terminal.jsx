@@ -25,6 +25,23 @@ function Terminal({ lang = 'de', onMouseEnter, onMouseLeave, projectTitles = [] 
     { prefix: '', content: '', isCmd: false },
   ], [lang, projectTitles])
 
+  // Focus input when animation is done
+  useEffect(() => {
+    if (done && inputRef.current) {
+      // Use a longer timeout to ensure all layout shifts and animations are finished
+      const t = setTimeout(() => {
+        // Only auto-focus if the element is actually in the viewport
+        const rect = inputRef.current?.getBoundingClientRect()
+        const isInViewport = rect && rect.top >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
+        
+        if (isInViewport) {
+          inputRef.current?.focus({ preventScroll: true })
+        }
+      }, 300)
+      return () => clearTimeout(t)
+    }
+  }, [done])
+
   // Typing animation for initial lines
   useEffect(() => {
     if (lineIndex >= INITIAL_LINES.length) {
@@ -77,12 +94,12 @@ function Terminal({ lang = 'de', onMouseEnter, onMouseLeave, projectTitles = [] 
     }
   }, [lineIndex, charIndex, INITIAL_LINES])
 
-  // Scroll to bottom
+  // Scroll to bottom (only when new lines are added, not while typing)
   useEffect(() => {
     if (bodyRef.current) {
       bodyRef.current.scrollTop = bodyRef.current.scrollHeight
     }
-  }, [renderedLines, input])
+  }, [renderedLines])
 
   // Blinking cursor
   useEffect(() => {
@@ -188,7 +205,7 @@ function Terminal({ lang = 'de', onMouseEnter, onMouseLeave, projectTitles = [] 
       viewport={{ once: true }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
-      onClick={() => inputRef.current?.focus()}
+      onClick={() => inputRef.current?.focus({ preventScroll: true })}
     >
       <div className="terminal-header">
         <div className="terminal-buttons">
@@ -216,7 +233,6 @@ function Terminal({ lang = 'de', onMouseEnter, onMouseLeave, projectTitles = [] 
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 spellCheck={false}
-                autoFocus
               />
               {showCursor && <span className="terminal-cursor terminal-cursor--visible">|</span>}
             </div>

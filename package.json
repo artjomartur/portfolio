@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "deploy:cf": "npm run build && npx wrangler deploy"
+    "deploy:cf": "npm run build && npx wrangler deploy",
+    "dev:cf": "npx wrangler pages dev -- npm run dev"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
