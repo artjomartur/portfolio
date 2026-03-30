@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { useCursor } from './useCursor'
 import Terminal from './Terminal'
@@ -160,6 +160,8 @@ function App() {
   const [isCvView, setIsCvView] = useState(
     typeof window !== 'undefined' && window.location.hash === '#cv'
   )
+  const projectTitles = useMemo(() => PROJECTS.map((p) => p.title), [])
+
   const [theme, setTheme] = useState(() => {
     if (typeof window === 'undefined') return 'light'
     return (
@@ -172,10 +174,15 @@ function App() {
     return localStorage.getItem('lang') || 'de'
   })
   const [projectFilter, setProjectFilter] = useState('All')
+  const [showAllProjects, setShowAllProjects] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('hero')
   const { mouse, smoothMouse, isHovering, isVisible, handleHover, handleLeave } =
     useCursor()
+
+  // Form state
+  const [formStatus, setFormStatus] = useState(null) // 'success' | 'error'
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
@@ -224,6 +231,9 @@ function App() {
     projectFilter === 'All'
       ? PROJECTS
       : PROJECTS.filter((project) => project.details.tags?.includes(projectFilter))
+
+  const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 4)
+  const hasMoreProjects = filteredProjects.length > 4
 
   const levelLabel = (value) => {
     if (value >= 88) return lang === 'de' ? 'Sehr stark' : 'Advanced'
@@ -299,6 +309,43 @@ function App() {
     check()
     return () => document.body.classList.remove('custom-cursor')
   }, [])
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setFormStatus(null)
+
+    const formData = new FormData(e.target)
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message'),
+    }
+
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+
+      const result = await response.json()
+
+      if (response.ok) {
+        setFormStatus('success')
+        e.target.reset()
+        trackEvent('contact_form_success')
+      } else {
+        setFormStatus('error')
+        console.error('Submission failed:', result.error)
+      }
+    } catch (err) {
+      setFormStatus('error')
+      console.error('Submission error:', err)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -456,7 +503,12 @@ function App() {
             <section id="about" className="section">
               <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
                 <h2 className="section-title">{lang === 'de' ? 'Über mich' : 'About me'}</h2>
-                <Terminal lang={lang} onMouseEnter={handleHover} onMouseLeave={handleLeave} />
+                <Terminal
+                  lang={lang}
+                  onMouseEnter={handleHover}
+                  onMouseLeave={handleLeave}
+                  projectTitles={projectTitles}
+                />
                 <p className="section-text section-text--mt">
                   {lang === 'de'
                     ? 'Ich studiere Informatik und bin fasziniert von der Verbindung zwischen Theorie und Praxis. Teamleitung im Bachelor-Praktikum, Gruppenprojekte mit Bestnote - ich liebe es, komplexe Probleme zu zerlegen und elegante Lösungen zu entwickeln.'
@@ -547,7 +599,7 @@ function App() {
                   ))}
                 </div>
                 <div className="projects-list">
-                  {filteredProjects.map((project) => (
+                  {visibleProjects.map((project) => (
                     <article key={project.id} className="project" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                       <div className="project-content">
                         <h3 className="project-title">{project.title}</h3>
@@ -581,7 +633,26 @@ function App() {
                     </article>
                   ))}
                 </div>
-                <a href="https://github.com/artjomartur?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+
+                {hasMoreProjects && (
+                  <div className="projects-more">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        setShowAllProjects(!showAllProjects)
+                        trackEvent('project_toggle', { state: !showAllProjects })
+                      }}
+                      onMouseEnter={handleHover}
+                      onMouseLeave={handleLeave}
+                    >
+                      {showAllProjects
+                        ? (lang === 'de' ? 'Weniger anzeigen' : 'Show less')
+                        : (lang === 'de' ? `Alle Projekte anzeigen (${filteredProjects.length})` : `Show all projects (${filteredProjects.length})`)}
+                    </button>
+                  </div>
+                )}
+                <a href="https://github.com/DjamilB?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                   {lang === 'de' ? 'Alle Projekte auf GitHub' : 'All projects on GitHub'}
                 </a>
               </motion.div>
@@ -591,14 +662,34 @@ function App() {
               <motion.div className="contact-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
                 <h2 className="contact-title">{lang === 'de' ? 'Lass uns vernetzen.' : 'Let us connect.'}</h2>
                 <p className="contact-text">{lang === 'de' ? 'Ob Zusammenarbeit, Fragen zu Projekten oder einfach nur Austausch - ich freue mich über jede Nachricht.' : 'For collaboration, project questions, or just a quick exchange - I am happy to hear from you.'}</p>
-                <a href="mailto:hi@artjombecker.com" className="btn" onMouseEnter={handleHover} onMouseLeave={handleLeave}>{lang === 'de' ? 'E-Mail schreiben' : 'Send email'}</a>
-                <a
-                  href="mailto:hi@artjombecker.com?subject=Kennenlerngespraech%20(15%20Minuten)"
-                  className="btn btn-secondary"
-                  onClick={() => trackEvent('contact_conversion', { type: 'intro_call' })}
-                >
-                  {lang === 'de' ? '15-Minuten Kennenlerngespraech' : '15-minute intro call'}
-                </a>
+                
+                <form className="contact-form" onSubmit={handleFormSubmit}>
+                  {formStatus === 'success' && (
+                    <div className="form-status form-status--success">
+                      {lang === 'de' ? 'Vielen Dank! Deine Nachricht wurde erfolgreich gesendet.' : 'Thank you! Your message has been sent successfully.'}
+                    </div>
+                  )}
+                  {formStatus === 'error' && (
+                    <div className="form-status form-status--error">
+                      {lang === 'de' ? 'Ein Fehler ist aufgetreten. Bitte versuche es später erneut.' : 'Something went wrong. Please try again later.'}
+                    </div>
+                  )}
+                  <div className="form-group">
+                    <input name="name" type="text" placeholder={lang === 'de' ? 'Dein Name' : 'Your Name'} required disabled={isSubmitting} />
+                  </div>
+                  <div className="form-group">
+                    <input name="email" type="email" placeholder={lang === 'de' ? 'Deine E-Mail' : 'Your Email'} required disabled={isSubmitting} />
+                  </div>
+                  <div className="form-group">
+                    <textarea name="message" placeholder={lang === 'de' ? 'Deine Nachricht' : 'Your Message'} rows="5" required disabled={isSubmitting}></textarea>
+                  </div>
+                  <button type="submit" className={`btn ${isSubmitting ? 'btn--loading' : ''}`} disabled={isSubmitting}>
+                    {isSubmitting 
+                      ? (lang === 'de' ? 'Wird gesendet...' : 'Sending...') 
+                      : (lang === 'de' ? 'Nachricht senden' : 'Send message')}
+                  </button>
+                </form>
+
                 <p className="contact-mail">hi@artjombecker.com</p>
                 <div className="contact-links">
                   <a href="https://github.com/artjomartur" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>

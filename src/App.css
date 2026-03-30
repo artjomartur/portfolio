@@ -391,14 +391,21 @@
 .terminal-body {
   padding: 20px;
   min-height: 200px;
+  max-height: 320px;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
 .terminal-line {
   min-height: 1.5em;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .terminal-prompt {
   color: #7ee787;
+  white-space: pre-wrap;
 }
 
 .terminal-cmd {
@@ -416,6 +423,27 @@
 
 .terminal-cursor--visible {
   opacity: 1;
+}
+
+.terminal-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  flex: 1;
+  min-width: 0;
+  caret-color: transparent;
+}
+
+.terminal-input-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
 }
 
 /* Skills */
@@ -564,6 +592,78 @@
   margin: 0;
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.projects-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+}
+
+/* Contact Form */
+.contact-form {
+  max-width: 500px;
+  margin: 40px auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: var(--bg-section);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+.contact-form .btn {
+  margin-top: 8px;
+  cursor: pointer;
+  border: none;
+}
+
+.contact-form .btn--loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.form-status {
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.form-status--success {
+  background: color-mix(in srgb, #28c840 10%, transparent);
+  color: #28c840;
+  border: 1px solid color-mix(in srgb, #28c840 20%, transparent);
+}
+
+.form-status--error {
+  background: color-mix(in srgb, #ff5f57 10%, transparent);
+  color: #ff5f57;
+  border: 1px solid color-mix(in srgb, #ff5f57 20%, transparent);
 }
 
 /* Responsive */
