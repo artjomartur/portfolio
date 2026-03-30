@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy:cf": "npm run build && npx wrangler deploy",
-    "dev:cf": "npx wrangler pages dev -- npm run dev"
+    "dev:cf": "npm run build && npx wrangler dev"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",
