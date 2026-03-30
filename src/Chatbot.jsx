@@ -21,7 +21,7 @@ const BASE_INFO_DE = {
   projects:
     'Wichtige Projekte: Kinopolis Automation (kinopolis.artjombecker.com), TPSE Orga-Plattform (tpse.artjombecker.com), ExerCube (Gruppenprojekt, Note 1,0) und ArcadeSuite.',
   contact:
-    'Kontakt: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur',
+    'Kontakt: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur, Instagram: @artjomartur777',
   skills:
     'Skills: JavaScript/TypeScript, Python, Java, React, Vite, Node.js, SQL, Git, Linux, Algorithmen und Datenstrukturen.',
   leadership:
@@ -34,7 +34,7 @@ const BASE_INFO_EN = {
   projects:
     'Key projects: Kinopolis Automation (kinopolis.artjombecker.com), TPSE Orga-Plattform (tpse.artjombecker.com), ExerCube (group project, grade 1.0) and ArcadeSuite.',
   contact:
-    'Contact: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur.',
+    'Contact: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur, Instagram: @artjomartur777.',
   skills:
     'Skills: JavaScript/TypeScript, Python, Java, React, Vite, Node.js, SQL, Git, Linux, algorithms and data structures.',
   leadership:

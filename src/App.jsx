@@ -81,7 +81,7 @@ const PROJECTS = [
       solution: 'Modulare Agenten-Architektur mit reproduzierbaren Evaluations-Setups und Visualisierung.',
       result: 'Saubere Benchmark-Basis fuer Experimente und Demonstrationen.',
       tags: ['AI', 'Game Dev', 'Research', 'Team', 'UX', 'UI/UX'],
-      link: 'https://github.com/DjamilB/ArcadeSuite',
+      link: 'https://github.com/artjomartur/ArcadeSuite',
     },
   },
   {
@@ -652,7 +652,7 @@ function App() {
                     </button>
                   </div>
                 )}
-                <a href="https://github.com/DjamilB?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+                <a href="https://github.com/artjomartur?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                   {lang === 'de' ? 'Alle Projekte auf GitHub' : 'All projects on GitHub'}
                 </a>
               </motion.div>
@@ -696,7 +696,7 @@ function App() {
                   <a href="https://www.linkedin.com/in/artjom-becker-aba5413a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
                   <a href="https://wa.me/4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="WhatsApp" onMouseEnter={handleHover} onMouseLeave={handleLeave}><WhatsAppIcon /></a>
                   <a href="https://t.me/+4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Telegram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><TelegramIcon /></a>
-                  <a href="https://instagram.com/_artjomartur777" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Instagram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><InstagramIcon /></a>
+                  <a href="https://www.instagram.com/artjomartur777/" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Instagram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><InstagramIcon /></a>
                 </div>
               </motion.div>
             </section>
