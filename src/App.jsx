@@ -27,25 +27,6 @@ const PROJECTS = [
     },
   },
   {
-    id: 'tpse-orga',
-    title: 'TPSE Orga-Plattform',
-    short: 'Full-Stack Plattform zur Teamverwaltung und Abgabenmanagement am Fachbereich Informatik der TU Darmstadt.',
-    image:
-      'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80',
-    details: {
-      role: 'Fullstack Developer',
-      context: 'Uni-Projekt Support',
-      impact: 'Zentralisierung von Team-Kommunikation, Abgaben und Bewertungen für hunderte Studierende.',
-      tech: 'Next.js, Prisma, Tailwind CSS, SQLite',
-      languages: ['TypeScript', 'JavaScript', 'HTML', 'CSS'],
-      challenge: 'Sichere Verwaltung von Abgaben und Teamstrukturen in einem dynamischen universitären Umfeld.',
-      solution: 'Entwicklung einer modernen Web-App mit Rollen-Management (Admin/Student) und Dateiverarbeitung.',
-      result: 'Erfolgreicher Einsatz im Modul-Betrieb.',
-      tags: ['Team', 'Web', 'Full-Stack'],
-      link: 'https://tpse.artjombecker.com',
-    },
-  },
-  {
     id: 'exercube',
     title: 'ExerCube',
     short: 'Gruppenprojekt (Note 1,0) - Serious Games, TU Darmstadt.',

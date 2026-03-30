@@ -19,7 +19,7 @@ const BASE_INFO_DE = {
   intro:
     'Ich bin Artjom Becker, Informatik-Student mit Fokus auf Softwareentwicklung, UI/UX und technische Problemlösung.',
   projects:
-    'Wichtige Projekte: Kinopolis Automation (kinopolis.artjombecker.com), TPSE Orga-Plattform (tpse.artjombecker.com), ExerCube (Gruppenprojekt, Note 1,0) und ArcadeSuite.',
+    'Wichtige Projekte: Kinopolis Automation (kinopolis.artjombecker.com), ExerCube (Gruppenprojekt, Note 1,0) und ArcadeSuite.',
   contact:
     'Kontakt: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur, Instagram: @artjomartur777',
   skills:
@@ -32,7 +32,7 @@ const BASE_INFO_EN = {
   intro:
     'I am Artjom Becker, a computer science student focused on software development, UI/UX, and technical problem solving.',
   projects:
-    'Key projects: Kinopolis Automation (kinopolis.artjombecker.com), TPSE Orga-Plattform (tpse.artjombecker.com), ExerCube (group project, grade 1.0) and ArcadeSuite.',
+    'Key projects: Kinopolis Automation (kinopolis.artjombecker.com), ExerCube (group project, grade 1.0) and ArcadeSuite.',
   contact:
     'Contact: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur, Instagram: @artjomartur777.',
   skills:
