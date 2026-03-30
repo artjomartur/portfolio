@@ -17,7 +17,7 @@ export async function onRequestPost({ request, env }) {
         Authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        from: 'Contact Form <onboarding@resend.dev>',
+        from: 'Portfolio Contact Form <portfolio@artjombecker.com>',
         to: 'hi@artjombecker.com',
         subject: `New Message from ${name}`,
         html: `
@@ -31,9 +31,14 @@ export async function onRequestPost({ request, env }) {
     })
 
     const data = await response.json()
+    console.log('Resend API Response Status:', response.status)
 
     if (!response.ok) {
-      return new Response(JSON.stringify({ error: data.message || 'Failed to send email' }), {
+      console.error('Resend API Error Details:', JSON.stringify(data, null, 2))
+      return new Response(JSON.stringify({
+        error: data.message || 'Failed to send email',
+        resend_details: data
+      }), {
         status: response.status,
         headers: { 'Content-Type': 'application/json' },
       })
