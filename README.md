@@ -77,4 +77,3 @@ npm run deploy:cf
 ## Contact
 
 - Email: `hi@artjombecker.com`
-- GitHub: [github.com/DjamilB](https://github.com/DjamilB)
