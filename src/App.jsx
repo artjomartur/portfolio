@@ -8,6 +8,24 @@ import './App.css'
 
 const PROJECTS = [
   {
+    id: 'nexus-rag',
+    title: 'Nexus RAG',
+    short: 'Enterprise Retrieval-Augmented Generation Engine für lokale Daten-Interaktion.',
+    image: '/nexus_rag.png',
+    details: {
+      role: 'AI & Data Engineering',
+      context: 'Künstliche Intelligenz (Showcase)',
+      impact: 'Sichere semantische Suche und LLM-Interaktion über private Datensätze',
+      tech: 'Python, FastAPI, LangChain, ChromaDB',
+      languages: ['Python'],
+      challenge: 'Garantierte Datensicherheit: Große Unternehmensdokumente für LLMs abfragbar machen (Converse QA), ohne Kontextlängen zu sprengen.',
+      solution: 'Implementierung einer RAG-Pipeline mit asynchronem Ingestion-Prozess, Vector Embeddings und lokaler ChromaDB für superschnelle Ähnlichkeitssuche.',
+      result: 'Präzise, quellengestützte LLM-Antworten (Hallucination-free) auf Basis lokaler Dokumente.',
+      tags: ['AI', 'Backend', 'Data', 'Python'],
+      link: '#',
+    },
+  },
+  {
     id: 'kinopolis-automation',
     title: 'Kinopolis Automation',
     short: 'Modernes Dashboard für Echtzeit-Monitoring und operative Automatisierung im Kinobetrieb.',
