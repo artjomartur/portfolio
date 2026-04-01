@@ -651,9 +651,6 @@ function App() {
                     </button>
                   </div>
                 )}
-                <a href="https://github.com/artjomartur?tab=repositories" target="_blank" rel="noopener noreferrer" className="link link--center" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                  {lang === 'de' ? 'Alle Projekte auf GitHub' : 'All projects on GitHub'}
-                </a>
               </motion.div>
             </section>
 
