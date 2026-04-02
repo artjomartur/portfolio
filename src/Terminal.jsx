@@ -138,7 +138,7 @@ function Terminal({ lang = 'de', onMouseEnter, onMouseLeave, projectTitles = [] 
         output = ['JavaScript, TypeScript, Python, React, Node.js, SQL, Java']
         break
       case 'contact':
-        output = ['Email: hi@artjombecker.com', 'GitHub: github.com/artjomartur', 'Instagram: @artjomartur777']
+        output = ['Website: nexus.artjombecker.com', 'Email: hi@artjombecker.com', 'GitHub: github.com/artjomartur', 'Instagram: @artjomartur777']
         break
       case 'clear':
         setRenderedLines([])

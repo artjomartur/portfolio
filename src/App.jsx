@@ -117,7 +117,7 @@ const PROJECTS = [
       solution: 'Apple-inspirierte UI mit klarer Struktur, Interaktion und zweisprachigem Content.',
       result: 'Recruiter-fokussiertes Portfolio mit hoher Lesbarkeit und starker Conversion.',
       tags: ['Web', 'UI/UX', 'Branding'],
-      link: '#',
+      link: 'https://nexus.artjombecker.com',
     },
   },
 ]
@@ -705,12 +705,17 @@ function App() {
                 </form>
 
                 <p className="contact-mail">hi@artjombecker.com</p>
-                <div className="contact-links">
-                  <a href="https://github.com/artjomartur" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
-                  <a href="https://www.linkedin.com/in/artjom-becker-aba5413a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
-                  <a href="https://wa.me/4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="WhatsApp" onMouseEnter={handleHover} onMouseLeave={handleLeave}><WhatsAppIcon /></a>
-                  <a href="https://t.me/+4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Telegram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><TelegramIcon /></a>
-                  <a href="https://www.instagram.com/artjomartur777/" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Instagram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><InstagramIcon /></a>
+                <div className="contact-links" style={{ flexDirection: 'column', gap: '16px' }}>
+                  <a href="https://nexus.artjombecker.com" target="_blank" rel="noopener noreferrer" className="contact-link" style={{ fontSize: '16px', fontWeight: '600', color: 'var(--accent)' }} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+                    nexus.artjombecker.com ↗
+                  </a>
+                  <div style={{ display: 'flex', gap: '24px', justifyContent: 'center' }}>
+                    <a href="https://github.com/artjomartur" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
+                    <a href="https://www.linkedin.com/in/artjom-becker-aba5413a3?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="LinkedIn" onMouseEnter={handleHover} onMouseLeave={handleLeave}><LinkedInIcon /></a>
+                    <a href="https://wa.me/4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="WhatsApp" onMouseEnter={handleHover} onMouseLeave={handleLeave}><WhatsAppIcon /></a>
+                    <a href="https://t.me/+4915203322770" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Telegram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><TelegramIcon /></a>
+                    <a href="https://www.instagram.com/artjomartur777/" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="Instagram" onMouseEnter={handleHover} onMouseLeave={handleLeave}><InstagramIcon /></a>
+                  </div>
                 </div>
               </motion.div>
             </section>
