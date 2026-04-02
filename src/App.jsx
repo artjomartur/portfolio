@@ -22,7 +22,7 @@ const PROJECTS = [
       solution: 'Implementierung einer RAG-Pipeline mit asynchronem Ingestion-Prozess, Vector Embeddings und lokaler ChromaDB für superschnelle Ähnlichkeitssuche.',
       result: 'Präzise, quellengestützte LLM-Antworten (Hallucination-free) auf Basis lokaler Dokumente.',
       tags: ['AI', 'Backend', 'Data', 'Python'],
-      link: '#',
+      link: 'https://nexus.artjombecker.com',
     },
   },
   {
