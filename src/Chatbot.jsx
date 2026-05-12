@@ -19,9 +19,9 @@ const BASE_INFO_DE = {
   intro:
     'Ich bin Artjom Becker, Informatik-Student mit Fokus auf Softwareentwicklung, UI/UX und technische Problemlösung.',
   projects:
-    'Wichtige Projekte: Nexus RAG (nexus.artjombecker.com), Kinopolis Automation (kinopolis.artjombecker.com), ExerCube (Gruppenprojekt, Note 1,0).',
+    'Wichtige Projekte: Kinopolis Automation (kinopolis.artjombecker.com), ExerCube (Gruppenprojekt, Note 1,0), ArcadeSuite.',
   contact:
-    'Website: nexus.artjombecker.com, E-Mail: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur.',
+    'Website: artjombecker.com, E-Mail: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur.',
   skills:
     'Skills: JavaScript/TypeScript, Python, Java, React, Vite, Node.js, SQL, Git, Linux, Algorithmen und Datenstrukturen.',
   leadership:
@@ -32,9 +32,9 @@ const BASE_INFO_EN = {
   intro:
     'I am Artjom Becker, a computer science student focused on software development, UI/UX, and technical problem solving.',
   projects:
-    'Key projects: Nexus RAG (nexus.artjombecker.com), Kinopolis Automation (kinopolis.artjombecker.com), ExerCube (group project, grade 1.0).',
+    'Key projects: Kinopolis Automation (kinopolis.artjombecker.com), ExerCube (group project, grade 1.0), ArcadeSuite.',
   contact:
-    'Website: nexus.artjombecker.com, Email: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur.',
+    'Website: artjombecker.com, Email: hi@artjombecker.com, WhatsApp/Telegram: 015203322770, GitHub: github.com/artjomartur.',
   skills:
     'Skills: JavaScript/TypeScript, Python, Java, React, Vite, Node.js, SQL, Git, Linux, algorithms and data structures.',
   leadership:

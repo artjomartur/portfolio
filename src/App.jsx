@@ -8,24 +8,6 @@ import './App.css'
 
 const PROJECTS = [
   {
-    id: 'nexus-rag',
-    title: 'Nexus RAG',
-    short: 'Enterprise Retrieval-Augmented Generation Engine für lokale Daten-Interaktion.',
-    image: '/nexus_rag.png',
-    details: {
-      role: 'AI & Data Engineering',
-      context: 'Künstliche Intelligenz (Showcase)',
-      impact: 'Sichere semantische Suche und LLM-Interaktion über private Datensätze',
-      tech: 'Python, FastAPI, LangChain, ChromaDB',
-      languages: ['Python'],
-      challenge: 'Garantierte Datensicherheit: Große Unternehmensdokumente für LLMs abfragbar machen (Converse QA), ohne Kontextlängen zu sprengen.',
-      solution: 'Implementierung einer RAG-Pipeline mit asynchronem Ingestion-Prozess, Vector Embeddings und lokaler ChromaDB für superschnelle Ähnlichkeitssuche.',
-      result: 'Präzise, quellengestützte LLM-Antworten (Hallucination-free) auf Basis lokaler Dokumente.',
-      tags: ['AI', 'Backend', 'Data', 'Python'],
-      link: 'https://nexus.artjombecker.com',
-    },
-  },
-  {
     id: 'kinopolis-automation',
     title: 'Kinopolis Automation',
     short: 'Modernes Dashboard für Echtzeit-Monitoring und operative Automatisierung im Kinobetrieb.',
@@ -99,7 +81,7 @@ const PROJECTS = [
       solution: 'Apple-inspirierte UI mit klarer Struktur, Interaktion und zweisprachigem Content.',
       result: 'Recruiter-fokussiertes Portfolio mit hoher Lesbarkeit und starker Conversion.',
       tags: ['Web', 'UI/UX', 'Branding'],
-      link: 'https://nexus.artjombecker.com',
+      link: 'https://artjombecker.com',
     },
   },
   {
@@ -127,8 +109,8 @@ const PROJECTS = [
 const PROJECT_FILTERS = ['All', 'AI', 'Game Dev', 'Web', 'Team', 'UX', 'Research', 'UI/UX', 'Branding', 'Automation', 'Full-Stack']
 
 const TIMELINE = [
-  { year: '2026', de: 'Erste Hilfe Simulator - Serious Game Projekt (In Arbeit)', en: 'First Aid Simulator - Serious Game Project (In Progress)' },
   { year: '2026', de: 'Bereit fuer den naechsten Impact - gerne mit Ihrem Unternehmen.', en: 'Ready for the next impact - ideally with your company.' },
+  { year: '2026', de: 'Kinopolis Dashboard - Operative Automatisierung (Live)', en: 'Kinopolis Dashboard - Operational Automation (Live)' },
   { year: '2025', de: 'Teamleitung fuer drei Teams im Bachelor-Praktikum', en: 'Led three teams in a bachelor internship' },
   { year: '2025', de: 'ExerCube Gruppenprojekt mit Note 1,0', en: 'ExerCube group project graded 1.0' },
   { year: '2023', de: 'Start Informatik-Studium an der TU Darmstadt', en: 'Started computer science studies at TU Darmstadt' },
@@ -631,8 +613,8 @@ function App() {
 
                 <p className="contact-mail">hi@artjombecker.com</p>
                 <div className="contact-links" style={{ flexDirection: 'column', gap: '16px' }}>
-                  <a href="https://nexus.artjombecker.com" target="_blank" rel="noopener noreferrer" className="contact-link" style={{ fontSize: '16px', fontWeight: '600', color: 'var(--accent)' }} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                    nexus.artjombecker.com ↗
+                  <a href="https://artjombecker.com" target="_blank" rel="noopener noreferrer" className="contact-link" style={{ fontSize: '16px', fontWeight: '600', color: 'var(--accent)' }} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+                    artjombecker.com ↗
                   </a>
                   <div style={{ display: 'flex', gap: '24px', justifyContent: 'center' }}>
                     <a href="https://github.com/artjomartur" target="_blank" rel="noopener noreferrer" className="contact-link" aria-label="GitHub" onMouseEnter={handleHover} onMouseLeave={handleLeave}><GitHubIcon /></a>
