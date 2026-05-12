@@ -105,19 +105,19 @@ const PROJECTS = [
   {
     id: 'first-aid-simulator',
     title: 'First Aid Simulator',
-    short: 'Open-World Erste-Hilfe-Simulator (In Arbeit). Starte mit einem Fahrradunfall-Szenario und erkunde frei den Park, um in Notsituationen zu helfen.',
+    short: 'Interaktiver Erste-Hilfe-Simulator (In Arbeit) – Serious Games Projekt.',
     image: '/first_aid_simulator_hero.png',
     status: 'in-progress',
     details: {
       role: 'Developer & Concept',
       context: 'Serious Games (In Arbeit)',
-      impact: 'Lebensrettendes Wissen durch freie Exploration vermitteln',
+      impact: 'Lebensrettendes Wissen spielerisch vermitteln',
       tech: 'Unity, WebGL, C#',
       languages: ['C#'],
-      challenge: 'Eine immersive Open-World-Erfahrung schaffen, in der Spieler intuitiv auf dynamische Unfälle reagieren.',
-      solution: 'Freie Charaktersteuerung, ein packendes Fahrradunfall-Intro und spezialisierte Mechaniken wie das Anlegen von Verbänden.',
+      challenge: 'Stressige Notsituationen realistisch und lehrreich in Pixel-Art abbilden.',
+      solution: 'Kombination aus Quiz-Modulen, Rhythmus-basierten Mechaniken (CPR) und Drag-and-Drop.',
       result: 'Aktuell in der Entwicklung (Prototype phase).',
-      tags: ['Game Dev', 'Education', 'Unity', 'Open World'],
+      tags: ['Game Dev', 'Education', 'Unity'],
       link: 'https://github.com/artjomartur/FirstAidSimulator',
     },
   },
@@ -224,6 +224,7 @@ function App() {
 
   const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 4)
   const hasMoreProjects = filteredProjects.length > 4
+
 
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
   const toggleLang = () => setLang((l) => (l === 'de' ? 'en' : 'de'))
