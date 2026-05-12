@@ -134,39 +134,9 @@ const TIMELINE = [
   { year: '2023', de: 'Start Informatik-Studium an der TU Darmstadt', en: 'Started computer science studies at TU Darmstadt' },
 ]
 
-const STACK = [
-  {
-    groupDe: 'Frontend',
-    groupEn: 'Frontend',
-    items: [
-      { label: 'React', level: 92, contextDe: 'Produktive UI-Entwicklung', contextEn: 'Production UI development' },
-      { label: 'TypeScript', level: 82, contextDe: 'Typsichere Komponenten', contextEn: 'Type-safe components' },
-      { label: 'CSS', level: 88, contextDe: 'Responsive, sauberes Design', contextEn: 'Responsive, clean design' },
-    ],
-  },
-  {
-    groupDe: 'Backend & Daten',
-    groupEn: 'Backend & Data',
-    items: [
-      { label: 'Node.js', level: 78, contextDe: 'APIs und Tooling', contextEn: 'APIs and tooling' },
-      { label: 'SQL', level: 72, contextDe: 'Abfragen und Datenmodelle', contextEn: 'Queries and data models' },
-      { label: 'Python', level: 90, contextDe: 'Skripting und KI-Prototyping', contextEn: 'Scripting and AI prototyping' },
-    ],
-  },
-  {
-    groupDe: 'Informatik-Grundlagen',
-    groupEn: 'CS Foundations',
-    items: [
-      { label: 'Algorithmen', level: 84, contextDe: 'Effizienz und Problemloesung', contextEn: 'Efficiency and problem solving' },
-      { label: 'Datenstrukturen', level: 83, contextDe: 'Robuste Modellierung', contextEn: 'Robust modeling' },
-      { label: 'OOP', level: 86, contextDe: 'Wartbare Architektur', contextEn: 'Maintainable architecture' },
-    ],
-  },
-]
 
 const NAV_ITEMS = [
   { id: 'about', labelDe: 'Über mich', labelEn: 'About' },
-  { id: 'skills', labelDe: 'Skills', labelEn: 'Skills' },
   { id: 'timeline', labelDe: 'Timeline', labelEn: 'Timeline' },
   { id: 'projects', labelDe: 'Projekte', labelEn: 'Projects' },
   { id: 'cv', labelDe: 'CV', labelEn: 'CV' },
@@ -255,12 +225,6 @@ function App() {
   const visibleProjects = showAllProjects ? filteredProjects : filteredProjects.slice(0, 4)
   const hasMoreProjects = filteredProjects.length > 4
 
-  const levelLabel = (value) => {
-    if (value >= 88) return lang === 'de' ? 'Sehr stark' : 'Advanced'
-    if (value >= 78) return lang === 'de' ? 'Sehr gut' : 'Strong'
-    return lang === 'de' ? 'Solide' : 'Solid'
-  }
-
   const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
   const toggleLang = () => setLang((l) => (l === 'de' ? 'en' : 'de'))
 
@@ -290,7 +254,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    const sectionIds = ['hero', 'about', 'skills', 'timeline', 'projects', 'contact']
+    const sectionIds = ['hero', 'about', 'timeline', 'projects', 'contact']
     const sections = sectionIds
       .map((id) => document.getElementById(id))
       .filter(Boolean)
@@ -537,54 +501,6 @@ function App() {
               </motion.div>
             </section>
 
-            <section id="skills" className="section section--alt">
-              <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
-                <h2 className="section-title">Skills</h2>
-                <div className="skills-grid">
-                  {[
-                    { label: 'Sprachen', list: 'JavaScript, TypeScript, Python, Java' },
-                    { label: 'Frontend', list: 'React, HTML, CSS, Vite' },
-                    { label: 'Backend & Tools', list: 'Node.js, Git, SQL, Linux' },
-                    { label: 'Konzepte', list: 'Algorithmen, Datenstrukturen, OOP, Clean Code' },
-                  ].map((skill) => (
-                    <div key={skill.label} className="skill-group" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-                      <h3 className="skill-label">{skill.label}</h3>
-                      <p className="skill-list">{skill.list}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="stack-radar">
-                  <h3 className="section-subtitle">{lang === 'de' ? 'Tech Stack im Einsatz' : 'Tech Stack in Practice'}</h3>
-                  {STACK.map((group, groupIndex) => (
-                    <div key={group.groupDe} className="stack-group">
-                      <p className="stack-group-title">{lang === 'de' ? group.groupDe : group.groupEn}</p>
-                      {group.items.map((item, itemIndex) => (
-                        <div key={item.label} className="stack-row">
-                          <div className="stack-row-head">
-                            <span>{item.label}</span>
-                            <span className="stack-level">{levelLabel(item.level)}</span>
-                          </div>
-                          <div className="stack-bar">
-                            <motion.div
-                              className="stack-fill"
-                              initial={{ width: 0, opacity: 0.35 }}
-                              whileInView={{ width: `${item.level}%`, opacity: 1 }}
-                              viewport={{ once: true, amount: 0.5 }}
-                              transition={{
-                                duration: 0.9,
-                                delay: groupIndex * 0.08 + itemIndex * 0.08,
-                                ease: [0.2, 0.65, 0.3, 1],
-                              }}
-                            />
-                          </div>
-                          <p className="stack-context">{lang === 'de' ? item.contextDe : item.contextEn}</p>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-            </section>
 
             <section id="timeline" className="section">
               <motion.div className="section-inner" initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-100px' }}>
