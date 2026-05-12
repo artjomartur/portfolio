@@ -102,11 +102,32 @@ const PROJECTS = [
       link: 'https://nexus.artjombecker.com',
     },
   },
+  {
+    id: 'first-aid-simulator',
+    title: 'First Aid Simulator',
+    short: 'Interaktiver Erste-Hilfe-Simulator (In Arbeit) – Serious Games Projekt.',
+    image: '/first_aid_simulator_hero.png',
+    status: 'in-progress',
+    details: {
+      role: 'Developer & Concept',
+      context: 'Serious Games (In Arbeit)',
+      impact: 'Lebensrettendes Wissen spielerisch vermitteln',
+      tech: 'Unity, WebGL, C#',
+      languages: ['C#'],
+      challenge: 'Stressige Notsituationen realistisch und lehrreich in Pixel-Art abbilden.',
+      solution: 'Kombination aus Quiz-Modulen, Rhythmus-basierten Mechaniken (CPR) und Drag-and-Drop.',
+      result: 'Aktuell in der Entwicklung (Prototype phase).',
+      tags: ['Game Dev', 'Education', 'Unity'],
+      link: 'https://github.com/artjomartur/FirstAidSimulator',
+    },
+  },
 ]
+
 
 const PROJECT_FILTERS = ['All', 'AI', 'Game Dev', 'Web', 'Team', 'UX', 'Research', 'UI/UX', 'Branding', 'Automation', 'Full-Stack']
 
 const TIMELINE = [
+  { year: '2026', de: 'Erste Hilfe Simulator - Serious Game Projekt (In Arbeit)', en: 'First Aid Simulator - Serious Game Project (In Progress)' },
   { year: '2026', de: 'Bereit fuer den naechsten Impact - gerne mit Ihrem Unternehmen.', en: 'Ready for the next impact - ideally with your company.' },
   { year: '2025', de: 'Teamleitung fuer drei Teams im Bachelor-Praktikum', en: 'Led three teams in a bachelor internship' },
   { year: '2025', de: 'ExerCube Gruppenprojekt mit Note 1,0', en: 'ExerCube group project graded 1.0' },
@@ -601,6 +622,11 @@ function App() {
                   {visibleProjects.map((project) => (
                     <article key={project.id} className="project" onMouseEnter={handleHover} onMouseLeave={handleLeave}>
                       <div className="project-content">
+                        {project.status === 'in-progress' && (
+                          <div className="status-badge">
+                            {lang === 'de' ? 'In Arbeit' : 'In Progress'}
+                          </div>
+                        )}
                         <h3 className="project-title">{project.title}</h3>
                         <p className="project-desc">{project.short}</p>
                         <div className="project-actions">
