@@ -41,6 +41,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 body {
@@ -53,10 +55,22 @@ body {
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 #root {
   min-height: 100vh;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
+main {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* Custom Cursor - hide default auf Desktop */
