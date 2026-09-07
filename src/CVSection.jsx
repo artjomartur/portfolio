@@ -419,6 +419,17 @@ function CVSection({ lang = 'de', onViewPdf }) {
               <div className="cv-item" style={{ borderBottom: 0, paddingBottom: 0 }}>
                 <div style={{ paddingLeft: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
                   <EasterEggWrapper type="certificate" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: '8px' }}>
+                    <span style={{ color: 'var(--text-secondary)' }}>{lang === 'de' ? 'Bestätigung Softwareprojektmanager (TU Darmstadt)' : 'Software Project Manager Certificate (TU Darmstadt)'}</span>
+                    <button 
+                      type="button"
+                      onClick={() => onViewPdf ? onViewPdf('/Bestaetigung_Teamprojekt_TU_Darmstadt.pdf', lang === 'de' ? 'Bestätigung Softwareprojektmanager (TU Darmstadt)' : 'Software Project Manager Certificate (TU Darmstadt)') : window.open('/Bestaetigung_Teamprojekt_TU_Darmstadt.pdf', '_blank')}
+                      className="link cv-item-link"
+                      style={{ fontSize: '13px', background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: 'var(--accent)', fontWeight: 500 }}
+                    >
+                      {lang === 'de' ? 'Anzeigen ↗' : 'View ↗'}
+                    </button>
+                  </EasterEggWrapper>
+                  <EasterEggWrapper type="certificate" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '4px 8px', borderRadius: '8px' }}>
                     <span style={{ color: 'var(--text-secondary)' }}>{lang === 'de' ? 'HACCP Zertifikat (Kinopolis)' : 'HACCP Food Safety Certificate'}</span>
                     <button 
                       type="button"

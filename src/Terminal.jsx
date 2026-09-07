@@ -19,6 +19,11 @@ const VIRTUAL_FILES = {
     descDe: 'Seminararbeit: Serious Games - Games for Health (TU Darmstadt)',
     descEn: 'Seminar Paper: Serious Games - Games for Health (TU Darmstadt)'
   },
+  'teamprojekt_bestaetigung.pdf': {
+    url: '/Bestaetigung_Teamprojekt_TU_Darmstadt.pdf',
+    descDe: 'Bestätigung Softwareprojektmanager: Teamprojekt Softwareentwicklung (TU Darmstadt)',
+    descEn: 'Certificate Software Project Manager: Software Project (TU Darmstadt)'
+  },
   'serious_games_slides.pptx': {
     url: '/SG_GamesForHealth_ArtjomBecker_StefanGoebel_Slides.pptx',
     descDe: 'Präsentationsfolien: Serious Games für Gesundheit (TU Darmstadt)',

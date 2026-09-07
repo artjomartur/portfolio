@@ -16,8 +16,9 @@ export const PROJECTS = [
       languages: ['Deutsch', 'Englisch'],
       challenge: 'Drei Teams parallel bei Softwareprojekten koordinieren, fachlich anleiten und motivieren.',
       solution: 'Regelmäßige Präsentationen gehalten, technische und methodische Workshops gegeben und die Teams engmaschig an die Hand genommen.',
-      result: 'Alle Teams haben sehr erfolgreiche Projekte abgeliefert.',
+      result: 'Alle Teams haben sehr erfolgreiche Projekte abgeliefert (Bestnoten 1,0 & 1,3) mit offizieller Bestätigung als Softwareprojektmanager.',
       tags: ['Leadership', 'Mentoring', 'Management', 'Agile'],
+      pdf: '/Bestaetigung_Teamprojekt_TU_Darmstadt.pdf',
     },
   },
   {
@@ -291,12 +292,13 @@ export const TESTIMONIALS = [
     color: '#005b8c'
   },
   {
-    author: 'Bachelor-Praktikum Supervisor',
-    roleDe: 'Betreuer & Evaluator, TU Darmstadt',
-    roleEn: 'Supervisor & Evaluator, TU Darmstadt',
-    quoteDe: '„Herausragende Führungsqualität. Artjom hat die Koordination für drei verschiedene Teams hochprofessionell, zielgerichtet und einfühlsam übernommen. Jedes Teammitglied mit einer 1,0 und selbst mit einer 1,3 ist ein Erfolg.“',
-    quoteEn: '“Outstanding leadership. Artjom handled the coordination for three different teams in a highly professional, targeted, and empathetic manner.”',
-    initials: 'BP',
+    author: 'Prof. Sebastian Faust, Ph.D.',
+    roleDe: 'Studiendekan Informatik, TU Darmstadt',
+    roleEn: 'Dean of Studies, Computer Science, TU Darmstadt',
+    quoteDe: '„Im Rahmen der Betreuung des 6-monatigen Teamprojekts Softwareentwicklung hat Artjom Becker drei Projektteams mit je fünf Entwickler*Innen geleitet und Erfahrung als Softwareprojektmanager gesammelt.“ [Bestätigung öffnen ↗]',
+    quoteEn: '“Within the supervision of the 6-month Software Engineering Team Project, Artjom Becker led three project teams with five developers each and gained experience as a Software Project Manager.” [Open confirmation ↗]',
+    initials: 'TUD',
+    link: '/Bestaetigung_Teamprojekt_TU_Darmstadt.pdf',
     brand: 'tud',
     color: '#005b8c'
   },
