@@ -505,12 +505,12 @@ export default function ProjectModal() {
                       </div>
                       <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted, #cbd5e1)', lineHeight: 1.5 }}>
                         {lang === 'de'
-                          ? 'Beinhaltet Live-Tupelberechnung für alle 9 Join-Typen, Schritt-für-Schritt Entscheidungs-Wizard, KaTeX Formelkatalog und Aufgaben-Trainer.'
-                          : 'Includes real-time tuple calculation for 9 join types, step-by-step decision wizard, KaTeX formula catalog, and exam phrase trainer.'}
+                          ? '5 interaktive Web-Tools: Relationale Algebra & Join-Explorer, SQL Query Optimizer & AST, Normalisierungs-Coach, B+ Baum Playground und Transaktionen/2PL Scheduler.'
+                          : '5 interactive web tools: Relational Algebra & Join Explorer, SQL Query Optimizer & AST, Normalization Coach, B+ Tree Playground, and Transactions/2PL Scheduler.'}
                       </p>
                       <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', paddingTop: '4px' }}>
                         <a
-                          href="/lehrmaterial/relationale-algebra/"
+                          href="https://unisuite.artjombecker.com"
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -527,10 +527,10 @@ export default function ProjectModal() {
                             boxShadow: '0 4px 12px rgba(79, 70, 229, 0.35)'
                           }}
                         >
-                          ⚡ {lang === 'de' ? 'Simulator direkt öffnen ↗' : 'Launch Simulator ↗'}
+                          🚀 {lang === 'de' ? 'UniSuite direkt öffnen ↗' : 'Launch UniSuite ↗'}
                         </a>
                         <a
-                          href="/lehrmaterial/"
+                          href="https://github.com/artjomartur/uni-lehrmaterial"
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -547,7 +547,7 @@ export default function ProjectModal() {
                             textDecoration: 'none'
                           }}
                         >
-                          📚 {lang === 'de' ? 'Alle Lehrmaterialien (Sammlung) ↗' : 'All Learning Materials ↗'}
+                          💻 {lang === 'de' ? 'GitHub Repository ↗' : 'GitHub Repository ↗'}
                         </a>
                       </div>
                     </div>

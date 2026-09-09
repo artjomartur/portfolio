@@ -62,7 +62,8 @@ export const PROJECTS = [
       solution: 'Entwicklung einer erweiterbaren Plattform für interaktive Lehrmodule mit Live-Simulationen, parametrisierbaren Datensätzen, schrittweisen Optimierungsbäumen und Klausur-Trainern.',
       result: '5 vollwertige didaktische Fachmodule (Relationale Algebra, Query Optimizer & AST, Normalisierungs-Coach, B+ Baum Playground und Transaktionen/2PL) live und einsatzbereit.',
       tags: ['Education', 'Web', 'SQL', 'Algorithms', 'UI/UX', 'Research'],
-      link: 'https://github.com/artjomartur/uni-lehrmaterial',
+      link: 'https://unisuite.artjombecker.com',
+      github: 'https://github.com/artjomartur/uni-lehrmaterial',
     },
   },
   {
