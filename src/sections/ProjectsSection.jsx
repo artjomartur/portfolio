@@ -241,7 +241,7 @@ export default function ProjectsSection({
                       {t('projects.paper')}
                     </a>
                   ) : (
-                    project.details.link?.startsWith('http') && (
+                    project.details.link && (
                       <a 
                         href={project.details.link} 
                         target="_blank" 
@@ -262,6 +262,18 @@ export default function ProjectsSection({
                         ) : t('projects.live')}
                       </a>
                     )
+                  )}
+                  {project.details.overviewPage && (
+                    <a 
+                      href={project.details.overviewPage} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="link project-direct" 
+                      style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {project.id === 'uni-lehrmaterial' ? '📚 Hub ↗' : '📋 Übersicht ↗'}
+                    </a>
                   )}
                   {project.details.pdf && (
                     <button 

@@ -294,7 +294,7 @@ export default function ProjectModal() {
                       )
                     )}
 
-                    {projectToRender.type === 'project' && projectToRender.details.link && projectToRender.details.link.startsWith('http') && (
+                    {projectToRender.type === 'project' && projectToRender.details.link && (
                       <a
                         href={projectToRender.details.link}
                         target="_blank"
@@ -309,6 +309,8 @@ export default function ProjectModal() {
                       >
                         {projectToRender.details.link.includes('github.com') ? (
                           <>💻 {t('modal.viewRepo')}</>
+                        ) : projectToRender.id === 'uni-lehrmaterial' ? (
+                          <>🚀 {lang === 'de' ? 'Simulator direkt öffnen ↗' : 'Launch Simulator ↗'}</>
                         ) : (
                           <>🌐 {t('modal.viewLive')}</>
                         )}
@@ -328,7 +330,11 @@ export default function ProjectModal() {
                           textDecoration: 'none', transition: 'all 0.2s'
                         }}
                       >
-                        📋 {lang === 'de' ? 'Projektübersicht öffnen' : 'Open Project Overview'}
+                        {projectToRender.id === 'uni-lehrmaterial' ? (
+                          <>📚 {lang === 'de' ? 'Alle Lehrmaterialien (Sammlung) ↗' : 'All Learning Materials (Hub) ↗'}</>
+                        ) : (
+                          <>📋 {lang === 'de' ? 'Projektübersicht öffnen' : 'Open Project Overview'}</>
+                        )}
                       </a>
                     )}
 
@@ -471,6 +477,80 @@ export default function ProjectModal() {
                         </button>
                       </div>
                     )
+                  )}
+
+                  {projectToRender.id === 'uni-lehrmaterial' && (
+                    <div style={{
+                      marginTop: '24px',
+                      padding: '18px 20px',
+                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.12) 0%, rgba(56, 189, 248, 0.08) 100%)',
+                      border: '1px solid rgba(99, 102, 241, 0.3)',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px'
+                    }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+                        <div>
+                          <span style={{ fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#818cf8', display: 'block' }}>
+                            {lang === 'de' ? 'Interaktives Web-Tool' : 'Interactive Web Tool'}
+                          </span>
+                          <h4 style={{ margin: '2px 0 0', fontSize: '15px', fontWeight: '700', color: 'var(--text, #fff)' }}>
+                            {lang === 'de' ? 'Relationale Algebra Join-Simulator & Explorer' : 'Relational Algebra Join Simulator & Explorer'}
+                          </h4>
+                        </div>
+                        <span style={{ fontSize: '11px', background: 'rgba(16, 185, 129, 0.15)', color: '#34d399', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '2px 8px', borderRadius: '999px', fontWeight: '600' }}>
+                          ● Live App
+                        </span>
+                      </div>
+                      <p style={{ margin: 0, fontSize: '12px', color: 'var(--text-muted, #cbd5e1)', lineHeight: 1.5 }}>
+                        {lang === 'de'
+                          ? 'Beinhaltet Live-Tupelberechnung für alle 9 Join-Typen, Schritt-für-Schritt Entscheidungs-Wizard, KaTeX Formelkatalog und Aufgaben-Trainer.'
+                          : 'Includes real-time tuple calculation for 9 join types, step-by-step decision wizard, KaTeX formula catalog, and exam phrase trainer.'}
+                      </p>
+                      <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', paddingTop: '4px' }}>
+                        <a
+                          href="/lehrmaterial/relationale-algebra/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            background: '#4f46e5',
+                            color: '#fff',
+                            padding: '8px 18px',
+                            borderRadius: '8px',
+                            fontSize: '13px',
+                            fontWeight: '700',
+                            textDecoration: 'none',
+                            boxShadow: '0 4px 12px rgba(79, 70, 229, 0.35)'
+                          }}
+                        >
+                          ⚡ {lang === 'de' ? 'Simulator direkt öffnen ↗' : 'Launch Simulator ↗'}
+                        </a>
+                        <a
+                          href="/lehrmaterial/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            background: 'rgba(255, 255, 255, 0.08)',
+                            color: 'var(--text, #e2e8f0)',
+                            border: '1px solid rgba(255, 255, 255, 0.15)',
+                            padding: '8px 16px',
+                            borderRadius: '8px',
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            textDecoration: 'none'
+                          }}
+                        >
+                          📚 {lang === 'de' ? 'Alle Lehrmaterialien (Sammlung) ↗' : 'All Learning Materials ↗'}
+                        </a>
+                      </div>
+                    </div>
                   )}
 
                 </motion.div>

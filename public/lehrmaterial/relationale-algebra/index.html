@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relationale Algebra - Join Explorer & Simulator | Uni Lehrmaterial</title>
+  <meta name="description" content="Interaktiver Relationale Algebra Join-Explorer & Simulator für Informatik-Studierende. Verstehen Sie Equi-, Outer-, Semi- und Anti-Joins visuell.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- KaTeX for crisp math rendering (pure HTML/CSS output) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+  <style>
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+      height: 320px;
+      max-height: 380px;
+    }
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 350px;
+      }
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="h-full font-sans text-slate-800 antialiased flex flex-col custom-scrollbar">
+
+  <!-- Top Portfolio & Collection Navigation Banner -->
+  <div class="bg-slate-950 text-slate-400 text-xs px-4 py-2 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <a href="/" class="flex items-center gap-1.5 text-indigo-400 hover:text-white transition font-medium">
+          <span>←</span> Zurück zum Portfolio
+        </a>
+        <span class="text-slate-600">•</span>
+        <a href="/lehrmaterial/" class="text-slate-300 hover:text-white transition flex items-center gap-1">
+          <span>📚</span> Alle Lehrmaterialien (Sammlung)
+        </a>
+      </div>
+      <span class="hidden sm:inline text-slate-400">TU Darmstadt • Datenbanken &amp; Informationsmanagement</span>
+    </div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <span class="text-2xl font-black text-indigo-400 font-mono">⋈</span>
+          <div>
+            <h1 class="text-lg font-bold leading-tight">Relationale Algebra</h1>
+            <p class="text-xs text-indigo-200">Interaktiver Join-Explorer &amp; Simulator</p>
+          </div>
+        </div>
+
+        <nav class="hidden md:flex space-x-1 text-sm font-medium">
+          <button onclick="switchTab('simulator')" id="nav-simulator" class="tab-btn px-3 py-2 rounded-lg bg-indigo-800 text-white transition">Simulator</button>
+          <button onclick="switchTab('wizard')" id="nav-wizard" class="tab-btn px-3 py-2 rounded-lg hover:bg-indigo-800 text-indigo-200 hover:text-white transition">Entscheidungsbaum</button>
+          <button onclick="switchTab('catalog')" id="nav-catalog" class="tab-btn px-3 py-2 rounded-lg hover:bg-indigo-800 text-indigo-200 hover:text-white transition">Join-Katalog</button>
+          <button onclick="switchTab('prompts')" id="nav-prompts" class="tab-btn px-3 py-2 rounded-lg hover:bg-indigo-800 text-indigo-200 hover:text-white transition">Aufgaben-Trainer</button>
+          <button onclick="switchTab('quiz')" id="nav-quiz" class="tab-btn px-3 py-2 rounded-lg hover:bg-indigo-800 text-indigo-200 hover:text-white transition">Wissenstest</button>
+        </nav>
+
+        <div class="md:hidden">
+          <select id="mobile-nav" onchange="switchTab(this.value)" class="bg-indigo-800 text-white text-sm rounded-md px-3 py-1.5 focus:outline-none">
+            <option value="simulator">⚡ Join Simulator</option>
+            <option value="wizard">🌳 Entscheidungsbaum</option>
+            <option value="catalog">📚 Join-Katalog</option>
+            <option value="prompts">🎯 Aufgaben-Trainer</option>
+            <option value="quiz">📝 Wissenstest</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Body -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: SIMULATOR -->
+    <!-- =================================================================== -->
+    <section id="sec-simulator" class="tab-content space-y-6">
+      <!-- Section Explanation Banner -->
+      <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+          <span class="text-indigo-600">⚡</span> Interaktiver Join-Simulator
+        </h2>
+        <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+          Wählen Sie eine Join-Art aus, um in Echtzeit zu beobachten, wie Relationen verknüpft, gefiltert und mit NULL-Werten aufgefüllt werden. Beobachten Sie die mathematische Notation, den entsprechenden SQL-Code und das genaue Ergebnis-Schema.
+        </p>
+      </div>
+
+      <!-- Controls & Setup -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Controls Column -->
+        <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm space-y-4">
+          <h3 class="font-bold text-slate-800 border-b pb-2 text-sm uppercase tracking-wider">1. Konfiguration</h3>
+          
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Beispielszenario wählen</label>
+            <select id="sim-dataset" onchange="loadDataset(this.value)" class="w-full bg-slate-50 border border-slate-300 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <option value="univ">Universität: ProfessorIn &amp; Vorlesung</option>
+              <option value="company">Unternehmen: Mitarbeiter &amp; Abteilung</option>
+              <option value="shop">Online-Shop: Kunde &amp; Bestellung</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Join-Typ wählen</label>
+            <select id="sim-jointype" onchange="updateSimulation()" class="w-full bg-indigo-50 border border-indigo-300 font-semibold text-indigo-900 rounded-lg text-sm px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+              <option value="equi">Equi-Join (Gleichheitsverbund)</option>
+              <option value="natural">Natural Join (Natürlicher Verbund)</option>
+              <option value="theta_gt">Theta-Join (Prädikat: > / größer)</option>
+              <option value="left_outer">Left Outer Join (Linker äußerer Join)</option>
+              <option value="right_outer">Right Outer Join (Rechter äußerer Join)</option>
+              <option value="full_outer">Full Outer Join (Vollständiger äußerer Join)</option>
+              <option value="left_semi">Linker Semi-Join (R ⋉ S)</option>
+              <option value="right_semi">Rechter Semi-Join (R ⋊ S)</option>
+              <option value="anti">Anti-Semi-Join (R ▷ S)</option>
+            </select>
+          </div>
+
+          <!-- Formula & SQL Live Cards -->
+          <div class="bg-slate-900 text-slate-100 p-4 rounded-lg space-y-3 font-mono text-xs shadow-inner">
+            <div>
+              <span class="text-indigo-400 font-semibold text-[10px] uppercase block tracking-widest">Algebraischer Ausdruck</span>
+              <div id="math-expression" class="mt-1 text-sm overflow-x-auto py-1"></div>
+            </div>
+            <div class="border-t border-slate-800 pt-2">
+              <span class="text-emerald-400 font-semibold text-[10px] uppercase block tracking-widest">Äquivalentes SQL</span>
+              <div id="sql-expression" class="mt-1 text-emerald-300 whitespace-pre-wrap"></div>
+            </div>
+          </div>
+
+          <div id="sim-info-box" class="bg-indigo-50 border border-indigo-200 rounded-lg p-3 text-xs text-indigo-900 leading-relaxed">
+            <!-- Dynamic Explanation -->
+          </div>
+        </div>
+
+        <!-- Input Tables View -->
+        <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Table R -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between border-b pb-2 mb-3">
+              <h4 id="title-table-r" class="font-bold text-slate-800 text-sm">Relation R (Links)</h4>
+              <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded font-mono font-bold" id="badge-count-r">0 Tupel</span>
+            </div>
+            <div class="overflow-x-auto flex-1 custom-scrollbar">
+              <table id="table-r-display" class="w-full text-xs text-left border-collapse">
+                <!-- Dynamic Content -->
+              </table>
+            </div>
+          </div>
+
+          <!-- Table S -->
+          <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col">
+            <div class="flex items-center justify-between border-b pb-2 mb-3">
+              <h4 id="title-table-s" class="font-bold text-slate-800 text-sm">Relation S (Rechts)</h4>
+              <span class="text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-mono font-bold" id="badge-count-s">0 Tupel</span>
+            </div>
+            <div class="overflow-x-auto flex-1 custom-scrollbar">
+              <table id="table-s-display" class="w-full text-xs text-left border-collapse">
+                <!-- Dynamic Content -->
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result Table View -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div class="flex items-center justify-between border-b pb-3 mb-4">
+          <div>
+            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+              <span>🎯</span> Ergebnis-Relation
+            </h3>
+            <p class="text-xs text-slate-500">Gefilterte und zusammengeführte Tupel nach Anwenden des Joins</p>
+          </div>
+          <span id="badge-result-count" class="text-xs bg-slate-900 text-white font-mono px-3 py-1 rounded-full font-bold">
+            0 Ergebniszeilen
+          </span>
+        </div>
+
+        <div class="overflow-x-auto custom-scrollbar">
+          <table id="table-result-display" class="w-full text-xs text-left border-collapse">
+            <!-- Dynamic Result Content -->
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: ENTSCHEIDUNGSBAUM (WIZARD) -->
+    <!-- =================================================================== -->
+    <section id="sec-wizard" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+          <span class="text-indigo-600">🌳</span> Interaktiver Join-Entscheidungsbaum
+        </h2>
+        <p class="mt-1 text-sm text-slate-600 leading-relaxed">
+          Beantworten Sie die folgenden Fragen zu Ihrer Aufgabenstellung, um Schritt für Schritt exakt die Join-Art zu ermitteln, die Sie in der Relationalen Algebra benötigen.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Interactive Step Wizard -->
+        <div class="md:col-span-2 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between space-y-6">
+          <div id="wizard-step-container">
+            <!-- Step content dynamically injected -->
+          </div>
+
+          <div class="flex justify-between items-center border-t pt-4">
+            <button id="wiz-prev-btn" onclick="wizardPrevStep()" class="text-xs font-semibold px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 transition disabled:opacity-40 disabled:cursor-not-allowed">
+              ← Zurück
+            </button>
+            <span id="wiz-step-indicator" class="text-xs font-bold text-slate-400 font-mono">Schritt 1 von 3</span>
+            <button onclick="wizardReset()" class="text-xs font-semibold px-3 py-2 text-indigo-600 hover:text-indigo-800 transition">
+              🔄 Neustart
+            </button>
+          </div>
+        </div>
+
+        <!-- Wizard Recommendation Output -->
+        <div class="bg-indigo-900 text-white p-6 rounded-xl shadow-md flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-indigo-300">Empfohlener Join</span>
+            <h3 id="wiz-result-title" class="text-xl font-black mt-2 text-white">Noch offen...</h3>
+            <div id="wiz-result-symbol" class="my-4 py-3 bg-indigo-950/60 rounded-lg text-center font-mono text-2xl text-indigo-300 border border-indigo-700/50">
+              ?
+            </div>
+            <p id="wiz-result-desc" class="text-xs text-indigo-100 leading-relaxed">
+              Klicken Sie sich links durch die Fragen, um den am besten passenden Join zu finden.
+            </p>
+          </div>
+
+          <div class="mt-6 border-t border-indigo-800/80 pt-4">
+            <button id="wiz-apply-sim-btn" onclick="applyWizardToSim()" disabled class="w-full py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-900 font-bold text-xs rounded-lg transition disabled:opacity-40 disabled:cursor-not-allowed text-white">
+              Im Simulator ausprobieren →
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 3: CATALOG & REFERENCE -->
+    <!-- =================================================================== -->
+    <section id="sec-catalog" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <span class="text-indigo-600">📚</span> Vollständiger Join-Katalog
+          </h2>
+          <p class="mt-1 text-sm text-slate-600">
+            Systematische Übersicht aller Operatorsymbole, formaler Äquivalenzen und Anwendungsfälle.
+          </p>
+        </div>
+
+        <!-- Category Filter Buttons -->
+        <div class="flex flex-wrap gap-1 bg-slate-100 p-1 rounded-lg text-xs font-medium">
+          <button onclick="filterCatalog('all', event)" class="cat-filter-btn px-3 py-1.5 rounded-md bg-white shadow-sm text-slate-800 font-semibold">Alle (9)</button>
+          <button onclick="filterCatalog('inner', event)" class="cat-filter-btn px-3 py-1.5 rounded-md hover:text-slate-800 text-slate-600">Inner Joins</button>
+          <button onclick="filterCatalog('outer', event)" class="cat-filter-btn px-3 py-1.5 rounded-md hover:text-slate-800 text-slate-600">Outer Joins</button>
+          <button onclick="filterCatalog('semi', event)" class="cat-filter-btn px-3 py-1.5 rounded-md hover:text-slate-800 text-slate-600">Semi &amp; Anti</button>
+        </div>
+      </div>
+
+      <!-- Grid of Join Cards -->
+      <div id="catalog-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Injected via Javascript -->
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 4: EXAM PROMPT PHRASE FINDER -->
+    <!-- =================================================================== -->
+    <section id="sec-prompts" class="tab-content hidden space-y-6">
+      <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+        <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+          <span class="text-indigo-600">🎯</span> Aufgabentext $\rightarrow$ Join-Wahl Trainer
+        </h2>
+        <p class="mt-1 text-sm text-slate-600">
+          In Prüfungs- und Übungsaufgaben signalisieren bestimmte Formulierungen direkt, welcher Join benötigt wird. Nutzen Sie das Suchfeld, um Schlüsselwörter abzugleichen.
+        </p>
+
+        <div class="mt-4">
+          <input type="text" id="prompt-search" oninput="renderPrompts()" placeholder="Suchen nach z.B. 'alle ohne', 'mindestens ein', 'auch solche'..." class="w-full bg-slate-50 border border-slate-300 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+        </div>
+      </div>
+
+      <div id="prompts-list-container" class="space-y-4">
+        <!-- Dynamic Prompt Cards Injected Here -->
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 5: QUIZ & ANALYTICS -->
+    <!-- =================================================================== -->
+    <section id="sec-quiz" class="tab-content hidden space-y-6">
+      <!-- Chart section for tuple scalability comparison -->
+      <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm">
+        <div class="mb-4">
+          <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span>📊</span> Datenmengen-Analyse: Zeilenanzahl im Vergleich
+          </h3>
+          <p class="text-xs text-slate-600 mt-1">
+            Visualisierung der resultierenden Tupelanzahl je nach Verbundart auf Basis der aktuellen Beispieldaten.
+          </p>
+        </div>
+        <div class="chart-container">
+          <canvas id="tupleChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Quiz Component -->
+      <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b pb-4">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">📝 Interaktiver Wissenstest</h3>
+            <p class="text-xs text-slate-500">Testen Sie Ihr Verständnis zu Relationalen Verknüpfungen</p>
+          </div>
+          <span id="quiz-score" class="text-xs font-bold font-mono bg-indigo-100 text-indigo-900 px-3 py-1 rounded-full">
+            Punkte: 0 / 0
+          </span>
+        </div>
+
+        <div id="quiz-container" class="space-y-6">
+          <!-- Quiz questions injected dynamically -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-8 mt-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+      <p class="font-semibold text-slate-300">Relationale Algebra Join-Explorer &amp; Simulator</p>
+      <p class="text-slate-400">Entwickelt von <a href="/" class="text-indigo-400 hover:underline font-medium">Artjom Becker</a> • TU Darmstadt • Lehrmaterial Datenbanken</p>
+      <div class="flex justify-center gap-4 pt-2">
+        <a href="/lehrmaterial/" class="text-indigo-300 hover:text-white transition">📚 Alle Lehrmaterialien</a>
+        <span class="text-slate-700">•</span>
+        <a href="/" class="text-indigo-300 hover:text-white transition">🏠 Portfolio Startseite</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =================================================================== -->
+  <!-- JAVASCRIPT LOGIC -->
+  <!-- =================================================================== -->
+  <script>
+    // ------------------------------------------------------------------
+    // DATASETS FOR SIMULATOR
+    // ------------------------------------------------------------------
+    const DATASETS = {
+      univ: {
+        rName: "ProfessorIn",
+        rAttrs: ["PersNr", "Name", "Rang"],
+        rData: [
+          { PersNr: 2125, Name: "Sokrates", Rang: "C4" },
+          { PersNr: 2126, Name: "Russel", Rang: "C4" },
+          { PersNr: 2127, Name: "Kopernikus", Rang: "C3" },
+          { PersNr: 2137, Name: "Kant", Rang: "C4" }
+        ],
+        sName: "Vorlesung",
+        sAttrs: ["VorlNr", "Titel", "gelesenVon"],
+        sData: [
+          { VorlNr: 5001, Titel: "Grundzüge", gelesenVon: 2125 },
+          { VorlNr: 5041, Titel: "Ethik", gelesenVon: 2125 },
+          { VorlNr: 5043, Titel: "Erkenntnistheorie", gelesenVon: 2126 },
+          { VorlNr: 5216, Titel: "Bioethik", gelesenVon: 9999 } // 9999 is unknown professor
+        ],
+        matchCond: (r, s) => r.PersNr === s.gelesenVon,
+        thetaCond: (r, s) => r.PersNr < s.gelesenVon,
+        thetaCondText: "PersNr < gelesenVon",
+        equiColsR: "PersNr",
+        equiColsS: "gelesenVon"
+      },
+      company: {
+        rName: "Mitarbeiter",
+        rAttrs: ["EmpID", "Name", "AbtID"],
+        rData: [
+          { EmpID: 101, Name: "Anna Schmidt", AbtID: 10 },
+          { EmpID: 102, Name: "Bernd Meier", AbtID: 20 },
+          { EmpID: 103, Name: "Carla Weber", AbtID: 10 },
+          { EmpID: 104, Name: "David Schulz", AbtID: 99 } // 99 no Abt
+        ],
+        sName: "Abteilung",
+        sAttrs: ["AbtID", "AbtName"],
+        sData: [
+          { AbtID: 10, AbtName: "IT & Tech" },
+          { AbtID: 20, AbtName: "Marketing" },
+          { AbtID: 30, AbtName: "Vertrieb" } // 30 no Emp
+        ],
+        matchCond: (r, s) => r.AbtID === s.AbtID,
+        thetaCond: (r, s) => r.AbtID > s.AbtID,
+        thetaCondText: "Mitarbeiter.AbtID > Abteilung.AbtID",
+        equiColsR: "AbtID",
+        equiColsS: "AbtID"
+      },
+      shop: {
+        rName: "Kunde",
+        rAttrs: ["Knr", "Name", "Stadt"],
+        rData: [
+          { Knr: 1, Name: "Alice", Stadt: "Berlin" },
+          { Knr: 2, Name: "Bob", Stadt: "München" },
+          { Knr: 3, Name: "Charlie", Stadt: "Hamburg" }
+        ],
+        sName: "Bestellung",
+        sAttrs: ["BestNr", "Knr", "Betrag"],
+        sData: [
+          { BestNr: 901, Knr: 1, Betrag: "120 €" },
+          { BestNr: 902, Knr: 1, Betrag: "45 €" },
+          { BestNr: 903, Knr: 4, Betrag: "300 €" } // Knr 4 unknown
+        ],
+        matchCond: (r, s) => r.Knr === s.Knr,
+        thetaCond: (r, s) => r.Knr < s.Knr,
+        thetaCondText: "Kunde.Knr < Bestellung.Knr",
+        equiColsR: "Knr",
+        equiColsS: "Knr"
+      }
+    };
+
+    // Catalog Data
+    const CATALOG_DATA = [
+      {
+        id: "theta",
+        name: "Theta-Join (Allgemeiner Join)",
+        category: "inner",
+        symbol: "R ⋈_θ S",
+        latex: "R \\bowtie_\\theta S \\equiv \\sigma_\\theta(R \\times S)",
+        desc: "Kartesisches Produkt zweier Relationen, gefiltert nach einer beliebigen Prädikatsbedingung θ (=, <, >, ≤, ≥, ≠). Alle Spalten beider Tabellen bleiben erhalten.",
+        sql: "SELECT * FROM R JOIN S ON θ;",
+        usecase: "Intervall- & Ungleichheitsvergleiche (z.B. Gehalt in Gehaltsspanne einordnen)."
+      },
+      {
+        id: "equi",
+        name: "Equi-Join (Gleichheitsverbund)",
+        category: "inner",
+        symbol: "R ⋈_{R.A = S.B} S",
+        latex: "R \\bowtie_{R.A = S.B} S \\equiv \\sigma_{R.A = S.B}(R \\times S)",
+        desc: "Spezialfall des Theta-Joins, bei dem das Verknüpfungsprädikat ausschließlich aus Gleichheitsvergleichen (=) besteht.",
+        sql: "SELECT * FROM R JOIN S ON R.A = S.B;",
+        usecase: "Klassische Fremdschlüssel-Navigation (z.B. Kunde mit Bestellung verbinden)."
+      },
+      {
+        id: "natural",
+        name: "Natürlicher Join (Natural Join)",
+        category: "inner",
+        symbol: "R ⋈ S",
+        latex: "R \\bowtie S \\equiv \\pi_{Attrs}(\\sigma_{R.A = S.A}(R \\times S))",
+        desc: "Equi-Join über alle exakt gleichnamigen Attribute zweier Relationen. Doppelte Spalten werden im Ergebnis automatisch eliminiert.",
+        sql: "SELECT * FROM R NATURAL JOIN S;",
+        usecase: "Kompakte Verknüpfung bei identischer Benennung von Primär- und Fremdschlüssel."
+      },
+      {
+        id: "left_outer",
+        name: "Linker Äußerer Join (Left Outer)",
+        category: "outer",
+        symbol: "R ⟕ S",
+        latex: "R \\mathbin{\\sqsubset\\mkern-6mu\\bowtie} S",
+        desc: "Erhält ALLE Datensätze der linken Relation R. Hat ein Tupel aus R keinen Partner in S, werden die Attribute von S mit NULL aufgefüllt.",
+        sql: "SELECT * FROM R LEFT JOIN S ON R.A = S.B;",
+        usecase: "Vollständige Berichte (z.B. Alle Kunden mit Bestellungen – auch Kunden ohne Käufe)."
+      },
+      {
+        id: "right_outer",
+        name: "Rechter Äußerer Join (Right Outer)",
+        category: "outer",
+        symbol: "R ⟖ S",
+        latex: "R \\mathbin{\\bowtie\\mkern-6mu\\sqsupset} S",
+        desc: "Spiegelbild des Left Outer Joins: Erhält ALLE Datensätze der rechten Relation S. Partnerlose Attribute aus R werden mit NULL ergänzt.",
+        sql: "SELECT * FROM R RIGHT JOIN S ON R.A = S.B;",
+        usecase: "Schutz der rechten Relation vor Informationsverlust."
+      },
+      {
+        id: "full_outer",
+        name: "Vollständiger Äußerer Join (Full Outer)",
+        category: "outer",
+        symbol: "R ⟗ S",
+        latex: "R \\mathbin{\\sqsubset\\mkern-6mu\\bowtie\\mkern-6mu\\sqsupset} S",
+        desc: "Kombination aus Left und Right Outer Join: Kein Datensatz aus R oder S geht verloren; unbelegte Seiten werden jeweils mit NULL aufgefüllt.",
+        sql: "SELECT * FROM R FULL OUTER JOIN S ON R.A = S.B;",
+        usecase: "Vollständiger Datenabgleich zweier unvollständiger Systeme (z.B. Rechnungen & Überweisungen)."
+      },
+      {
+        id: "left_semi",
+        name: "Linker Semi-Join",
+        category: "semi",
+        symbol: "R ⋉ S",
+        latex: "R \\ltimes S \\equiv \\pi_{Attrs(R)}(R \\bowtie S)",
+        desc: "Filtert R: Behält nur Tupel aus R, die mindestens einen Partner in S besitzen. Es erscheinen KEINE Spalten aus S im Ergebnis.",
+        sql: "SELECT * FROM R WHERE EXISTS (SELECT 1 FROM S WHERE R.A = S.B);",
+        usecase: "Reine Existenzprüfung ohne Duplizierung von Zeilen aus R bei Mehrfachtreffern."
+      },
+      {
+        id: "right_semi",
+        name: "Rechter Semi-Join",
+        category: "semi",
+        symbol: "R ⋊ S",
+        latex: "R \\rtimes S \\equiv \\pi_{Attrs(S)}(R \\bowtie S)",
+        desc: "Filtert S: Behält nur Tupel aus S, die mindestens einen Partner in R besitzen. Keine Attribute aus R enthalten.",
+        sql: "SELECT * FROM S WHERE EXISTS (SELECT 1 FROM R WHERE R.A = S.B);",
+        usecase: "Filterung der Zielrelation S auf Basis der Existenz von Datensätzen in R."
+      },
+      {
+        id: "anti",
+        name: "Anti-Semi-Join (Anti-Join)",
+        category: "semi",
+        symbol: "R ▷ S",
+        latex: "R \\triangleright S \\equiv R - (R \\ltimes S)",
+        desc: "Gibt nur diejenigen Tupel aus R zurück, die KEINEN einzigen Join-Partner in S finden (Negation/NOT EXISTS).",
+        sql: "SELECT * FROM R WHERE NOT EXISTS (SELECT 1 FROM S WHERE R.A = S.B);",
+        usecase: "Inaktivität oder verwaiste Einträge finden (z.B. Kunden, die noch nie bestellt haben)."
+      }
+    ];
+
+    // Prompts / Exam match data
+    const PROMPT_DATA = [
+      {
+        phrase: "„...zusammen mit den Daten von...“ / „...zugeordnet zu...“",
+        join: "Equi-Join oder Natural Join",
+        symbol: "R ⋈_{A=B} S",
+        desc: "Es werden Attribute aus beiden Tabellen im Ergebnis benötigt und nur Treffer interessieren.",
+        example: "Geben Sie alle Studenten zusammen mit ihren bestandenen Prüfungen aus."
+      },
+      {
+        phrase: "„...die mindestens ein ... besitzen / zu denen ein ... existiert“",
+        join: "Linker Semi-Join",
+        symbol: "R ⋉ S",
+        desc: "Filtert die Haupttabelle. Nur Spalten der ersten Tabelle werden verlangt.",
+        example: "Liste aller Professoren, die mindestens eine Vorlesung halten."
+      },
+      {
+        phrase: "„...die KEIN ... besitzen“ / „...ohne jegliche Zuordnung“ / „...nie...“",
+        join: "Anti-Semi-Join (Anti-Join)",
+        symbol: "R ▷ S",
+        desc: "Findet Datensätze ohne Entsprechung in der zweiten Relation.",
+        example: "Welche Kund:innen haben noch nie eine Bestellung getätigt?"
+      },
+      {
+        phrase: "„...auch solche ohne Zuordnung...“ / „...alle X, unabhängig davon, ob...“",
+        join: "Left Outer Join",
+        symbol: "R ⟕ S",
+        desc: "Informationsverlust verhindern; fehlende Attribute werden mit NULL aufgefüllt.",
+        example: "Liste aller Lehrveranstaltungen samt Räumen (auch Veranstaltungen ohne Raum)."
+      },
+      {
+        phrase: "„...alle X und alle Y, auch wenn gegenseitige Zuordnungen fehlen...“",
+        join: "Full Outer Join",
+        symbol: "R ⟗ S",
+        desc: "Lückenloser Abgleich beider Seiten.",
+        example: "Sämtliche Rechnungen und Banküberweisungen abgleichen."
+      }
+    ];
+
+    // Quiz Questions Data
+    const QUIZ_QUESTIONS = [
+      {
+        q: "Welches Attribut-Set besitzt das Ergebnis eines Linken Semi-Joins (R ⋉ S)?",
+        options: [
+          "A) Alle Attribute aus R und S",
+          "B) Nur die Attribute aus R",
+          "C) Nur die Attribute aus S",
+          "D) Nur die gemeinsam genutzten Verknüpfungsattribute"
+        ],
+        correct: 1,
+        explain: "Richtig! Ein Semi-Join dient als reiner Filter für R. Es werden ausschließlich die Attribute der linken Relation R zurückgegeben."
+      },
+      {
+        q: "Ein Professor hält 3 Vorlesungen. Was passiert beim regulären Equi-Join vs. Semi-Join?",
+        options: [
+          "A) Beide Joins liefern den Professor 3-mal.",
+          "B) Der Equi-Join liefert ihn 3-mal; der Semi-Join garantiert nur 1-mal.",
+          "C) Der Semi-Join liefert ihn 3-mal, der Equi-Join 1-mal.",
+          "D) Der Semi-Join filtert den Professor komplett heraus."
+        ],
+        correct: 1,
+        explain: "Richtig! Der Equi-Join verknüpft mit jedem Treffer in Vorlesung (3 Zeilen). Der Semi-Join prüft nur die Existenz und verhindert Duplikation (1 Zeile)."
+      },
+      {
+        q: "Welche mathematische Äquivalenz beschreibt den Anti-Semi-Join (R ▷ S)?",
+        options: [
+          "A) R ∪ (R ⋉ S)",
+          "B) R - (R ⋉ S)",
+          "C) (R × S) - (R ⋈ S)",
+          "D) R ∩ S"
+        ],
+        correct: 1,
+        explain: "Richtig! Der Anti-Join ist die Menge aller R-Tupel minus denjenigen R-Tupeln, die einen Join-Partner in S besitzen: R - (R ⋉ S)."
+      },
+      {
+        q: "Sie wollen verwaiste Datensätze (z. B. Kunden ohne jede Bestellung) finden. Welcher Join eignet sich?",
+        options: [
+          "A) Equi-Join",
+          "B) Natural Join",
+          "C) Anti-Semi-Join",
+          "D) Rechter Semi-Join"
+        ],
+        correct: 2,
+        explain: "Richtig! Der Anti-Join (R ▷ S) gibt genau die Einträge aus R aus, die keine Entsprechung in S haben."
+      }
+    ];
+
+    // Global App State
+    let currentDatasetKey = "univ";
+    let tupleChartInstance = null;
+    let quizUserAnswers = {};
+
+    // ------------------------------------------------------------------
+    // TAB SWITCHING
+    // ------------------------------------------------------------------
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      const activeSec = document.getElementById(`sec-${tabId}`);
+      if(activeSec) activeSec.classList.remove('hidden');
+
+      // Style Desktop buttons
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-800', 'text-white');
+        btn.classList.add('hover:bg-indigo-800', 'text-indigo-200');
+      });
+      const activeNav = document.getElementById(`nav-${tabId}`);
+      if(activeNav) {
+        activeNav.classList.add('bg-indigo-800', 'text-white');
+        activeNav.classList.remove('text-indigo-200');
+      }
+
+      // Sync mobile dropdown
+      const mobileNav = document.getElementById('mobile-nav');
+      if(mobileNav) mobileNav.value = tabId;
+
+      if (tabId === 'quiz') {
+        renderChart();
+      }
+    }
+
+    // ------------------------------------------------------------------
+    // SIMULATOR LOGIC
+    // ------------------------------------------------------------------
+    function loadDataset(key) {
+      currentDatasetKey = key;
+      updateSimulation();
+    }
+
+    function updateSimulation() {
+      const ds = DATASETS[currentDatasetKey];
+      const joinType = document.getElementById('sim-jointype').value;
+
+      document.getElementById('title-table-r').innerText = `Relation R: ${ds.rName}`;
+      document.getElementById('title-table-s').innerText = `Relation S: ${ds.sName}`;
+      document.getElementById('badge-count-r').innerText = `${ds.rData.length} Tupel`;
+      document.getElementById('badge-count-s').innerText = `${ds.sData.length} Tupel`;
+
+      // Render Table R
+      renderTable('table-r-display', ds.rAttrs, ds.rData);
+      // Render Table S
+      renderTable('table-s-display', ds.sAttrs, ds.sData);
+
+      // Compute Result & Info
+      const { resAttrs, resData, mathStr, sqlStr, explanation } = computeJoinResult(ds, joinType);
+
+      // Render Output
+      renderMathExpression('math-expression', mathStr);
+      document.getElementById('sql-expression').innerText = sqlStr;
+      document.getElementById('sim-info-box').innerHTML = explanation;
+      document.getElementById('badge-result-count').innerText = `${resData.length} Ergebniszeile(n)`;
+
+      renderTable('table-result-display', resAttrs, resData, true);
+
+      // Update Chart if active
+      if (!document.getElementById('sec-quiz').classList.contains('hidden')) {
+        renderChart();
+      }
+    }
+
+    function renderTable(elementId, attrs, rows, isResult = false) {
+      const table = document.getElementById(elementId);
+      let html = `<thead><tr class="bg-slate-100 border-b border-slate-200 text-slate-700">`;
+      attrs.forEach(a => {
+        html += `<th class="p-2 font-semibold">${a}</th>`;
+      });
+      html += `</tr></thead><tbody class="divide-y divide-slate-100">`;
+
+      if (rows.length === 0) {
+        html += `<tr><td colspan="${attrs.length}" class="p-3 text-center text-slate-400 italic">Keine Tupel / Leere Menge</td></tr>`;
+      } else {
+        rows.forEach(r => {
+          html += `<tr class="hover:bg-slate-50 transition">`;
+          attrs.forEach(a => {
+            const val = r[a];
+            const isNull = val === "NULL" || val === null || val === undefined;
+            const displayVal = isNull ? `<span class="bg-rose-100 text-rose-700 px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">NULL</span>` : val;
+            html += `<td class="p-2">${displayVal}</td>`;
+          });
+          html += `</tr>`;
+        });
+      }
+      html += `</tbody>`;
+      table.innerHTML = html;
+    }
+
+    function computeJoinResult(ds, joinType) {
+      let resAttrs = [];
+      let resData = [];
+      let mathStr = "";
+      let sqlStr = "";
+      let explanation = "";
+
+      const R = ds.rData;
+      const S = ds.sData;
+
+      switch (joinType) {
+        case 'equi':
+          mathStr = `${ds.rName} \\bowtie_{${ds.rName}.${ds.equiColsR} = ${ds.sName}.${ds.equiColsS}} ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName}\nJOIN ${ds.sName} ON ${ds.rName}.${ds.equiColsR} = ${ds.sName}.${ds.equiColsS};`;
+          explanation = `<b>Equi-Join:</b> Verknüpft Tupel aus <i>${ds.rName}</i> und <i>${ds.sName}</i> bei exakter Gleichheit von <code>${ds.equiColsR}</code>. Nur passende Paare verbleiben im Ergebnis.`;
+          
+          resAttrs = [...ds.rAttrs, ...ds.sAttrs];
+          R.forEach(r => {
+            S.forEach(s => {
+              if (ds.matchCond(r, s)) {
+                resData.push({ ...r, ...s });
+              }
+            });
+          });
+          break;
+
+        case 'natural':
+          mathStr = `${ds.rName} \\bowtie ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName}\nNATURAL JOIN ${ds.sName};`;
+          explanation = `<b>Natural Join:</b> Verknüpft automatisch über gleichnamige Attribute. Doppelte Schlüsselspalten werden eliminiert.`;
+          
+          const common = ds.rAttrs.filter(a => ds.sAttrs.includes(a));
+          const sUnique = ds.sAttrs.filter(a => !ds.rAttrs.includes(a));
+          resAttrs = [...ds.rAttrs, ...sUnique];
+
+          R.forEach(r => {
+            S.forEach(s => {
+              let match = true;
+              common.forEach(c => {
+                if (r[c] !== s[c]) match = false;
+              });
+              if (match) {
+                let merged = { ...r };
+                sUnique.forEach(u => merged[u] = s[u]);
+                resData.push(merged);
+              }
+            });
+          });
+          break;
+
+        case 'theta_gt':
+          mathStr = `${ds.rName} \\bowtie_{${ds.thetaCondText}} ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName}\nJOIN ${ds.sName} ON ${ds.thetaCondText};`;
+          explanation = `<b>Theta-Join:</b> Vergleicht Tupel anhand der Bedingung <code>${ds.thetaCondText}</code>. Ist kein Gleichheitsverbund!`;
+          
+          resAttrs = [...ds.rAttrs, ...ds.sAttrs];
+          R.forEach(r => {
+            S.forEach(s => {
+              if (ds.thetaCond(r, s)) {
+                resData.push({ ...r, ...s });
+              }
+            });
+          });
+          break;
+
+        case 'left_outer':
+          mathStr = `${ds.rName} \\mathbin{\\sqsubset\\mkern-6mu\\bowtie} ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName}\nLEFT JOIN ${ds.sName} ON ${ds.rName}.${ds.equiColsR} = ${ds.sName}.${ds.equiColsS};`;
+          explanation = `<b>Left Outer Join:</b> Behält ALLE Tupel aus <i>${ds.rName}</i>. Wenn kein Partner in <i>${ds.sName}</i> existiert, werden die Attribute aus <i>${ds.sName}</i> mit <b>NULL</b> aufgefüllt.`;
+          
+          resAttrs = [...ds.rAttrs, ...ds.sAttrs];
+          R.forEach(r => {
+            let matched = false;
+            S.forEach(s => {
+              if (ds.matchCond(r, s)) {
+                resData.push({ ...r, ...s });
+                matched = true;
+              }
+            });
+            if (!matched) {
+              let nullS = {};
+              ds.sAttrs.forEach(a => nullS[a] = "NULL");
+              resData.push({ ...r, ...nullS });
+            }
+          });
+          break;
+
+        case 'right_outer':
+          mathStr = `${ds.rName} \\mathbin{\\bowtie\\mkern-6mu\\sqsupset} ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName}\nRIGHT JOIN ${ds.sName} ON ${ds.rName}.${ds.equiColsR} = ${ds.sName}.${ds.equiColsS};`;
+          explanation = `<b>Right Outer Join:</b> Behält ALLE Tupel aus <i>${ds.sName}</i>. Partnerlose Attribute aus <i>${ds.rName}</i> werden mit <b>NULL</b> ergänzt.`;
+          
+          resAttrs = [...ds.rAttrs, ...ds.sAttrs];
+          S.forEach(s => {
+            let matched = false;
+            R.forEach(r => {
+              if (ds.matchCond(r, s)) {
+                resData.push({ ...r, ...s });
+                matched = true;
+              }
+            });
+            if (!matched) {
+              let nullR = {};
+              ds.rAttrs.forEach(a => nullR[a] = "NULL");
+              resData.push({ ...nullR, ...s });
+            }
+          });
+          break;
+
+        case 'full_outer':
+          mathStr = `${ds.rName} \\mathbin{\\sqsubset\\mkern-6mu\\bowtie\\mkern-6mu\\sqsupset} ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName}\nFULL OUTER JOIN ${ds.sName} ON ${ds.rName}.${ds.equiColsR} = ${ds.sName}.${ds.equiColsS};`;
+          explanation = `<b>Full Outer Join:</b> Vereinigungsmenge aus Left und Right Outer Join. Verhindert Informationsverlust auf beiden Seiten.`;
+          
+          resAttrs = [...ds.rAttrs, ...ds.sAttrs];
+          let matchedR = new Set();
+          let matchedS = new Set();
+
+          R.forEach((r, idxR) => {
+            S.forEach((s, idxS) => {
+              if (ds.matchCond(r, s)) {
+                resData.push({ ...r, ...s });
+                matchedR.add(idxR);
+                matchedS.add(idxS);
+              }
+            });
+          });
+
+          R.forEach((r, idxR) => {
+            if (!matchedR.has(idxR)) {
+              let nullS = {};
+              ds.sAttrs.forEach(a => nullS[a] = "NULL");
+              resData.push({ ...r, ...nullS });
+            }
+          });
+
+          S.forEach((s, idxS) => {
+            if (!matchedS.has(idxS)) {
+              let nullR = {};
+              ds.rAttrs.forEach(a => nullR[a] = "NULL");
+              resData.push({ ...nullR, ...s });
+            }
+          });
+          break;
+
+        case 'left_semi':
+          mathStr = `${ds.rName} \\ltimes ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName} r\nWHERE EXISTS (\n  SELECT 1 FROM ${ds.sName} s\n  WHERE r.${ds.equiColsR} = s.${ds.equiColsS}\n);`;
+          explanation = `<b>Linker Semi-Join:</b> Filtert <i>${ds.rName}</i>. Gibt nur diejenigen Tupel aus <i>${ds.rName}</i> zurück, die mindestens einen Partner haben. Attribute aus <i>${ds.sName}</i> erscheinen nicht!`;
+          
+          resAttrs = [...ds.rAttrs];
+          R.forEach(r => {
+            const hasPartner = S.some(s => ds.matchCond(r, s));
+            if (hasPartner) {
+              resData.push({ ...r });
+            }
+          });
+          break;
+
+        case 'right_semi':
+          mathStr = `${ds.rName} \\rtimes ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.sName} s\nWHERE EXISTS (\n  SELECT 1 FROM ${ds.rName} r\n  WHERE r.${ds.equiColsR} = s.${ds.equiColsS}\n);`;
+          explanation = `<b>Rechter Semi-Join:</b> Filtert <i>${ds.sName}</i>. Behält nur diejenigen Zeilen aus <i>${ds.sName}</i>, die in <i>${ds.rName}</i> vorkommen.`;
+          
+          resAttrs = [...ds.sAttrs];
+          S.forEach(s => {
+            const hasPartner = R.some(r => ds.matchCond(r, s));
+            if (hasPartner) {
+              resData.push({ ...s });
+            }
+          });
+          break;
+
+        case 'anti':
+          mathStr = `${ds.rName} \\triangleright ${ds.sName}`;
+          sqlStr = `SELECT *\nFROM ${ds.rName} r\nWHERE NOT EXISTS (\n  SELECT 1 FROM ${ds.sName} s\n  WHERE r.${ds.equiColsR} = s.${ds.equiColsS}\n);`;
+          explanation = `<b>Anti-Semi-Join:</b> Findet verwaiste/inaktive Datensätze. Gibt nur Tupel aus <i>${ds.rName}</i> zurück, die <b>KEINEN</b> Partner in <i>${ds.sName}</i> besitzen.`;
+          
+          resAttrs = [...ds.rAttrs];
+          R.forEach(r => {
+            const hasPartner = S.some(s => ds.matchCond(r, s));
+            if (!hasPartner) {
+              resData.push({ ...r });
+            }
+          });
+          break;
+      }
+
+      return { resAttrs, resData, mathStr, sqlStr, explanation };
+    }
+
+    function renderMathExpression(containerId, latexStr) {
+      const el = document.getElementById(containerId);
+      if(!el) return;
+      try {
+        katex.render(latexStr, el, { throwOnError: false, displayMode: true });
+      } catch (e) {
+        el.innerText = latexStr;
+      }
+    }
+
+    // ------------------------------------------------------------------
+    // WIZARD / DECISION TREE LOGIC
+    // ------------------------------------------------------------------
+    let wizStep = 1;
+    let wizAnswers = {};
+
+    function renderWizardStep() {
+      const container = document.getElementById('wizard-step-container');
+      const stepIndicator = document.getElementById('wiz-step-indicator');
+      const prevBtn = document.getElementById('wiz-prev-btn');
+
+      if (!container || !stepIndicator || !prevBtn) return;
+
+      prevBtn.disabled = wizStep === 1;
+      stepIndicator.innerText = `Schritt ${wizStep} von 3`;
+
+      if (wizStep === 1) {
+        container.innerHTML = `
+          <h3 class="text-base font-bold text-slate-900 mb-2">Frage 1: Benötigen Sie Spalten aus BEIDEN Tabellen im Ergebnis?</h3>
+          <p class="text-xs text-slate-600 mb-4">Müssen im Endergebnis Attribute aus sowohl Relation R als auch Relation S angezeigt werden?</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <button onclick="answerWiz(1, 'both')" class="p-4 border-2 ${wizAnswers[1]==='both'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+              <span class="block font-bold text-sm text-slate-800">JA (Spalten beider Seiten)</span>
+              <span class="block text-xs text-slate-500 mt-1">z.B. Kunde mit Bestellwert zusammen auflisten.</span>
+            </button>
+            <button onclick="answerWiz(1, 'single')" class="p-4 border-2 ${wizAnswers[1]==='single'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+              <span class="block font-bold text-sm text-slate-800">NEIN (Nur eine Seite / Filterung)</span>
+              <span class="block text-xs text-slate-500 mt-1">z.B. Nur Kundenliste filtern ohne Bestelldaten.</span>
+            </button>
+          </div>
+        `;
+      } else if (wizStep === 2) {
+        if (wizAnswers[1] === 'both') {
+          container.innerHTML = `
+            <h3 class="text-base font-bold text-slate-900 mb-2">Frage 2: Sollen Datensätze OHNE Partner erhalten bleiben?</h3>
+            <p class="text-xs text-slate-600 mb-4">Was passiert mit Zeilen, die auf der Gegenseite keinen Verknüpfungspartner haben?</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerWiz(2, 'no_drop')" class="p-4 border-2 ${wizAnswers[2]==='no_drop'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">NEIN (Verwerfen)</span>
+                <span class="block text-xs text-slate-500 mt-1">Nur vollwertige Paare (Inner Join / Equi Join).</span>
+              </button>
+              <button onclick="answerWiz(2, 'keep')" class="p-4 border-2 ${wizAnswers[2]==='keep'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">JA (Mit NULL auffüllen)</span>
+                <span class="block text-xs text-slate-500 mt-1">Partnerlose Einträge nicht verlieren (Outer Joins).</span>
+              </button>
+            </div>
+          `;
+        } else {
+          container.innerHTML = `
+            <h3 class="text-base font-bold text-slate-900 mb-2">Frage 2: Suchen Sie nach existierenden oder FEHLENDEN Partnern?</h3>
+            <p class="text-xs text-slate-600 mb-4">Sollen vorhandene Treffer bestätigt oder inaktive Einträge isoliert werden?</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <button onclick="answerWiz(2, 'exists')" class="p-4 border-2 ${wizAnswers[2]==='exists'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">EXISTENZ (Partner vorhanden)</span>
+                <span class="block text-xs text-slate-500 mt-1">z.B. Professoren, die Vorlesung halten (Semi-Join).</span>
+              </button>
+              <button onclick="answerWiz(2, 'not_exists')" class="p-4 border-2 ${wizAnswers[2]==='not_exists'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">NICHT EXISTENZ (Kein Partner)</span>
+                <span class="block text-xs text-slate-500 mt-1">z.B. Kunden, die noch NIE bestellt haben (Anti-Join).</span>
+              </button>
+            </div>
+          `;
+        }
+      } else if (wizStep === 3) {
+        if (wizAnswers[1] === 'both' && wizAnswers[2] === 'keep') {
+          container.innerHTML = `
+            <h3 class="text-base font-bold text-slate-900 mb-2">Frage 3: Welche Seite muss vor Datenverlust geschützt werden?</h3>
+            <p class="text-xs text-slate-600 mb-4">Welche Tabelle darf keine zeilenverlierende Filterung erfahren?</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <button onclick="answerWiz(3, 'left')" class="p-4 border-2 ${wizAnswers[3]==='left'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">Nur Links (R)</span>
+                <span class="block text-xs text-slate-500 mt-1">Left Outer Join</span>
+              </button>
+              <button onclick="answerWiz(3, 'right')" class="p-4 border-2 ${wizAnswers[3]==='right'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">Nur Rechts (S)</span>
+                <span class="block text-xs text-slate-500 mt-1">Right Outer Join</span>
+              </button>
+              <button onclick="answerWiz(3, 'both_side')" class="p-4 border-2 ${wizAnswers[3]==='both_side'?'border-indigo-600 bg-indigo-50':'border-slate-200'} rounded-xl text-left hover:border-indigo-400 transition">
+                <span class="block font-bold text-sm text-slate-800">Beide Seiten</span>
+                <span class="block text-xs text-slate-500 mt-1">Full Outer Join</span>
+              </button>
+            </div>
+          `;
+        } else {
+          container.innerHTML = `
+            <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 text-sm">
+              <span class="font-bold block text-base mb-1">✅ Entscheidungsfindung abgeschlossen!</span>
+              Ihre Antworten reichen bereits aus, um den optimalen Join eindeutig festzulegen. Schauen Sie auf die Empfehlungskarte rechts.
+            </div>
+          `;
+        }
+      }
+
+      updateWizardRecommendation();
+    }
+
+    function answerWiz(step, val) {
+      wizAnswers[step] = val;
+      if (step < 3) {
+        if (step === 2 && (wizAnswers[1] === 'single' || (wizAnswers[1] === 'both' && wizAnswers[2] === 'no_drop'))) {
+          wizStep = 3; // Done
+        } else {
+          wizStep++;
+        }
+      }
+      renderWizardStep();
+    }
+
+    function wizardPrevStep() {
+      if (wizStep > 1) {
+        wizStep--;
+        renderWizardStep();
+      }
+    }
+
+    function wizardReset() {
+      wizStep = 1;
+      wizAnswers = {};
+      renderWizardStep();
+    }
+
+    function updateWizardRecommendation() {
+      const titleEl = document.getElementById('wiz-result-title');
+      const symbolEl = document.getElementById('wiz-result-symbol');
+      const descEl = document.getElementById('wiz-result-desc');
+      const applyBtn = document.getElementById('wiz-apply-sim-btn');
+
+      if (!titleEl || !symbolEl || !descEl || !applyBtn) return;
+
+      if (!wizAnswers[1]) {
+        titleEl.innerText = "Noch offen...";
+        symbolEl.innerText = "?";
+        descEl.innerText = "Beantworten Sie die Fragen auf der linken Seite.";
+        applyBtn.disabled = true;
+        return;
+      }
+
+      applyBtn.disabled = false;
+
+      if (wizAnswers[1] === 'both') {
+        if (wizAnswers[2] === 'no_drop') {
+          titleEl.innerText = "Equi-Join / Natural Join";
+          symbolEl.innerText = "R ⋈_{A=B} S";
+          descEl.innerText = "Verknüpft Daten beider Tabellen bei Übereinstimmung. Partnerlose Datensätze fallen weg.";
+          applyBtn.setAttribute('data-target', 'equi');
+        } else if (wizAnswers[2] === 'keep') {
+          if (wizAnswers[3] === 'left') {
+            titleEl.innerText = "Left Outer Join";
+            symbolEl.innerText = "R ⟕ S";
+            descEl.innerText = "Erhält alle Zeilen aus R; füllt fehlende S-Attribute mit NULL auf.";
+            applyBtn.setAttribute('data-target', 'left_outer');
+          } else if (wizAnswers[3] === 'right') {
+            titleEl.innerText = "Right Outer Join";
+            symbolEl.innerText = "R ⟖ S";
+            descEl.innerText = "Erhält alle Zeilen aus S; füllt fehlende R-Attribute mit NULL auf.";
+            applyBtn.setAttribute('data-target', 'right_outer');
+          } else if (wizAnswers[3] === 'both_side') {
+            titleEl.innerText = "Full Outer Join";
+            symbolEl.innerText = "R ⟗ S";
+            descEl.innerText = "Verhindert Informationsverlust auf beiden Seiten vollständig.";
+            applyBtn.setAttribute('data-target', 'full_outer');
+          } else {
+            titleEl.innerText = "Äußerer Join (Outer Join)";
+            symbolEl.innerText = "R ⟕ S / R ⟖ S";
+            descEl.innerText = "Bitte wählen Sie in Schritt 3 die zu schützende Seite.";
+            applyBtn.disabled = true;
+          }
+        }
+      } else if (wizAnswers[1] === 'single') {
+        if (wizAnswers[2] === 'exists') {
+          titleEl.innerText = "Linker Semi-Join";
+          symbolEl.innerText = "R ⋉ S";
+          descEl.innerText = "Filtert R basierend auf der Existenz von Partnern in S. Verhindert Duplikate!";
+          applyBtn.setAttribute('data-target', 'left_semi');
+        } else if (wizAnswers[2] === 'not_exists') {
+          titleEl.innerText = "Anti-Semi-Join (Anti-Join)";
+          symbolEl.innerText = "R ▷ S";
+          descEl.innerText = "Gibt nur diejenigen Tupel aus R zurück, die KEINEN Partner in S besitzen.";
+          applyBtn.setAttribute('data-target', 'anti');
+        }
+      }
+    }
+
+    function applyWizardToSim() {
+      const target = document.getElementById('wiz-apply-sim-btn').getAttribute('data-target');
+      if (target) {
+        document.getElementById('sim-jointype').value = target;
+        switchTab('simulator');
+        updateSimulation();
+      }
+    }
+
+    // ------------------------------------------------------------------
+    // CATALOG RENDER & FILTER
+    // ------------------------------------------------------------------
+    function renderCatalog(filter = 'all') {
+      const container = document.getElementById('catalog-grid');
+      if (!container) return;
+      container.innerHTML = "";
+
+      CATALOG_DATA.forEach(item => {
+        if (filter !== 'all' && item.category !== filter) return;
+
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between hover:shadow-md transition";
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between border-b pb-2 mb-3">
+              <h3 class="font-bold text-slate-900 text-sm">${item.name}</h3>
+              <span class="text-xs px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono font-bold">${item.symbol}</span>
+            </div>
+            
+            <div class="bg-slate-900 text-slate-100 p-2.5 rounded-lg font-mono text-xs my-2 text-center" id="cat-katex-${item.id}">
+            </div>
+
+            <p class="text-xs text-slate-600 leading-relaxed mt-2">${item.desc}</p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 space-y-2 text-xs">
+            <div>
+              <span class="font-bold text-slate-700 block">SQL Equivalent:</span>
+              <code class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded font-mono text-[11px] block mt-0.5">${item.sql}</code>
+            </div>
+            <div>
+              <span class="font-bold text-slate-700 block">Anwendungsfall:</span>
+              <span class="text-slate-500 italic">${item.usecase}</span>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+
+        renderMathExpression(`cat-katex-${item.id}`, item.latex);
+      });
+    }
+
+    function filterCatalog(cat, evt) {
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-white', 'shadow-sm', 'text-slate-800', 'font-semibold');
+        btn.classList.add('text-slate-600');
+      });
+      if (evt && evt.target) {
+        evt.target.classList.add('bg-white', 'shadow-sm', 'text-slate-800', 'font-semibold');
+        evt.target.classList.remove('text-slate-600');
+      }
+
+      renderCatalog(cat);
+    }
+
+    // ------------------------------------------------------------------
+    // PROMPT TRAINER RENDER
+    // ------------------------------------------------------------------
+    function renderPrompts() {
+      const searchInput = document.getElementById('prompt-search');
+      const query = searchInput ? searchInput.value.toLowerCase() : "";
+      const container = document.getElementById('prompts-list-container');
+      if (!container) return;
+      container.innerHTML = "";
+
+      PROMPT_DATA.forEach((p) => {
+        if (query && !p.phrase.toLowerCase().includes(query) && !p.example.toLowerCase().includes(query) && !p.join.toLowerCase().includes(query)) {
+          return;
+        }
+
+        const card = document.createElement('div');
+        card.className = "bg-white p-5 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4";
+        card.innerHTML = `
+          <div class="space-y-1 flex-1">
+            <div class="flex items-center gap-2">
+              <span class="bg-amber-100 text-amber-900 text-xs font-bold px-2 py-0.5 rounded">Signalformulierung</span>
+              <h4 class="font-bold text-slate-900 text-sm">${p.phrase}</h4>
+            </div>
+            <p class="text-xs text-slate-600">${p.desc}</p>
+            <p class="text-xs text-indigo-700 italic">Beispiel: ${p.example}</p>
+          </div>
+
+          <div class="bg-indigo-50 border border-indigo-200 p-3 rounded-lg text-right min-w-[200px]">
+            <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-widest block">Empfohlener Join</span>
+            <span class="font-black text-indigo-900 text-sm block mt-0.5">${p.join}</span>
+            <span class="font-mono text-xs text-indigo-700 font-bold block mt-1">${p.symbol}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // ------------------------------------------------------------------
+    // CHART.JS ANALYTICS
+    // ------------------------------------------------------------------
+    function renderChart() {
+      const chartEl = document.getElementById('tupleChart');
+      if (!chartEl) return;
+      const ds = DATASETS[currentDatasetKey];
+      const types = ['equi', 'left_outer', 'right_outer', 'full_outer', 'left_semi', 'anti'];
+      const labels = ['Equi-Join', 'Left Outer', 'Right Outer', 'Full Outer', 'Left Semi', 'Anti-Join'];
+      
+      const counts = types.map(t => computeJoinResult(ds, t).resData.length);
+
+      const ctx = chartEl.getContext('2d');
+
+      if (tupleChartInstance) {
+        tupleChartInstance.destroy();
+      }
+
+      tupleChartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Anzahl Resultat-Tupel',
+            data: counts,
+            backgroundColor: [
+              '#6366f1', // Indigo
+              '#3b82f6', // Blue
+              '#0ea5e9', // Sky
+              '#8b5cf6', // Purple
+              '#10b981', // Emerald
+              '#f43f5e'  // Rose
+            ],
+            borderRadius: 6
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return `Ergebniszeilen: ${context.parsed.y}`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { precision: 0 }
+            }
+          }
+        }
+      });
+    }
+
+    // ------------------------------------------------------------------
+    // QUIZ LOGIC
+    // ------------------------------------------------------------------
+    function renderQuiz() {
+      const container = document.getElementById('quiz-container');
+      if (!container) return;
+      container.innerHTML = "";
+
+      QUIZ_QUESTIONS.forEach((q, qIdx) => {
+        const card = document.createElement('div');
+        card.className = "p-4 border border-slate-200 rounded-xl space-y-3 bg-slate-50/50";
+        
+        let optionsHtml = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">`;
+        q.options.forEach((opt, oIdx) => {
+          optionsHtml += `
+            <button onclick="answerQuiz(${qIdx}, ${oIdx})" id="quiz-opt-${qIdx}-${oIdx}" class="text-left p-3 text-xs bg-white border border-slate-200 rounded-lg hover:border-indigo-400 transition">
+              ${opt}
+            </button>
+          `;
+        });
+        optionsHtml += `</div>`;
+
+        card.innerHTML = `
+          <h4 class="font-bold text-sm text-slate-800">${qIdx + 1}. ${q.q}</h4>
+          ${optionsHtml}
+          <div id="quiz-explain-${qIdx}" class="hidden p-3 text-xs rounded-lg mt-2"></div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function answerQuiz(qIdx, selectedIdx) {
+      if (quizUserAnswers[qIdx] !== undefined) return; // Already answered
+      quizUserAnswers[qIdx] = selectedIdx;
+
+      const q = QUIZ_QUESTIONS[qIdx];
+      const explainEl = document.getElementById(`quiz-explain-${qIdx}`);
+      explainEl.classList.remove('hidden');
+
+      if (selectedIdx === q.correct) {
+        explainEl.className = "p-3 text-xs rounded-lg mt-2 bg-emerald-100 text-emerald-900 border border-emerald-300";
+        explainEl.innerHTML = `<b>Richtig!</b> ${q.explain}`;
+        document.getElementById(`quiz-opt-${qIdx}-${selectedIdx}`).classList.add('bg-emerald-200', 'border-emerald-500', 'font-bold');
+      } else {
+        explainEl.className = "p-3 text-xs rounded-lg mt-2 bg-rose-100 text-rose-900 border border-rose-300";
+        explainEl.innerHTML = `<b>Falsch.</b> ${q.explain}`;
+        document.getElementById(`quiz-opt-${qIdx}-${selectedIdx}`).classList.add('bg-rose-200', 'border-rose-500');
+        document.getElementById(`quiz-opt-${qIdx}-${q.correct}`).classList.add('bg-emerald-100', 'border-emerald-400', 'font-bold');
+      }
+
+      // Update Score
+      let correctCount = 0;
+      Object.keys(quizUserAnswers).forEach(idx => {
+        if (quizUserAnswers[idx] === QUIZ_QUESTIONS[idx].correct) correctCount++;
+      });
+
+      document.getElementById('quiz-score').innerText = `Punkte: ${correctCount} / ${QUIZ_QUESTIONS.length}`;
+    }
+
+    // ------------------------------------------------------------------
+    // INITIALIZATION
+    // ------------------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      loadDataset('univ');
+      renderWizardStep();
+      renderCatalog('all');
+      renderPrompts();
+      renderQuiz();
+    });
+  </script>
+</body>
+</html>
