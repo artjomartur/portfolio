@@ -13,8 +13,8 @@ import ThesisRoadmap from './ThesisRoadmap';
 const CsAnimation = React.lazy(() => import('../CsAnimation'));
 const SkinStockApp = React.lazy(() => import('./SkinStockApp'));
 const Terminal = React.lazy(() => import('../Terminal'));
-const MafoBotAnimation = React.lazy(() => import('./MafoBotAnimation'));
 const KinopolisAppShowcase = React.lazy(() => import('./KinopolisAppShowcase'));
+const RelationalAlgebraAnimation = React.lazy(() => import('./RelationalAlgebraAnimation'));
 
 export default function ProjectModal() {
   const { t, i18n } = useTranslation();
@@ -149,17 +149,17 @@ export default function ProjectModal() {
             </button>
           </div>
 
-          {projectToRender.id === 'mafo-bot' ? (
-            <Suspense fallback={<div className="modal-image" style={{ background: '#0d1117' }} />}>
-              <MafoBotAnimation />
-            </Suspense>
-          ) : projectToRender.id === 'kinopolis-automation' ? (
+          {projectToRender.id === 'kinopolis-automation' ? (
             <Suspense fallback={<div className="modal-image" style={{ background: '#0d1117' }} />}>
               <KinopolisAppShowcase lang={lang} />
               <OliEasterEgg active={showOliVideo} />
             </Suspense>
           ) : projectToRender.id === 'bachelor-thesis' ? (
             <ThesisRoadmap />
+          ) : projectToRender.id === 'uni-lehrmaterial' ? (
+            <Suspense fallback={<div className="modal-image" style={{ background: '#0d1117' }} />}>
+              <RelationalAlgebraAnimation lang={lang} />
+            </Suspense>
           ) : projectToRender.images ? (
             <div style={{ position: 'relative' }}>
               <div className="modal-image-gallery" onScroll={handleGalleryScroll}>

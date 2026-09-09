@@ -45,25 +45,24 @@ export const PROJECTS = [
   },
   {
     id: 'uni-lehrmaterial',
-    title: 'Uni Lehrmaterial: Relationale Algebra',
+    title: 'Interaktive Uni-Lehrmaterialien',
     type: 'project',
     customType: 'Lehrmaterial',
-    customTypeEn: 'Educational Tool',
+    customTypeEn: 'Educational Tools',
     status: 'completed',
-    short: 'Erstellte interaktives Hochschul-Lehrmaterial für relationale Datenbanken, gemessen am didaktischen Mehrwert für Studierende, durch die Entwicklung eines visuellen Join-Simulators mit 9 Verbundarten und Entscheidungsbaum.',
+    short: 'Konzipiert und entwickelt eine interaktive Sammlung modularer Hochschul-Lehrmaterialien für Informatik- und Datenbankvorlesungen an der TU Darmstadt – von visuellen Simulatoren über Entscheidungsbäume bis hin zu interaktiven Aufgaben-Trainern.',
     image: '/tu_darmstadt_hero.jpg',
     details: {
-      role: 'Konzept & Fullstack-Entwicklung',
-      context: 'TU Darmstadt / Lehrmaterial Datenbanken',
-      impact: 'Interaktive Lernplattform zur visuellen Vermittlung von Join-Operationen und Klausurvorbereitung',
-      tech: 'JavaScript, Tailwind CSS, KaTeX, Chart.js, HTML5',
-      languages: ['JavaScript', 'HTML', 'CSS', 'SQL'],
-      challenge: 'Abstrakte Konzepte der relationalen Algebra (Equi-, Outer-, Semi- und Anti-Joins) für Studierende intuitiv und interaktiv erlernbar machen.',
-      solution: 'Entwicklung eines interaktiven Simulators mit Live-Tupelberechnung, 3-stufigem Entscheidungsbaum (Wizard), Signalwort-Trainer für Klausuraufgaben und interaktivem Wissensquiz.',
-      result: 'Voll funktionsfähige, sofort im Browser bedienbare Web-App und wachsende Sammlung an interaktiven Lehrmaterialien.',
-      tags: ['Education', 'Web', 'SQL', 'UI/UX', 'Research'],
-      link: '/lehrmaterial/relationale-algebra/',
-      overviewPage: '/lehrmaterial/',
+      role: 'Konzept, Didaktik & Fullstack-Entwicklung',
+      context: 'TU Darmstadt / Hochschullehre & Didaktik-Tools',
+      impact: 'Modulare, wachsende Lernplattform für didaktische Visualisierungen, Algorithmen-Simulationen und Klausurvorbereitung',
+      tech: 'JavaScript, React, Tailwind CSS, KaTeX, Chart.js, HTML5',
+      languages: ['JavaScript', 'HTML', 'CSS', 'SQL', 'Python'],
+      challenge: 'Abstrakte theoretische Konzepte der universitären Informatik (Relationale Algebra, Datenbank-Optimierung, Datenstrukturen) greifbar, visuell verständlich und spielerisch trainierbar zu machen.',
+      solution: 'Entwicklung einer erweiterbaren Plattform für interaktive Lehrmodule mit Live-Simulationen, parametrisierbaren Datensätzen, schrittweisen Optimierungsbäumen und Klausur-Trainern.',
+      result: '5 vollwertige didaktische Fachmodule (Relationale Algebra, Query Optimizer & AST, Normalisierungs-Coach, B+ Baum Playground und Transaktionen/2PL) live und einsatzbereit.',
+      tags: ['Education', 'Web', 'SQL', 'Algorithms', 'UI/UX', 'Research'],
+      link: 'https://github.com/artjomartur/uni-lehrmaterial',
     },
   },
   {
@@ -183,25 +182,6 @@ export const PROJECTS = [
       link: 'https://skinstock.artjombecker.com',
     },
   },
-  {
-    id: 'mafo-bot',
-    title: 'MaFo Bot',
-    status: 'completed',
-    short: 'Reduzierte den manuellen Bewerbungsaufwand für Marktstudien um 100%, gemessen an den automatisiert abgeschickten Formularen, durch die Entwicklung eines Headless-Browser-Skripts mit Node.js.',
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80',
-    details: {
-      role: 'Sole Developer',
-      context: 'Personal Automation Project',
-      impact: 'Automated study applications using Playwright.',
-      tech: 'Node.js, Playwright, JavaScript',
-      languages: ['JavaScript'],
-      challenge: 'Regelmäßiges, manuelles Prüfen und Bewerben auf Marktforschungsstudien automatisieren.',
-      solution: 'Entwicklung eines Headless Browser-Skripts mit Playwright, das die Webseite navigiert, Formulare analysiert und sich bewirbt.',
-      result: 'Vollautomatisierter Bewerbungsprozess, der viel Zeit und manuellen Aufwand spart.',
-      tags: ['Automation', 'Bot', 'Playwright', 'Node.js'],
-      link: 'https://github.com/artjomartur/mafo-bot',
-    },
-  },
 ]
 
 
@@ -288,8 +268,6 @@ export const ITEMS = [
   ...PROJECTS.map((p) => ({ ...p, type: p.type || 'project' })),
   ...THESES.map((t) => ({ ...t, type: t.type || 'seminar' })),
 ].sort((a, b) => {
-  if (a.id === 'mafo-bot') return 1;
-  if (b.id === 'mafo-bot') return -1;
   const aProgress = a.status === 'in-progress' ? 1 : 0;
   const bProgress = b.status === 'in-progress' ? 1 : 0;
   return bProgress - aProgress;
